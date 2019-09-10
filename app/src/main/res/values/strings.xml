@@ -4,4 +4,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alert">Alerta.</string>
+    <string name="message">Al parecer no tiene activa la localizacion, favor de activarla para usar sin ningun problema la app, seguira viendo este dialogo toda vez no active la localizacion.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="activate">Activar</string>
 </resources>

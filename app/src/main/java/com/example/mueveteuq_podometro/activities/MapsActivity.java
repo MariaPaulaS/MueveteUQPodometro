@@ -1,11 +1,28 @@
 package com.example.mueveteuq_podometro.activities;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.provider.Settings;
+import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
 import com.example.mueveteuq_podometro.R;
+import com.example.mueveteuq_podometro.listener.OnDrawListener;
+import com.example.mueveteuq_podometro.service.LocationService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -13,10 +30,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ServiceConnection {
 
     private GoogleMap mMap;
+    private LocationService service;
+    private Polyline polyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +53,95 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    private void startLocationService() {
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+        Intent service = new Intent(getApplicationContext(), LocationService.class);
+        stopService(service);
+        startService(service);
+    }
 
-    /**
-     * Recibe un objeto de googleMap.
-     * @param googleMap
-     * Permite añadir marcadores o hacer operaciones una vez el mapa esté preparado y ya se haya construido
-     * por completo.
-     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //Pregunto si el usuario tiene permisos no lo le pido permisos para que pueda continuar con el uso de la app
+
+        if (needsActiveLocation()){
+
+            getLocationDialog().show();
+            return;
+        }
+
+        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            getPermissions(2, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+            return;
+        }
+
+        startLocationService();
+        connectionService();
+    }
+
+    private Dialog getLocationDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+
+        builder.setTitle(R.string.alert);
+        builder.setMessage(R.string.message)
+                .setNegativeButton(R.string.cancel, null);
+
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(R.string.activate, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        });
+
+        return builder.create();
+    }
+
+    private boolean needsActiveLocation() {
+
+        LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private void getPermissions(int i, String ... permissions) {
+
+
+        ActivityCompat.requestPermissions(this, permissions, i);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+
+            startLocationService();
+            connectionService();
+
+        }
+    }
+
+    private boolean checkPermission(String permission) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+            return true;
+
+        return ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void connectionService(){
+
+        Intent service = new Intent(getApplicationContext(), LocationService.class);
+        bindService(service, this, BIND_AUTO_CREATE);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -81,5 +177,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+
+        Toast.makeText(getApplicationContext(), "Servicio Conectado", Toast.LENGTH_SHORT).show();
+
+        //Llamar metodos de la siguiente manera para que todo marche bien
+
+        //Obtengo enlace del servicio
+        LocationService.ConnexionService connexionService = (LocationService.ConnexionService) iBinder;
+
+        //Obtengo instancia del servicio y empiezo la comunicacion
+        service = connexionService.getCurrentService();
+
+        if (mMap != null) {
+
+           polyline  =  mMap.addPolyline(new PolylineOptions());
+        }
+
+
+        service.setOnDrawListener(new OnDrawListener() {
+            @Override
+            public void onDraw(LatLng latLng) {
+
+                if (polyline == null)
+                    return;
+
+                List<LatLng> points = polyline.getPoints();
+                points.add(latLng);
+
+                polyline.setPoints(points);
+            }
+        });
+
+        service.refresh();
+        service.startRacer("Carrera", "prueba no1");
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+
+        if (service != null)
+            service.finishRacer();
     }
 }

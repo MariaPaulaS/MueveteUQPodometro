@@ -324,6 +324,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             marker = gMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).draggable(true));
 
         } else {
+
             marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
         }
