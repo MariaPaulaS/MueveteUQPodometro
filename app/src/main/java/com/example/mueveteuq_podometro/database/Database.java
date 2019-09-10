@@ -28,7 +28,8 @@ public class Database {
 
     public SQLiteDatabase getDatabase(){
 
-        if (sqLiteDatabase.isOpen())
+
+        if (sqLiteDatabase != null && sqLiteDatabase.isOpen())
             return sqLiteDatabase;
 
         sqLiteDatabase = new PodometroHelper(context).getWritableDatabase();

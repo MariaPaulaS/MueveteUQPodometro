@@ -2,6 +2,7 @@ package com.example.mueveteuq_podometro.service;
 
 import android.Manifest;
 import android.app.IntentService;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,16 +27,12 @@ import java.util.List;
 
 
 //Este servicio solo se iniciara si y solo si el usuario ya ha dado permisos de localizacion sobre la app
-public class LocationService extends IntentService implements LocationListener{
+public class LocationService extends Service{
 
     private LocationManager locationManager;
     private int currentRacer;
     private OnDrawListener onDrawListener;
-
-    public LocationService(String name) {
-
-        super(name);
-    }
+    private LocationListener network, gps;
 
     @Override
     public void onCreate() {
@@ -54,6 +51,9 @@ public class LocationService extends IntentService implements LocationListener{
     }
 
     public void startRacer(String title, String description){
+
+        if (currentRacer != -1)
+            return;
 
         ViajeController.insert(getApplicationContext(), title, description);
         currentRacer = ViajeController.getCurrentViaje(getApplicationContext());
@@ -82,21 +82,57 @@ public class LocationService extends IntentService implements LocationListener{
 
     public void finishRacer(){
 
+        if (currentRacer == -1)
+            return;
+
         ViajeController.endCurrentViaje(getApplicationContext());
         currentRacer = -1;
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            return;
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 5, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5, 5, this);
+            return START_NOT_STICKY;
 
+        gps = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                LocationService.this.onLocationChanged(location);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {}
+            @Override
+            public void onProviderEnabled(String s) {}
+            @Override
+            public void onProviderDisabled(String s) {}
+        };
+
+
+        network = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                LocationService.this.onLocationChanged(location);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {}
+            @Override
+            public void onProviderEnabled(String s) {}
+            @Override
+            public void onProviderDisabled(String s) {}};
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 5, gps);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5, 5, network);
+
+        return START_NOT_STICKY;
     }
+
 
     //Metodo para invocar nuevamente el servicio y elimino los listener y mas
 
@@ -114,8 +150,11 @@ public class LocationService extends IntentService implements LocationListener{
     private void removeLocationListener() {
 
 
-        if (locationManager != null)
-            locationManager.removeUpdates(this);
+        if (locationManager != null){
+
+            locationManager.removeUpdates(network);
+            locationManager.removeUpdates(gps);
+        }
     }
 
     private int getStorageRacer(){
@@ -145,7 +184,6 @@ public class LocationService extends IntentService implements LocationListener{
     //Metodos referentes a location listner
 
 
-    @Override
     public void onLocationChanged(Location location) {
 
         if (currentRacer > 0){
@@ -159,13 +197,6 @@ public class LocationService extends IntentService implements LocationListener{
         }
 
     }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {}
-    @Override
-    public void onProviderEnabled(String s) {}
-    @Override
-    public void onProviderDisabled(String s) {}
 
 
     //Clase para realizar el enlace con los componentes (Actividades, fragments etc) con este servicio

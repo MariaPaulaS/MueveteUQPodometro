@@ -12,11 +12,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.ListPopupWindow;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         //Obtiene el mapa asincronamente -cuando sea el momento, por motivos de memoria, rendimiento, etc.
         mapFragment.getMapAsync(this);
+
+
+        FloatingActionButton play = findViewById(R.id.maps_play);
+        FloatingActionButton stop = findViewById(R.id.maps_stop);
+
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (service != null){
+
+                    service.startRacer("Titulo de prueba", "Descripcion de prueba");
+                }
+            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (service != null){
+
+                    service.finishRacer();
+                }
+            }
+        });
     }
 
     private void startLocationService() {
@@ -108,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LocationManager manager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        return !manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
     private void getPermissions(int i, String ... permissions) {
@@ -148,35 +178,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMinZoomPreference(17);  //Establecer zoom minimo del mapa
         mMap.setMaxZoomPreference(19);  //Establecer zoom maximo del mapa
-
-        // Add a marker in Sydney and move the camera
-        //Crea la latitud y longitud de Sydney
-        LatLng sydney = new LatLng(-34, 151);
-        LatLng calarca = new LatLng(4.515634087347382, -75.64803600311281);
-        //Añade un marcador en Sydney y le da un título al marcador
-        mMap.addMarker(new MarkerOptions().position(calarca).title("Yo vivo aqui"));
-
-        CameraPosition camera=new CameraPosition.Builder()
-                .target(calarca)
-                .zoom(10)       //Zoom a nivel de calles  -- Limite maximo->21
-                .bearing(360)    //Orientación de la camara hacia el este    0 - 365°
-                .tilt(30)       //Efecto 3D del mapa  0 - 90
-                .build();
-
-        //Da vida a las operaciones especificadas en el CameraPosition
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
-
-        //Mueve la cámara hacia la latitud y longitud de Sydney
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(calarca));
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                Toast.makeText(MapsActivity.this,"Latitud: " +latLng.latitude
-                        + " y longitud: "+latLng.longitude, Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     @Override
@@ -194,13 +195,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if (mMap != null) {
 
-           polyline  =  mMap.addPolyline(new PolylineOptions());
+           polyline  =  mMap.addPolyline(new PolylineOptions().color(Color.BLUE));
         }
 
 
         service.setOnDrawListener(new OnDrawListener() {
             @Override
             public void onDraw(LatLng latLng) {
+
+                CameraPosition camera=new CameraPosition.Builder()
+                        .target(latLng)
+                        .zoom(10)       //Zoom a nivel de calles  -- Limite maximo->21
+                        .bearing(360)    //Orientación de la camara hacia el este    0 - 365°
+                        .tilt(30)       //Efecto 3D del mapa  0 - 90
+                        .build();
+
+                //Da vida a las operaciones especificadas en el CameraPosition
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
 
                 if (polyline == null)
                     return;
@@ -213,14 +224,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         service.refresh();
-        service.startRacer("Carrera", "prueba no1");
 
     }
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
 
-        if (service != null)
-            service.finishRacer();
+        service = null;
     }
 }
