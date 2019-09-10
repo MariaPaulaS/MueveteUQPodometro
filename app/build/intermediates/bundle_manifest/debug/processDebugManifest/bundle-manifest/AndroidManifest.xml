@@ -30,7 +30,7 @@
         <receiver
             android:name="com.example.mueveteuq_podometro.broadcast.RestarService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.example.mueveteuq_podometro.MYACTION" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -42,8 +42,7 @@
         <service
             android:name="com.example.mueveteuq_podometro.service.LocationService"
             android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.ACCESS_FINE_LOCATION" />
+            android:exported="true" />
 
         <activity
             android:name="com.example.mueveteuq_podometro.activities.MainActivity"

@@ -1,7 +1,7 @@
-#Sun Sep 08 12:46:36 COT 2019
-base.0=/home/maria/AndroidStudioProjects/MueveteUQPodometro/app/build/intermediates/dex/debug/mergeExtDexDebug/out/classes.dex
+#Tue Sep 10 11:22:47 CST 2019
+base.0=C\:\\Users\\Kofuko\\Desktop\\MueveteUQPodometro\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=/home/maria/AndroidStudioProjects/MueveteUQPodometro/app/build/intermediates/dex/debug/mergeProjectDexDebug/out/classes.dex
+base.1=C\:\\Users\\Kofuko\\Desktop\\MueveteUQPodometro\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex

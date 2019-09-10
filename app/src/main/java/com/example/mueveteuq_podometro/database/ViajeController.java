@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -22,6 +23,8 @@ public class ViajeController {
         values.put("DESCRIPCION", descripcion);
         values.put("ACTIVO", 1);
         values.put("KMRECORRIDOS", 0);
+
+        database.insert("Viaje", null, values);
         database.close();
     }
 
@@ -33,18 +36,25 @@ public class ViajeController {
 
         if (cursor == null){
 
+            Log.i("Cursor", "El cursor es nulo");
             database.close();
             return -1;
         }
 
 
-        if (cursor.moveToFirst())
-            return cursor.getInt(0);
+        int id = -1;
+        if (cursor.moveToFirst()){
+
+            id = cursor.getInt(0);
+        }
 
 
+
+
+        cursor.close();
         database.close();
 
-        return -1;
+        return id;
     }
 
     public static void endCurrentViaje(@NonNull Context context){

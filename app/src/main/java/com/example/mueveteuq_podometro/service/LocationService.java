@@ -14,7 +14,6 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.mueveteuq_podometro.database.RecorridoController;
@@ -32,7 +31,7 @@ public class LocationService extends Service{
     private LocationManager locationManager;
     private int currentRacer;
     private OnDrawListener onDrawListener;
-    private LocationListener network, gps;
+    private LocationListener gps;//, network;
 
     @Override
     public void onCreate() {
@@ -40,9 +39,46 @@ public class LocationService extends Service{
 
         currentRacer    = getStorageRacer();
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+
+            return;
+
+        gps = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                LocationService.this.onLocationChanged(location);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {}
+            @Override
+            public void onProviderEnabled(String s) {}
+            @Override
+            public void onProviderDisabled(String s) {}
+        };
+
+
+        /*network = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+
+                LocationService.this.onLocationChanged(location);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {}
+            @Override
+            public void onProviderEnabled(String s) {}
+            @Override
+            public void onProviderDisabled(String s) {}};*/
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 5, gps);
+        //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5, 5, network);
     }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
 
@@ -55,8 +91,10 @@ public class LocationService extends Service{
         if (currentRacer != -1)
             return;
 
+
         ViajeController.insert(getApplicationContext(), title, description);
         currentRacer = ViajeController.getCurrentViaje(getApplicationContext());
+
 
     }
 
@@ -92,44 +130,6 @@ public class LocationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-
-            return START_NOT_STICKY;
-
-        gps = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-
-                LocationService.this.onLocationChanged(location);
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {}
-            @Override
-            public void onProviderEnabled(String s) {}
-            @Override
-            public void onProviderDisabled(String s) {}
-        };
-
-
-        network = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-
-                LocationService.this.onLocationChanged(location);
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {}
-            @Override
-            public void onProviderEnabled(String s) {}
-            @Override
-            public void onProviderDisabled(String s) {}};
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 5, gps);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5, 5, network);
-
         return START_NOT_STICKY;
     }
 
@@ -139,9 +139,8 @@ public class LocationService extends Service{
     private void restarService(){
 
         //Guardo valores por default como numero de carrera actual
-
-        storageRacer();
         removeLocationListener();
+        storageRacer();
         //Creo intent para llamar a el broadCast que reiniciara el servicio
         Intent intent = new Intent(Constant.MYACTION);
         sendBroadcast(intent);
@@ -152,7 +151,7 @@ public class LocationService extends Service{
 
         if (locationManager != null){
 
-            locationManager.removeUpdates(network);
+            //locationManager.removeUpdates(network);
             locationManager.removeUpdates(gps);
         }
     }
@@ -176,6 +175,7 @@ public class LocationService extends Service{
         restarService();
     }
 
+
     @Override
     public void onDestroy() {
         restarService();
@@ -186,7 +186,8 @@ public class LocationService extends Service{
 
     public void onLocationChanged(Location location) {
 
-        if (currentRacer > 0){
+        if (currentRacer != -1){
+
 
             RecorridoController.insert(getApplicationContext(), currentRacer, location);
 

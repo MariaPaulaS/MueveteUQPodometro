@@ -38,7 +38,7 @@ public class RecorridoController {
         values.put("LONG", lon);
         values.put("LAT", lat);
 
-        database.insert("", null, values);
+        database.insert("Recorrido", null, values);
         Log.i("Recorrido", "Insertado con exito");
 
         database.close();

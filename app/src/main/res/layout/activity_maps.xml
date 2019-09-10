@@ -12,6 +12,13 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+    <TextView
+        android:layout_margin="16dp"
+        android:id="@+id/map_postition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Localizacion: "/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:src="@android:drawable/ic_media_play"
         android:id="@+id/maps_play"

@@ -1,6 +1,6 @@
 package com.example.mueveteuq_podometro.activities;
 
-import androidx.annotation.NonNull;
+
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -20,6 +20,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.ListPopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mueveteuq_podometro.R;
@@ -44,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private LocationService service;
     private Polyline polyline;
+    private TextView location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
+        location                  = findViewById(R.id.map_postition);
         FloatingActionButton play = findViewById(R.id.maps_play);
         FloatingActionButton stop = findViewById(R.id.maps_stop);
 
@@ -148,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
 
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
 
@@ -200,8 +203,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         service.setOnDrawListener(new OnDrawListener() {
+
             @Override
             public void onDraw(LatLng latLng) {
+
+
+                location.setText("Latitude: " + latLng.latitude + "Longitude: " + latLng.longitude);
 
                 CameraPosition camera=new CameraPosition.Builder()
                         .target(latLng)
@@ -229,7 +236,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
-
-        service = null;
+        
     }
 }

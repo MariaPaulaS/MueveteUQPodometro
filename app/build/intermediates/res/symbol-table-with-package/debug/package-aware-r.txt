@@ -1165,6 +1165,8 @@ id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fab
+id fabIniciarRecorrido
+id fabTerminarRecorrido
 id fill
 id fill_horizontal
 id fill_vertical
@@ -1196,6 +1198,9 @@ id line3
 id listMode
 id list_item
 id map
+id map_postition
+id maps_play
+id maps_stop
 id masked
 id media_actions
 id menu_bienvenida
@@ -1436,9 +1441,12 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string activate
+string alert
 string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
+string cancel
 string character_counter_content_description
 string character_counter_pattern
 string common_google_play_services_enable_button
@@ -1464,6 +1472,7 @@ string fab_transformation_sheet_behavior
 string google_maps_key
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
+string message
 string mtrl_chip_close_icon_content_description
 string password_toggle_content_description
 string path_password_eye

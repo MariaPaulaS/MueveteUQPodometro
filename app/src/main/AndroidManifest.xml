@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver android:name=".broadcast.RestarService"
-            android:exported="true"
+            android:exported="false"
             android:enabled="true">
             <intent-filter>
                 <action android:name="com.example.mueveteuq_podometro.MYACTION"/>
@@ -29,8 +29,7 @@
         </receiver>
         <service android:name=".service.LocationService"
             android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.ACCESS_FINE_LOCATION"/>
+            android:exported="true"/>
         <activity android:name=".activities.MainActivity"
             android:screenOrientation="portrait">
 
