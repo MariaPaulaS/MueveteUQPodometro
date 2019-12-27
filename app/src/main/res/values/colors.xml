@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#248D06</color>
+    <color name="colorPrimaryDark">#185005</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="shiro">#fff</color>
+    <color name="kuro">#000</color>
+    <color name="midori">#248D06</color>
+</resources>

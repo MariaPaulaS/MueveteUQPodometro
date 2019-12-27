@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "522506794591",
+    "firebase_url": "https://mueveteuq-podometro.firebaseio.com",
+    "project_id": "mueveteuq-podometro",
+    "storage_bucket": "mueveteuq-podometro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522506794591:android:fdec43ac4e1da18a754dea",
+        "android_client_info": {
+          "package_name": "com.example.mueveteuq_podometro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522506794591-oe2i82iortbd6kf39aroku6qs1icmc6d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mueveteuq_podometro",
+            "certificate_hash": "0bca830002969892a3d2c27da081981bab727be9"
+          }
+        },
+        {
+          "client_id": "522506794591-6iueggc7jdlvcucphhqavnde8mm64vrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvaPoTDW10kTqSTxWsX6lRew1DBKBr8JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522506794591-6iueggc7jdlvcucphhqavnde8mm64vrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

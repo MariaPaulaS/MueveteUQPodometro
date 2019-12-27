@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MueveteUQ-Podometro</string>
+    <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="alert">Alerta.</string>
+    <string name="message">Parece que algo anda mal. No te vemos en el mapa. Deberías activar el GPS para estar seguros.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="activate">Activar</string>
+    <string name="titleCheat">¡Alto ahí!</string>
+    <string name="cheat">Parece que no estás caminando. ¿Estás haciendo trampa? Comienza de nuevo.</string>
+
+    <string name="hello_login">"¡Bienvenido a MueveteUQ! \nInicia sesion si ya tienes una cuenta, \no regístrate si aun no tienes una.  "</string>
+    <string name="register">"Por favor introduce tus \ndatos para registrarte."</string>
+</resources>
