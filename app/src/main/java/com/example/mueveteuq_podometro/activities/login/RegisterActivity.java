@@ -3,6 +3,7 @@ package com.example.mueveteuq_podometro.activities.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mueveteuq_podometro.R;
@@ -33,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button btnLogin;
     private Button btnRegistrar;
-
+    private Fragment progressBarFragment;
 
     private EditText textoCorreo;
     private EditText textoPassword;
@@ -55,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+    //    progressBarFragment = (Fragment) findViewById(R.id.fragment_progress_bar);
         btnLogin = findViewById(R.id.btn_login);
         btnRegistrar = findViewById(R.id.btn_register);
 
@@ -125,7 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (password.length() < 8) {
             Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show();
             return;
-        }
+        } 
 
         //Las contraseñas deben coincidir
         if (!password.equals(verifyPassword)) {
@@ -152,18 +155,24 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
+                                        //Método contra dedos temblorosos -que oprimen doble-.
+                                        Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
+                                        startActivity(intento);
+                                        finish();
+
+
                                     }
                                 }).addOnFailureListener(new OnFailureListener() { //Error interno - ¿del usuario?
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  " +e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 }).addOnFailureListener(new OnFailureListener() {      //Error externo - ¿de la base de datos?
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
