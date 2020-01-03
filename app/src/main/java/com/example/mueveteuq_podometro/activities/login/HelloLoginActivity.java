@@ -72,7 +72,7 @@ public class HelloLoginActivity extends AppCompatActivity {
 
         //Para version 5.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-
+            return;
         }
 
         if (ContextCompat.checkSelfPermission(HelloLoginActivity.this, WRITE_EXTERNAL_STORAGE)

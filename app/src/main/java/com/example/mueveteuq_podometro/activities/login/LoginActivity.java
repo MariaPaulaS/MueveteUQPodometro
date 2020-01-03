@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,7 +23,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-
+/**
+ * Activity que permite el ingreso al usuario a la aplicación
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private Button btnCrearCuenta;
@@ -67,23 +72,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-        private void iniciarSesionUsuario(){
+
+
+    private void iniciarSesionUsuario() {
 
         final String email = textoEmail.getText().toString().trim();
         final String password = textoPassword.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Por favor ingrese un e-mail válido.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(TextUtils.isEmpty(password)){
+        if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Por favor ingrese una contraseña.", Toast.LENGTH_SHORT).show();
             return;
 
         }
 
-        if(password.length()<8){
+        if (password.length() < 8) {
             Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show();
         }
 
@@ -100,13 +107,12 @@ public class LoginActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this, "Ha ocurrido un error al iniciar sesión.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-
-        }
+    }
 
 
 }
