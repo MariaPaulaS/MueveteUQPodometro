@@ -1,13 +1,23 @@
 package com.example.mueveteuq_podometro.activities.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.mueveteuq_podometro.R;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class HelloLoginActivity extends AppCompatActivity {
 
@@ -19,6 +29,8 @@ public class HelloLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello_login);
+
+        validarPermisos();
 
 
         getSupportActionBar().hide();
@@ -48,4 +60,33 @@ public class HelloLoginActivity extends AppCompatActivity {
         });
 
     }
+
+
+    /**
+     * Método que verifica si la app tiene permisos para funcionar. Si no, los pide al momento de
+     * la instalación.
+     * Solo se piden una vez.
+     * Funciona desde Android Malvavisco en adelante.
+     */
+    private void validarPermisos() {
+
+        //Para version 5.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+
+        }
+
+        if (ContextCompat.checkSelfPermission(HelloLoginActivity.this, WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(HelloLoginActivity.this, CAMERA)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(HelloLoginActivity.this, ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(HelloLoginActivity.this, ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+
+            ActivityCompat.requestPermissions(HelloLoginActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE}, 1);
+
+
+        }
+    }
+
 }

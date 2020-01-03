@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.mueveteuq_podometro.R;
 import com.example.mueveteuq_podometro.activities.MainActivity;
+import com.example.mueveteuq_podometro.activities.ZonaMapaActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(AuthResult authResult) {
 
-                Intent intento = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
                 startActivity(intento);
 
 
