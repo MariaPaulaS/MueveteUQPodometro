@@ -3,23 +3,20 @@ package com.example.mueveteuq_podometro.activities.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.mueveteuq_podometro.R;
 import com.example.mueveteuq_podometro.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,12 +32,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button btnLogin;
     private Button btnRegistrar;
-    private Fragment progressBarFragment;
-
+    private ProgressDialog progressDialog;
     private EditText textoCorreo;
     private EditText textoPassword;
     private EditText textoNickname;
     private EditText textoVerifyPassword;
+
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase db;
@@ -48,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -57,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-    //    progressBarFragment = (Fragment) findViewById(R.id.fragment_progress_bar);
         btnLogin = findViewById(R.id.btn_login);
         btnRegistrar = findViewById(R.id.btn_register);
 
@@ -89,6 +86,24 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+
+    private void init(){
+        this.progressDialog = new ProgressDialog(this);
+    }
+
+
+    public void showProgressBar(){
+   //     progressDialog.setCancelable(false);
+   //     progressDialog.setMessage("Espera un momento...");
+   //     progressDialog.show();
+
+
+           progressDialog.show();
+           progressDialog.setContentView(R.layout.progress_dialog);
+           progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
     }
 
@@ -136,6 +151,10 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        init();
+        showProgressBar();
+
+
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -153,6 +172,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
+
+                                        progressDialog.dismiss();
                                         Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
                                         //Método contra dedos temblorosos -que oprimen doble-.
@@ -160,21 +181,29 @@ public class RegisterActivity extends AppCompatActivity {
                                         startActivity(intento);
                                         finish();
 
-
                                     }
                                 }).addOnFailureListener(new OnFailureListener() { //Error interno - ¿del usuario?
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
                                 Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  " +e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
+
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {      //Error externo - ¿de la base de datos?
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
                 Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+
+
 
     }
 
