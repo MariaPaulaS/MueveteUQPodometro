@@ -243,7 +243,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (keyCode == event.KEYCODE_BACK) {
 
 
-            if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(verifyPassword) || TextUtils.isEmpty(nickname)){
+            if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(verifyPassword) || !TextUtils.isEmpty(nickname)){
 
                 new AlertDialog.Builder(RegisterActivity.this)
                         .setTitle("¡Espera!")
