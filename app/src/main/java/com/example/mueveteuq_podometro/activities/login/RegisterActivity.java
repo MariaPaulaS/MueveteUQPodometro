@@ -4,10 +4,14 @@ package com.example.mueveteuq_podometro.activities.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class RegisterActivity extends AppCompatActivity {
 
+    /**
+     * Atributos de vistas
+     */
     private Button btnLogin;
     private Button btnRegistrar;
     private ProgressDialog progressDialog;
@@ -38,7 +45,9 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText textoNickname;
     private EditText textoVerifyPassword;
 
-
+    /**
+     * Atributos de Firebase y Database
+     */
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase db;
     private DatabaseReference users;
@@ -95,6 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Método que muestra la progress bar
+     * Version 1: Version por defecto -comentada-
+     * Version 2: Version personalizada
+     *
+     */
     public void showProgressBar(){
    //     progressDialog.setCancelable(false);
    //     progressDialog.setMessage("Espera un momento...");
@@ -108,6 +123,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Método que valida que los datos sean correctos y
+     * si es así permite el registro.
+     */
     private void registrarUsuario() {
 
         final String email = textoCorreo.getText().toString().trim();
@@ -201,11 +220,50 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
 
+    /**
+     * Método para controlar el evento del botón de atrás
+     * Lanza un mensaje al usuario si trata de abandonar la vista de registro con datos ingresados
+     * @param keyCode
+     * @param event
+     * @return
+     */
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        final String email = textoCorreo.getText().toString().trim();
+        final String password = textoPassword.getText().toString().trim();
+        String verifyPassword = textoVerifyPassword.getText().toString().trim();
+        final String nickname = textoNickname.getText().toString().trim();
+
+
+        if (keyCode == event.KEYCODE_BACK) {
+
+
+            if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(verifyPassword) || TextUtils.isEmpty(nickname)){
+
+                new AlertDialog.Builder(RegisterActivity.this)
+                        .setTitle("¡Espera!")
+                        .setMessage("Aun hay datos aquí. ¿Seguro que quieres irte?")
+                        .setPositiveButton("Adelante", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
+                                startActivity(intento);
+                                finish();
+
+
+                            }
+                        }).setNegativeButton("Me quedo", null).show();
+
+            }
+
+        }
+
+
+        return super.onKeyDown(keyCode, event);
+    }
 }
