@@ -22,6 +22,10 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
+/**
+ * Actividad que recibe al usuario y le da la opcion de crear cuenta o registrarse
+ * Configurar para opcion de invitado
+ */
 public class HelloLoginActivity extends AppCompatActivity {
 
 
