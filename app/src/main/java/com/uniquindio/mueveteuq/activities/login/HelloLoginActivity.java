@@ -5,8 +5,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -87,6 +90,18 @@ public class HelloLoginActivity extends AppCompatActivity {
 
 
         }
+    }
+
+
+    /**
+     * Método para verificar conexión a internet
+     */
+    private void verificarConexion(){
+
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activityNetwork = manager.getActiveNetworkInfo();
+
+
     }
 
 }
