@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MueveteUQ-Podometro</string>
+    <string name="app_name">MueveteUQ</string>
     <string name="title_activity_maps">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -10,7 +10,7 @@
     <string name="activate">Activar</string>
     <string name="titleCheat">¡Alto ahí!</string>
     <string name="cheat">Parece que no estás caminando. ¿Estás haciendo trampa? Comienza de nuevo.</string>
-
+    <string name="reset_password">Por favor ingresa tu correo\n y encontraremos la forma de arreglarlo.</string>
     <string name="hello_login">"¡Bienvenido a MueveteUQ! \nInicia sesion si ya tienes una cuenta, \no regístrate si aun no tienes una.  "</string>
     <string name="register">"Por favor introduce tus \ndatos para registrarte."</string>
 </resources>

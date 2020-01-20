@@ -95,7 +95,7 @@
             app:layout_constraintVertical_bias="0.05" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvolvidarcontrasena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -103,7 +103,8 @@
             android:gravity="center"
             android:text="¿Olvidaste tu contraseña?"
             android:textColor="@color/shiro"
-            android:textSize="13dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/val_password"
             app:layout_constraintVertical_bias="0.015"
@@ -126,7 +127,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/tvolvidarcontrasena"
             app:layout_constraintVertical_bias="0.264" />
 
         <TextView
