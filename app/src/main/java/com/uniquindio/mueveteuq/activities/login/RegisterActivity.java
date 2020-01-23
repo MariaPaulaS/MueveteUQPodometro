@@ -24,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 /**
  * Activity de registro de usuario
@@ -169,8 +170,14 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+
+
         init();
         showProgressBar();
+
+        if(UtilsNetwork.isOnline(this)){
+
+
 
 
 
@@ -217,6 +224,13 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        }
+        else{
+            progressDialog.dismiss();
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
@@ -264,5 +278,25 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(UtilsNetwork.isOnline(this)){
+
+        }
+
+        else{
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
+
     }
 }

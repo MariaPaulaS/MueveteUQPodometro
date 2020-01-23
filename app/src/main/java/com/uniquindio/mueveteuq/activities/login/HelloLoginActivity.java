@@ -97,15 +97,5 @@ public class HelloLoginActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Método para verificar conexión a internet
-     */
-    private void verificarConexion(){
-
-        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activityNetwork = manager.getActiveNetworkInfo();
-
-
-    }
 
 }
