@@ -2,6 +2,7 @@ package com.uniquindio.mueveteuq.activities.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
@@ -26,6 +28,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
+    private ConstraintLayout cl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
         textoEmail = findViewById(R.id.val_email);
         btnRecovery = findViewById(R.id.btn_recovery);
-
+        cl = findViewById(R.id.constraint_activity_reset_password);
         mAuth = FirebaseAuth.getInstance();
 
         btnRecovery.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +79,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
 
                         progressDialog.dismiss();
-                        Toast.makeText(ResetPasswordActivity.this, "Se ha enviado un correo para recuperar tu contraseña. Si no ves nada, por favor revisa tu carpeta de spam.", Toast.LENGTH_SHORT).show();
+
+                        Snackbar.make(cl, R.string.recovery_password,
+                                Snackbar.LENGTH_SHORT).show();
 
                         Intent intento = new Intent(ResetPasswordActivity.this, HelloLoginActivity.class);
                         startActivity(intento);
@@ -84,8 +89,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(ResetPasswordActivity.this, "No se ha podido enviar el correo de recuperación.", Toast.LENGTH_SHORT).show();
 
+                        Snackbar.make(cl, R.string.not_recovery_password,
+                                Snackbar.LENGTH_SHORT).show();
 
                     }
 
@@ -93,8 +99,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
             });
         } else {
             progressDialog.dismiss();
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
+
             return;
         }
 
@@ -132,8 +139,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (UtilsNetwork.isOnline(this)) {
 
         } else {
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
             return;
         }
 

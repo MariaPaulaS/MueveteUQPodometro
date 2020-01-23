@@ -2,6 +2,7 @@ package com.uniquindio.mueveteuq.activities.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,10 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     private EditText textoPassword;
     private TextView resetPassword;
 
+    private ConstraintLayout cl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        cl = findViewById(R.id.constraint_activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -116,14 +122,15 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(LoginActivity.this, "Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(cl, R.string.error_login_user_data,
+                            Snackbar.LENGTH_SHORT).show();
                 }
             });
 
 
         } else {
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,8 +145,8 @@ public class LoginActivity extends AppCompatActivity {
         if (UtilsNetwork.isOnline(this)) {
 
         } else {
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
             return;
         }
 

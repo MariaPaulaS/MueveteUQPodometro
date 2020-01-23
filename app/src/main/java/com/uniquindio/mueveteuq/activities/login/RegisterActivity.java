@@ -3,6 +3,7 @@ package com.uniquindio.mueveteuq.activities.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.uniquindio.mueveteuq.models.User;
 import com.uniquindio.mueveteuq.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText textoPassword;
     private EditText textoNickname;
     private EditText textoVerifyPassword;
+    private ConstraintLayout cl;
 
     /**
      * Atributos de Firebase y Database
@@ -51,6 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase db;
     private DatabaseReference users;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.btn_login);
         btnRegistrar = findViewById(R.id.btn_register);
-
+        cl = findViewById(R.id.constraint_activity_register);
         textoCorreo = findViewById(R.id.val_email);
         textoPassword = findViewById(R.id.val_password);
         textoNickname = findViewById(R.id.val_nickname);
@@ -201,6 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
+
                                         //Método contra dedos temblorosos -que oprimen doble-.
                                         Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
                                         startActivity(intento);
@@ -211,7 +218,12 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 progressDialog.dismiss();
-                                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  " +e.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+                                Snackbar.make(cl, R.string.error_user_data,
+                                        Snackbar.LENGTH_SHORT).show();
+
+
                             }
                         });
 
@@ -221,14 +233,18 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(RegisterActivity.this, "Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  "+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(cl, R.string.error_user_data,
+                        Snackbar.LENGTH_SHORT).show();
+
+
             }
         });
         }
         else{
             progressDialog.dismiss();
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión.",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -290,8 +306,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         else{
-            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
-                    Toast.LENGTH_SHORT).show();
+            Snackbar.make(cl, R.string.connection_missing,
+                    Snackbar.LENGTH_SHORT).show();
             return;
         }
 

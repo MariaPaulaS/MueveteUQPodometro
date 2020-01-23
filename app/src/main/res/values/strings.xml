@@ -12,5 +12,10 @@
     <string name="cheat">Parece que no estás caminando. ¿Estás haciendo trampa? Comienza de nuevo.</string>
     <string name="reset_password">Por favor ingresa tu correo\n y encontraremos la forma de arreglarlo.</string>
     <string name="hello_login">"¡Bienvenido a MueveteUQ! \nInicia sesion si ya tienes una cuenta, \no regístrate si aun no tienes una.  "</string>
-    <string name="register">"Por favor introduce tus \ndatos para registrarte."</string>
+    <string name="register">"Por favor introduce tus \ndatos para registrarte.</string>
+    <string name="not_recovery_password">No se ha podido enviar el correo de recuperación. ¿Tal vez el correo no existe?</string>
+    <string name="recovery_password">Se ha enviado un correo para recuperar tu contraseña. Si no ves nada, por favor revisa tu carpeta de spam.</string>
+    <string name="connection_missing">No tienes acceso a internet. Por favor verifica tu conexión. </string>
+    <string name="error_user_data">Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  </string>
+    <string name="error_login_user_data">Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.</string>
 </resources>
