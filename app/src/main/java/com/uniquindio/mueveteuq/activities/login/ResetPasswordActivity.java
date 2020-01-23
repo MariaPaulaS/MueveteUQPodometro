@@ -16,12 +16,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText textoEmail;
     private Button btnRecovery;
-    private String email="";
+    private String email = "";
     private ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
@@ -50,11 +51,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
 
-    public void resetPassword(){
+    public void resetPassword() {
 
         email = textoEmail.getText().toString().trim();
 
-        if(TextUtils.isEmpty(email)){
+        if (TextUtils.isEmpty(email)) {
 
             Toast.makeText(this, "Por favor ingrese un correo electrónico", Toast.LENGTH_SHORT).show();
             return;
@@ -63,33 +64,39 @@ public class ResetPasswordActivity extends AppCompatActivity {
         init();
         showProgressBar();
 
-        mAuth.setLanguageCode("es");
-        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                if(task.isSuccessful()){
+        if (UtilsNetwork.isOnline(this)) {
 
 
-                    progressDialog.dismiss();
-                    Toast.makeText(ResetPasswordActivity.this, "Se ha enviado un correo para recuperar tu contraseña. Si no ves nada, por favor revisa tu carpeta de spam.", Toast.LENGTH_SHORT).show();
+            mAuth.setLanguageCode("es");
+            mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
 
-                    Intent intento = new Intent(ResetPasswordActivity.this, HelloLoginActivity.class);
-                    startActivity(intento);
-                    finish();
+                    if (task.isSuccessful()) {
+
+
+                        progressDialog.dismiss();
+                        Toast.makeText(ResetPasswordActivity.this, "Se ha enviado un correo para recuperar tu contraseña. Si no ves nada, por favor revisa tu carpeta de spam.", Toast.LENGTH_SHORT).show();
+
+                        Intent intento = new Intent(ResetPasswordActivity.this, HelloLoginActivity.class);
+                        startActivity(intento);
+                        finish();
+
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(ResetPasswordActivity.this, "No se ha podido enviar el correo de recuperación.", Toast.LENGTH_SHORT).show();
+
+
+                    }
 
                 }
-
-
-                else{
-                    progressDialog.dismiss();
-                    Toast.makeText(ResetPasswordActivity.this, "No se ha podido enviar el correo de recuperación.", Toast.LENGTH_SHORT).show();
-
-
-                }
-
-            }
-        });
+            });
+        } else {
+            progressDialog.dismiss();
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
@@ -99,9 +106,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
      * Método que muestra la progress bar
      * Version 1: Version por defecto -comentada-
      * Version 2: Version personalizada
-     *
      */
-    public void showProgressBar(){
+    public void showProgressBar() {
         //     progressDialog.setCancelable(false);
         //     progressDialog.setMessage("Espera un momento...");
         //     progressDialog.show();
@@ -114,9 +120,23 @@ public class ResetPasswordActivity extends AppCompatActivity {
     }
 
 
-    private void init(){
+    private void init() {
         this.progressDialog = new ProgressDialog(this);
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (UtilsNetwork.isOnline(this)) {
+
+        } else {
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
 }

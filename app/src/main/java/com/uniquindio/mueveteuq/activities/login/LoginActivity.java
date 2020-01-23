@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 /**
  * Activity que permite el ingreso al usuario a la aplicación
@@ -80,8 +81,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     private void iniciarSesionUsuario() {
 
         final String email = textoEmail.getText().toString().trim();
@@ -102,25 +101,48 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show();
         }
 
-
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-
-                Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
-                startActivity(intento);
+        if (UtilsNetwork.isOnline(this)) {
 
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this, "Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
-            }
-        });
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+
+                    Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
+                    startActivity(intento);
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(LoginActivity.this, "Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        } else {
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (UtilsNetwork.isOnline(this)) {
+
+        } else {
+            Toast.makeText(this, "No tienes acceso a internet. Verifica tu conexión",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
 }
