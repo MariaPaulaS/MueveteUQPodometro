@@ -33,7 +33,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
+import com.uniquindio.mueveteuq.listener.StepListener;
 import com.uniquindio.mueveteuq.service.LocationService;
 import com.uniquindio.mueveteuq.R;
 import com.google.android.gms.location.LocationRequest;
@@ -58,37 +60,46 @@ import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Fragmento del Mapa que carga funcionalidades de GPS, podómetro entre otros.
+ * <p>
+ * <p>
+ * Prueba Podometro
+ * 4. Codigo principal
+ * Desde donde se comienzan a grabar las lecturas y mostrar el resultado al usuario.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, View.OnClickListener, ServiceConnection, SensorEventListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, LocationListener, View.OnClickListener, ServiceConnection, SensorEventListener, StepListener {
 
+    /**
+     * Atributos del mapa
+     */
     private View rootView;
     private MapView mapView;
     private GoogleMap gMap;
-
     private FloatingActionButton fab;
     private FloatingActionButton fabIniciarRecorrido;
     private FloatingActionButton fabTerminarRecorrido;
-
     private Location currentLocation;
     private LocationManager locationManager;
     private Marker marker;
     private CameraPosition cameraZoom;
-
     private LocationService service;
     private Polyline polyline;
     private TextView location;
-
     private boolean status = false;
     private boolean permisoConcedido = false;
 
     float puntoVerde;
 
-    private TextView pasostv;
+    /**
+     * Atributos del podometro
+     */
+    TextView pasostv;
     private SensorManager sensorManager = null;
     private Sensor accel = null;
     private double magnitudePrevia;
     private int valPasos = 0;
-
+    private StepDetector simpleStepDetector;
+    private static final String TEXT_NUM_STEPS = "Numero de pasos: ";
+    private int numSteps;
 
     public MapFragment() {
         // Required empty public constructor
@@ -100,11 +111,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                              Bundle savedInstanceState) {
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be use
-    /**
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        //Obtiene el mapa asincronamente -cuando sea el momento, por motivos de memoria, rendimiento, etc.
-        mapFragment.getMapAsync(this);
-    **/
+        /**
+         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+         //Obtiene el mapa asincronamente -cuando sea el momento, por motivos de memoria, rendimiento, etc.
+         mapFragment.getMapAsync(this);
+         **/
 
         //-----------Inflando la vista------------------
 
@@ -115,6 +126,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_UI);
+        simpleStepDetector = new StepDetector();
+        simpleStepDetector.registerListener(this);
         pasostv = rootView.findViewById(R.id.numPasostv);
 
 
@@ -125,44 +138,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         fab.setOnClickListener(this);
 
         puntoVerde = BitmapDescriptorFactory.HUE_GREEN;
-        location            = rootView.findViewById(R.id.map_postition);
+        location = rootView.findViewById(R.id.map_postition);
         fabIniciarRecorrido = rootView.findViewById(R.id.fabIniciarRecorrido);
         fabTerminarRecorrido = rootView.findViewById(R.id.fabTerminarRecorrido);
-
-
-
 
 
         fabIniciarRecorrido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
                 //Si el GPS no está habilitado muestra la alerta.
 
 
-                if(service==null){
+                if (service == null) {
                     Toast.makeText(getContext(), "El servicio es nulo", Toast.LENGTH_SHORT).show();
                 }
 
 
-           //     if (permisoConcedido) {                       //Si el permiso concedido es falso
-           //           mostrarAlertaActivarGPS().show();
-           //         return;
-           //     }
+                //     if (permisoConcedido) {                       //Si el permiso concedido es falso
+                //           mostrarAlertaActivarGPS().show();
+                //         return;
+                //     }
 
 
                 else {
 
-                    if (status==false) {                              //Si el status es falso
+                    if (status == false) {                              //Si el status es falso
                         ponerMarcadorInicioFin();
-
                         status = true;
 
+                        numSteps = 0;
+                        sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
 
-                        if (service != null){
+
+                        if (service != null) {
 
                             service.startRacer("Titulo de prueba", "Descripcion de prueba");
-
 
 
                         }
@@ -178,9 +190,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             public void onClick(View view) {
 
 
-                if (service != null){
+                if (service != null) {
 
                     ponerMarcadorInicioFin();
+                    sensorManager.unregisterListener(MapFragment.this);
                     service.finishRacer();
 
                 }
@@ -245,9 +258,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-
-
-
     private void startLocationService() {
 
         Intent service = new Intent(getContext(), LocationService.class);
@@ -267,8 +277,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onViewCreated(view, savedInstanceState);
 
 
-
-        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
+        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             getPermissions(2, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
             return;
@@ -277,11 +286,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         //Pregunto si el usuario tiene permisos no lo le pido permisos para que pueda continuar con el uso de la app
 
 
-   //    else if (verificarGPSEncendido()){
+        //    else if (verificarGPSEncendido()){
 
-    //        mostrarAlertaActivarGPS().show();
-    //        return;
-    //    }
+        //        mostrarAlertaActivarGPS().show();
+        //        return;
+        //    }
 
         startLocationService();
         connectionService();
@@ -305,52 +314,48 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     /**
      *
      *
-    private boolean verificarGPSEncendido() {
-        try {
-            int gpsSignal = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
+     private boolean verificarGPSEncendido() {
+     try {
+     int gpsSignal = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
 
-            if (gpsSignal == 0) {
+     if (gpsSignal == 0) {
 
-                //El GPS no está activado
-             //   this.mostrarAlertaActivarGPS().show();
-                return false;
-            } else {
-                return true;
-            }
+     //El GPS no está activado
+     //   this.mostrarAlertaActivarGPS().show();
+     return false;
+     } else {
+     return true;
+     }
 
-        } catch (Settings.SettingNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
+     } catch (Settings.SettingNotFoundException e) {
+     e.printStackTrace();
+     return false;
+     }
 
-    }
-
-
+     }
      **/
 
     /**
      * Método que muestra un mensaje que indica que el GPS no esta activado y pregunta si desea
      * activarlo.
-     *
+     * <p>
      * ANTES ERA VOID
      */
     private Dialog mostrarAlertaActivarGPS() {
 
         /**
-        new AlertDialog.Builder(getContext())
-                .setTitle("GPS sin señal")
-                .setMessage("El GPS se encuentra desactivado. ¿Deseas activarlo?")
-                .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intento = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intento);
+         new AlertDialog.Builder(getContext())
+         .setTitle("GPS sin señal")
+         .setMessage("El GPS se encuentra desactivado. ¿Deseas activarlo?")
+         .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
+        @Override public void onClick(DialogInterface dialogInterface, int i) {
+        Intent intento = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intento);
 
 
-                    }
-                }).setNegativeButton("Cancelar", null).show();
-
-        **/
+        }
+        }).setNegativeButton("Cancelar", null).show();
+         **/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -376,18 +381,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onResume() {
         super.onResume();
-     //   this.verificarGPSEncendido();
+        //   this.verificarGPSEncendido();
 
 
-     //   if (verificarGPSEncendido()){
+        //   if (verificarGPSEncendido()){
 
 
-     //   mostrarAlertaActivarGPS().show();
-    //        return;
-    //    }
+        //   mostrarAlertaActivarGPS().show();
+        //        return;
+        //    }
 
 
-        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
+        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             getPermissions(2, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
             return;
@@ -396,7 +401,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         startLocationService();
         connectionService();
     }
-
 
 
     /**
@@ -470,18 +474,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             }
 
 
-
             //Aqui es donde se obtiene la localizacion actual y sus coordenadas.
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             if (location == null) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 
-               if(location==null){
-                   locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000, 0, this);
-                   location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location == null) {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-               }
+                }
             }
 
             currentLocation = location;
@@ -524,7 +527,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 
 
-
         Toast.makeText(getContext(), "Servicio Conectado", Toast.LENGTH_SHORT).show();
 
         //Llamar metodos de la siguiente manera para que todo marche bien
@@ -537,7 +539,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         if (gMap != null) {
 
-            polyline  =  gMap.addPolyline(new PolylineOptions().color(Color.BLUE));
+            polyline = gMap.addPolyline(new PolylineOptions().color(Color.BLUE));
         }
 
 
@@ -549,7 +551,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
                 location.setText("Latitude: " + latLng.latitude + "Longitude: " + latLng.longitude);
 
-                CameraPosition camera=new CameraPosition.Builder()
+                CameraPosition camera = new CameraPosition.Builder()
                         .target(latLng)
                         .zoom(10)       //Zoom a nivel de calles  -- Limite maximo->21
                         .bearing(360)    //Orientación de la camara hacia el este    0 - 365°
@@ -583,7 +585,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     }
 
-    private void ponerMarcadorInicioFin(){
+    private void ponerMarcadorInicioFin() {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -607,6 +609,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     /**
      * needsActiveLocation
+     *
      * @return
      */
     private boolean verificarGPSEncendido() {
@@ -619,12 +622,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
             startLocationService();
             connectionService();
@@ -633,12 +634,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-    private void getPermissions(int i, String ... permissions) {
+    private void getPermissions(int i, String... permissions) {
 
 
         ActivityCompat.requestPermissions(getActivity(), permissions, i);
     }
-
 
 
     private boolean checkPermission(String permission) {
@@ -648,27 +648,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         return ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED;
     }
-/**
 
+    /**
+     *
+     **/
 
-
-
- **/
-
-    private void connectionService(){
+    private void connectionService() {
 
         Intent service = new Intent(getContext(), LocationService.class);
         getContext().bindService(service, this, BIND_AUTO_CREATE);
     }
 
     /**
-    @Override
-    public void onPause() {
-        super.onPause();
-        getContext().unbindService(this);
-    }
-
-    **/
+     * @Override public void onPause() {
+     * super.onPause();
+     * getContext().unbindService(this);
+     * }
+     **/
 
     protected void createLocationRequest() {
         LocationRequest locationRequest = LocationRequest.create();
@@ -678,41 +674,57 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-
-
     //------------------------------Zona del StepCounter-----------------------------
 
 
     /**
      * Método que se activa cada que el sensor detecta un cambio
+     *
      * @param sensorEvent
      */
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-        if(sensorEvent != null){
+
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            simpleStepDetector.updateAccel(sensorEvent.timestamp, sensorEvent.values[0],
+                    sensorEvent.values[1], sensorEvent.values[2]);
+        }
+
+
+
+
+        /**
+
+        if (sensorEvent != null) {
 
             float x = sensorEvent.values[0];
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
 
-            double magnitude = Math.sqrt( x*x + y*y + z*z);
+            double magnitude = Math.sqrt(x * x + y * y + z * z);
             double magnitudeDelta = magnitude - magnitudePrevia;
 
             magnitudePrevia = magnitude;
 
-            if(magnitudeDelta > 6){
+            if (magnitudeDelta > 6) {
 
                 valPasos++;
             }
 
-            pasostv.setText(""+valPasos);
+            pasostv.setText("" + valPasos);
         }
 
+
+         **/
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+
+
+
+
 
     }
 
@@ -721,9 +733,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
      * Calcula una primera localizacion, y si en los tres segundos siguientes la localización es la
      * misma pero el valor de pasos esta subiendo, está haciendo trampa.
      * Si detecta trampa lanza una alerta
+     *
      * @return
      */
-    public void detectarTramposos(){
+    public void detectarTramposos() {
 
         int pasosActuales = 0;
         int postPasos = 0;
@@ -738,10 +751,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (location == null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 
-            if(location==null){
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000, 0, this);
+            if (location == null) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             }
@@ -759,10 +772,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 
         if (postLocation == null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
 
-            if(postLocation==null){
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000, 0, this);
+            if (postLocation == null) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
                 postLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
             }
@@ -770,10 +783,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         //Hay que comparar si las coordenadas son iguales, no los objetos
         //Si la ubicacion no ha cambiado en cinco segundos
-        if(location.equals(postLocation)){
+        if (location.equals(postLocation)) {
 
-        //Pero los pasos si
-            if(postPasos > pasosActuales){
+            //Pero los pasos si
+            if (postPasos > pasosActuales) {
 
                 valPasos = 0;
 
@@ -788,11 +801,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     /**
      * Lanza la alerta al usuario haciendo trampa. Se detiene el contador y se reinicia el servicio.
+     *
      * @return
      */
 
-    public Dialog mostrarAlertaTramposos(){
-
+    public Dialog mostrarAlertaTramposos() {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -808,5 +821,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
+    @Override
+    public void step(long timeNs) {
 
+        numSteps++;
+        pasostv.setText(numSteps + "");
+
+    }
 }
