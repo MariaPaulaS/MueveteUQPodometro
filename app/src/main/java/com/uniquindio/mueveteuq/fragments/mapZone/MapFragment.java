@@ -199,8 +199,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void onClick(View view) {
 
-
-                if (service != null) {
+                //Si el servicio esta corriendo y el estado es true
+                if (service != null && status) {
 
                     running = false;
                     ponerMarcadorInicioFin();
