@@ -101,6 +101,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private static final String TEXT_NUM_STEPS = "Numero de pasos: ";
     private int numSteps;
 
+    //Variable para el botón del podometro que activa el sensor
+    private boolean running = false;
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -118,6 +121,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
          **/
 
         //-----------Inflando la vista------------------
+
+        if(polyline != null){
+            polyline.remove();
+        }
+
 
         rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
@@ -168,6 +176,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                         ponerMarcadorInicioFin();
                         status = true;
 
+                        running = true;
                         numSteps = 0;
                         sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
 
@@ -192,6 +201,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
                 if (service != null) {
 
+                    running = false;
                     ponerMarcadorInicioFin();
                     sensorManager.unregisterListener(MapFragment.this);
                     service.finishRacer();
@@ -457,6 +467,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onClick(View view) {
 
         //Si el GPS no está habilitado muestra la alerta.
+
+        if(polyline != null && !running){
+            polyline.remove();
+        }
+
+
         if (verificarGPSEncendido()) {
             mostrarAlertaActivarGPS().show();
 
@@ -686,9 +702,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onSensorChanged(SensorEvent sensorEvent) {
 
 
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            simpleStepDetector.updateAccel(sensorEvent.timestamp, sensorEvent.values[0],
-                    sensorEvent.values[1], sensorEvent.values[2]);
+
+        if(running){
+
+
+            if(sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+                simpleStepDetector.updateAccel(sensorEvent.timestamp, sensorEvent.values[0],
+                        sensorEvent.values[1], sensorEvent.values[2]);
+            }
+
+
         }
 
 
