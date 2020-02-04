@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
 import com.uniquindio.mueveteuq.listener.StepListener;
@@ -51,7 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 import java.util.List;
 
