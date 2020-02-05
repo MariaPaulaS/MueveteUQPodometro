@@ -42,13 +42,13 @@ public class ZonaMapaActivity extends AppCompatActivity {
 
 /**
 
- //Metodo que permite inflar el menu con las opciones del menu
+ //Metodo que permite inflar el menu_contenedor_instrucciones con las opciones del menu_contenedor_instrucciones
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu_contenedor_instrucciones) {
 
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu_contenedor_instrucciones.menu_contenedor_instrucciones, menu_contenedor_instrucciones);
+        return super.onCreateOptionsMenu(menu_contenedor_instrucciones);
     }
 
     /* Metodo que permite crear eventos para cada una de las opciones
