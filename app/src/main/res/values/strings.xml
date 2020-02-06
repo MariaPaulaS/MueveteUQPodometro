@@ -18,4 +18,8 @@
     <string name="connection_missing">No tienes acceso a internet. Por favor verifica tu conexión. </string>
     <string name="error_user_data">Parece que ha ocurrido un error. Revisa tus datos e intenta nuevamente.  </string>
     <string name="error_login_user_data">Ha ocurrido un error al iniciar sesión. Por favor revisa tus datos y vuelve a intentarlo.</string>
+    <string name="title_activity_contenedor_instrucciones">ContenedorInstruccionesActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="instrucciones_pag_1">Antes de ir a la acción hay\n  algunas cosas que debes\n saber. ¡Vamos allá!</string>
 </resources>
