@@ -22,4 +22,7 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="instrucciones_pag_1">Antes de ir a la acción hay\n  algunas cosas que debes\n saber. ¡Vamos allá!</string>
+    <string name="inst_ubicacion">Usa este botón primero que todo. Te permitirá posicionarte en el mapa. Dale clic unas cuantas veces para ajustar mejor tu posición.</string>
+    <string name="inst_start">Una vez ubicado en el mapa, este botón te permitirá iniciar con el recorrido.</string>
+    <string name="inst_stop">Cuando hayas terminado con tu recorrido recuerda presionar este botón. ¡Esto te permitirá ver los resultados!</string>
 </resources>
