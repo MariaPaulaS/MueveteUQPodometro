@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.activities.ContenedorInstruccionesActivity;
 import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -89,6 +90,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void iniciarSesionUsuario() {
 
+        Intent intent = new Intent(this, ContenedorInstruccionesActivity.class);
+        startActivity(intent);
+
+
+        /**
         final String email = textoEmail.getText().toString().trim();
         final String password = textoPassword.getText().toString().trim();
 
@@ -133,6 +139,8 @@ public class LoginActivity extends AppCompatActivity {
                     Snackbar.LENGTH_SHORT).show();
             return;
         }
+
+         **/
 
 
     }

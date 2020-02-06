@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mueveteuq_podometro.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
