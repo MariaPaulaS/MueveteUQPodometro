@@ -3,8 +3,10 @@ package com.uniquindio.mueveteuq.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.uniquindio.mueveteuq.activities.login.LoginActivity;
 import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 import com.uniquindio.mueveteuq.R;
 
@@ -27,6 +29,10 @@ public class ZonaMapaActivity extends AppCompatActivity {
         changeFragment(actualFragment);
 
        getSupportActionBar().hide();
+
+        Intent intent = new Intent(ZonaMapaActivity.this, ContenedorInstruccionesActivity.class);
+        startActivity(intent);
+
 
 
     }

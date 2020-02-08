@@ -90,11 +90,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void iniciarSesionUsuario() {
 
-        Intent intent = new Intent(this, ContenedorInstruccionesActivity.class);
-        startActivity(intent);
 
 
-        /**
         final String email = textoEmail.getText().toString().trim();
         final String password = textoPassword.getText().toString().trim();
 
@@ -120,6 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
+
+
                     Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
                     startActivity(intento);
 
@@ -140,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-         **/
 
 
     }

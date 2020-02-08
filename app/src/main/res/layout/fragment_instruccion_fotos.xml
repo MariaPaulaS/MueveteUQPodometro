@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_instruccion_fotos"
@@ -10,70 +10,99 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <ImageView
-        android:id="@+id/imageView13"
-        android:layout_width="156dp"
-        android:layout_height="110dp"
-        android:src="@drawable/icon_camera"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_buttons"
-        app:layout_constraintVertical_bias="0.061" />
 
-    <TextView
-        android:id="@+id/title_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="71dp"
-        android:gravity="center"
-        android:text="¡Click!"
-        android:textColor="@color/shiro"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.095" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="271dp"
-        android:layout_height="94dp"
-        android:layout_marginTop="28dp"
-        android:gravity="center"
-        android:text="@string/inst_camera"
-        android:textColor="@color/shiro"
-        android:textSize="15dp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView13"
-        app:layout_constraintVertical_bias="0.052">
-
-    </TextView>
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="273dp"
-        android:layout_height="79dp"
-        android:gravity="center"
-        android:text="Para empezar, dale al botón flotante que ves en el mapa. ¡Vamos allá!"
-        android:textColor="@color/shiro"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.0">
-
-    </TextView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="156dp"
+            android:layout_height="110dp"
+            android:src="@drawable/icon_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title_buttons"
+            app:layout_constraintVertical_bias="0.061" />
+
+        <TextView
+            android:id="@+id/title_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="71dp"
+            android:gravity="center"
+            android:text="¡Click!"
+            android:textColor="@color/shiro"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.095" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="271dp"
+            android:layout_height="94dp"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:text="@string/inst_camera"
+            android:textColor="@color/shiro"
+            android:textSize="15dp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView13"
+            app:layout_constraintVertical_bias="0.052">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="273dp"
+            android:layout_height="79dp"
+            android:gravity="center"
+            android:text="Para empezar, dale al botón flotante que ves en el mapa. ¡Vamos allá!"
+            android:textColor="@color/shiro"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintVertical_bias="0.0">
+
+        </TextView>
+
+        <Button
+            android:id="@+id/btnFinInstruccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="LISTO"
+            android:textColor="@color/shiro"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.919"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.976">
+
+        </Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</FrameLayout>
