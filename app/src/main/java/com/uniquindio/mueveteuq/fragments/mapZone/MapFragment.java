@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,6 +20,8 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -25,8 +29,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,8 +61,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
+import java.io.File;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.BIND_AUTO_CREATE;
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -101,6 +110,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private StepDetector simpleStepDetector;
     private static final String TEXT_NUM_STEPS = "Numero de pasos: ";
     private int numSteps;
+
+
 
     //Variable para el botón del podometro que activa el sensor
     private boolean running = false;
@@ -200,7 +211,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             public void onClick(View view) {
 
                 //Si el servicio esta corriendo y el estado es true
-                if (service != null && status) {
+                if (service != null && status && running) {
 
                     running = false;
                     ponerMarcadorInicioFin();
@@ -852,4 +863,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         pasostv.setText(numSteps + "");
 
     }
-}
+
+
+    }
+

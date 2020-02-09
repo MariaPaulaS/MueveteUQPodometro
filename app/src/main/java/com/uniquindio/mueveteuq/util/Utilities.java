@@ -1,7 +1,9 @@
 package com.uniquindio.mueveteuq.util;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
@@ -9,6 +11,10 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.app.Activity;
+import android.os.Environment;
+import android.provider.MediaStore;
+
+import java.io.File;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -16,6 +22,8 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Utilities {
+
+
 
 
     /**
@@ -106,6 +114,7 @@ public class Utilities {
 
 
     }
+
 
 
 }
