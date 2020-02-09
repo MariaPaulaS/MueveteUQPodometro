@@ -1,0 +1,58 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/kuro"
+    tools:context="com.uniquindio.mueveteuq.activities.PhotoActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <ImageView
+        android:id="@+id/iv_foto"
+        android:layout_width="282dp"
+        android:layout_height="236dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textoFoto"
+        app:layout_constraintVertical_bias="0.138"
+        app:srcCompat="@drawable/fondo_arbol" />
+
+    <TextView
+        android:id="@+id/textoFoto"
+        android:layout_width="253dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="@string/hora_foto"
+        android:textColor="@color/shiro"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.582"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.079" />
+
+    <Button
+        android:id="@+id/btn_click"
+        android:layout_width="130dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/btn_redondeado_registro"
+        android:onClick="tomarFoto"
+        android:text="Tomar foto"
+        android:textColor="@color/shiro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_foto"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

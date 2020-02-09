@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 
 import com.uniquindio.mueveteuq.activities.login.LoginActivity;
 import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 import com.uniquindio.mueveteuq.R;
+
+import java.io.File;
 
 /**
  * Activity de la zona del mapa
@@ -19,6 +24,8 @@ public class ZonaMapaActivity extends AppCompatActivity {
 
     //Permite llevar un control de que fragment estamos cargando en cada momento
     Fragment actualFragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,8 @@ public class ZonaMapaActivity extends AppCompatActivity {
 
 
     }
+
+
 
 /**
 
