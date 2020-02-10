@@ -89,7 +89,7 @@
             android:background="@drawable/btn_redondeado_registro"
             android:padding="10dp"
             android:text="Registrarse"
-            android:textColor="@color/shiro"
+            android:textColor="@color/blanco"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

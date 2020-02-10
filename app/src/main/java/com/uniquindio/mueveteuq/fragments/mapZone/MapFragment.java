@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.uniquindio.mueveteuq.activities.PhotoActivity;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
 import com.uniquindio.mueveteuq.listener.StepListener;
@@ -189,6 +190,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                         status = true;
 
                         running = true;
+
+
+                        Intent intento = new Intent(view.getContext(), PhotoActivity.class);
+                        startActivity(intento);
+
                         numSteps = 0;
                         sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
 

@@ -52,7 +52,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:fab_labelStyle="@style/etiqueta"
-        app:fab_addButtonColorNormal="@color/midori"
+        app:fab_addButtonColorNormal="@color/verde"
         app:fab_addButtonColorPressed="@color/colorAccent">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -63,7 +63,7 @@
             app:fab_icon="@android:drawable/ic_menu_compass"
             android:layout_margin="16dp"
             app:fab_size="normal"
-            app:fab_colorNormal="@color/midori"
+            app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
             app:fab_title="Centrar ubicacion">
 
@@ -78,7 +78,7 @@
             app:fab_icon="@android:drawable/ic_media_play"
             android:layout_margin="16dp"
             app:fab_size="normal"
-            app:fab_colorNormal="@color/midori"
+            app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
             app:fab_title="Iniciar recorrido">
 
@@ -92,7 +92,7 @@
             android:layout_margin="16dp"
             app:fab_size="normal"
             app:fab_icon="@drawable/done"
-            app:fab_colorNormal="@color/midori"
+            app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
             app:fab_title="Terminar recorrido">
 

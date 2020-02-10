@@ -3,11 +3,11 @@
     <color name="colorPrimary">#248D06</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="shiro">#fff</color>
-    <color name="kuro">#000</color>
-    <color name="midori">#248D06</color>
-    <color name="akai">#CE3144</color>
-    <color name="lemon">#00BCD4</color>
+    <color name="blanco">#fff</color>
+    <color name="negro">#000</color>
+    <color name="verde">#248D06</color>
+    <color name="rojo">#CE3144</color>
+    <color name="celeste">#00BCD4</color>
     <color name="lila">#541561</color>
     <color name="blanco_transparente">#cccccc</color>
 </resources>

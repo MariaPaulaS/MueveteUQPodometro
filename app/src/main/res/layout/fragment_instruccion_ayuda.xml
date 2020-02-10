@@ -4,7 +4,7 @@
     android:id="@+id/fragment_instruccion_ayuda"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lemon"
+    android:background="@color/celeste"
     tools:context="com.uniquindio.mueveteuq.fragments.InstruccionAyudaFragment">
 
 
@@ -43,7 +43,7 @@
         android:layout_height="82dp"
         android:gravity="center"
         android:text="¡Hola! Te enseñamos de\n qué va esto."
-        android:textColor="@color/shiro"
+        android:textColor="@color/blanco"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +62,7 @@
         android:layout_height="84dp"
         android:gravity="center"
         android:text="@string/instrucciones_pag_1"
-        android:textColor="@color/shiro"
+        android:textColor="@color/blanco"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
