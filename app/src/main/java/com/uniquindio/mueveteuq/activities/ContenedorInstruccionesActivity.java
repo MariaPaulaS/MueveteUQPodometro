@@ -3,18 +3,12 @@ package com.uniquindio.mueveteuq.activities;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import com.uniquindio.mueveteuq.R;
 
 import android.text.Html;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -63,7 +57,7 @@ public class ContenedorInstruccionesActivity extends AppCompatActivity implement
 
         if(puntosSlide.length>0){
 
-            puntosSlide[pos].setTextColor(getResources().getColor(R.color.shiro));
+            puntosSlide[pos].setTextColor(getResources().getColor(R.color.blanco));
         }
     }
 

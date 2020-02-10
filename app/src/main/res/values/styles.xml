@@ -16,7 +16,7 @@
 
     <style name="etiqueta">
         <item name="android:background">@drawable/fondo_eti_fab</item>
-        <item name="android:textColor">@color/shiro</item>
+        <item name="android:textColor">@color/blanco</item>
 
     </style>
 

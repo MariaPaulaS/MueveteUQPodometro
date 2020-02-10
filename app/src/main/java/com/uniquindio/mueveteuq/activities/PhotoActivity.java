@@ -22,10 +22,14 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import android.widget.Button;
 
 public class PhotoActivity extends AppCompatActivity {
 
     private ImageView imgView;
+    private Button btnTomarFoto;
+    private Button btnOk;
+    private Button btnTomarOtra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,13 @@ public class PhotoActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         imgView = findViewById(R.id.iv_foto);
 
+        btnTomarFoto = findViewById(R.id.btn_click);
+        btnTomarOtra = findViewById(R.id.btn_tomar_otra);
+        btnOk = findViewById(R.id.btn_validar_foto);
+
+        btnOk.setVisibility(View.INVISIBLE);
+        btnTomarOtra.setVisibility(View.INVISIBLE);
+
         if (ContextCompat.checkSelfPermission(PhotoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(PhotoActivity.this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -41,6 +52,7 @@ public class PhotoActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(PhotoActivity.this, new String[]
                     {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1000);
         }
+
 
     }
 
@@ -105,9 +117,15 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            btnTomarFoto.setVisibility(View.INVISIBLE);
             imgView.setImageBitmap(imageBitmap);
+
+            btnOk.setVisibility(View.VISIBLE);
+            btnTomarOtra.setVisibility(View.VISIBLE);
+
         }
     }
 

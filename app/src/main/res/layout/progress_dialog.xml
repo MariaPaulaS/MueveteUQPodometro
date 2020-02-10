@@ -23,7 +23,7 @@
             android:text="Espera un momento..."
             android:textSize="13dp"
             android:textStyle="bold"
-            android:textColor="@color/kuro"
+            android:textColor="@color/negro"
             android:layout_marginTop="10dp"/>
 
 
