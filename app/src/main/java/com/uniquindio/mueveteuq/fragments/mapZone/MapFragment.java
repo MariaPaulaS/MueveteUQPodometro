@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -42,6 +44,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.uniquindio.mueveteuq.activities.PhotoActivity;
+import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
 import com.uniquindio.mueveteuq.listener.StepListener;
@@ -113,7 +116,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private int numSteps;
 
 
-
     //Variable para el botón del podometro que activa el sensor
     private boolean running = false;
 
@@ -133,9 +135,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
          mapFragment.getMapAsync(this);
          **/
 
+        SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        editor.remove("estadoFoto");
+        editor.commit();
+
         //-----------Inflando la vista------------------
 
-        if(polyline != null){
+        if (polyline != null) {
             polyline.remove();
         }
 
@@ -169,45 +176,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             public void onClick(View view) {
 
 
-                //Si el GPS no está habilitado muestra la alerta.
+                Intent intento = new Intent(view.getContext(), PhotoActivity.class);
+                startActivity(intento);
+
+       //          boolean valorFoto  = getArguments().getBoolean("call_method1");
 
 
-                if (service == null) {
-                    Toast.makeText(getContext(), "El servicio es nulo", Toast.LENGTH_SHORT).show();
-                }
+       //         fab.callOnClick();
+       //         iniciarRecorrido();
 
 
-                //     if (permisoConcedido) {                       //Si el permiso concedido es falso
-                //           mostrarAlertaActivarGPS().show();
-                //         return;
-                //     }
+        //            Toast.makeText(view.getContext(),"Es necesario tomar una foto para iniciar el recorrido.", Toast.LENGTH_SHORT).show();
 
-
-                else {
-
-                    if (status == false) {                              //Si el status es falso
-                        ponerMarcadorInicioFin();
-                        status = true;
-
-                        running = true;
-
-
-                        Intent intento = new Intent(view.getContext(), PhotoActivity.class);
-                        startActivity(intento);
-
-                        numSteps = 0;
-                        sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-
-
-                        if (service != null) {
-
-                            service.startRacer("Titulo de prueba", "Descripcion de prueba");
-
-
-                        }
-                    }
-
-                }
 
             }
         });
@@ -216,20 +196,78 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void onClick(View view) {
 
-                //Si el servicio esta corriendo y el estado es true
-                if (service != null && status && running) {
-
-                    running = false;
-                    ponerMarcadorInicioFin();
-                    sensorManager.unregisterListener(MapFragment.this);
-                    service.finishRacer();
-
-                }
-
+                terminarRecorrido();
             }
         });
 
         return rootView;
+    }
+
+
+    /**
+     * Método que permite iniciar el recorrido
+     */
+
+    public void iniciarRecorrido() {
+        //Si el GPS no está habilitado muestra la alerta.
+
+
+        if (service == null) {
+            Toast.makeText(getContext(), "El servicio es nulo", Toast.LENGTH_SHORT).show();
+        }
+
+
+        //     if (permisoConcedido) {                       //Si el permiso concedido es falso
+        //           mostrarAlertaActivarGPS().show();
+        //         return;
+        //     }
+
+
+        else {
+
+            if (status == false) {                              //Si el status es falso
+                ponerMarcadorInicioFin();
+                status = true;
+
+                running = true;
+
+
+
+
+
+                numSteps = 0;
+                sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+
+
+                if (service != null) {
+
+                    service.startRacer("Titulo de prueba", "Descripcion de prueba");
+
+
+                }
+            }
+
+        }
+
+    }
+
+
+    /**
+     * Método que permite terminar el recorrido
+     */
+    public void terminarRecorrido() {
+
+
+        //Si el servicio esta corriendo y el estado es true
+        if (service != null && status && running) {
+
+            running = false;
+            ponerMarcadorInicioFin();
+            sensorManager.unregisterListener(MapFragment.this);
+            service.finishRacer();
+
+        }
+
     }
 
 
@@ -323,7 +361,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         startLocationService();
         connectionService();
 
-        mapView = (MapView) rootView.findViewById(R.id.map);
+        mapView = rootView.findViewById(R.id.map);
 
         if (mapView != null) {
             mapView.onCreate(null);
@@ -336,34 +374,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
     /**
-     * Método que verifica si el GPS tiene señal
-     */
-
-    /**
-     *
-     *
-     private boolean verificarGPSEncendido() {
-     try {
-     int gpsSignal = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-     if (gpsSignal == 0) {
-
-     //El GPS no está activado
-     //   this.mostrarAlertaActivarGPS().show();
-     return false;
-     } else {
-     return true;
-     }
-
-     } catch (Settings.SettingNotFoundException e) {
-     e.printStackTrace();
-     return false;
-     }
-
-     }
-     **/
-
-    /**
      * Método que muestra un mensaje que indica que el GPS no esta activado y pregunta si desea
      * activarlo.
      * <p>
@@ -371,19 +381,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
      */
     private Dialog mostrarAlertaActivarGPS() {
 
-        /**
-         new AlertDialog.Builder(getContext())
-         .setTitle("GPS sin señal")
-         .setMessage("El GPS se encuentra desactivado. ¿Deseas activarlo?")
-         .setPositiveButton("Activar", new DialogInterface.OnClickListener() {
-        @Override public void onClick(DialogInterface dialogInterface, int i) {
-        Intent intento = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intento);
-
-
-        }
-        }).setNegativeButton("Cancelar", null).show();
-         **/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
@@ -428,6 +425,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         startLocationService();
         connectionService();
+
+        SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        String estadoFoto = preferencias.getString("estadoFoto", "");
+     //   Toast.makeText(getContext(), "Estado foto: " + estadoFoto, Toast.LENGTH_SHORT).show();
+
+        if(estadoFoto.equals("1")){
+
+            iniciarRecorrido();
+        }
+
+
     }
 
 
@@ -486,7 +494,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         //Si el GPS no está habilitado muestra la alerta.
 
-        if(polyline != null && !running){
+        if (polyline != null && !running) {
             polyline.remove();
         }
 
@@ -720,11 +728,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onSensorChanged(SensorEvent sensorEvent) {
 
 
+        if (running) {
 
-        if(running){
 
-
-            if(sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+            if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 simpleStepDetector.updateAccel(sensorEvent.timestamp, sensorEvent.values[0],
                         sensorEvent.values[1], sensorEvent.values[2]);
             }
@@ -733,38 +740,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         }
 
 
-
-
         /**
 
-        if (sensorEvent != null) {
+         if (sensorEvent != null) {
 
-            float x = sensorEvent.values[0];
-            float y = sensorEvent.values[1];
-            float z = sensorEvent.values[2];
+         float x = sensorEvent.values[0];
+         float y = sensorEvent.values[1];
+         float z = sensorEvent.values[2];
 
-            double magnitude = Math.sqrt(x * x + y * y + z * z);
-            double magnitudeDelta = magnitude - magnitudePrevia;
+         double magnitude = Math.sqrt(x * x + y * y + z * z);
+         double magnitudeDelta = magnitude - magnitudePrevia;
 
-            magnitudePrevia = magnitude;
+         magnitudePrevia = magnitude;
 
-            if (magnitudeDelta > 6) {
+         if (magnitudeDelta > 6) {
 
-                valPasos++;
-            }
+         valPasos++;
+         }
 
-            pasostv.setText("" + valPasos);
-        }
-
-
+         pasostv.setText("" + valPasos);
+         }
          **/
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
-
-
 
 
     }
@@ -871,5 +871,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-    }
+}
 

@@ -29,18 +29,17 @@ public class ZonaMapaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zona_mapa);
 
         actualFragment = new MapFragment();
         changeFragment(actualFragment);
 
-       getSupportActionBar().hide();
+        getSupportActionBar().hide();
 
         Intent intent = new Intent(ZonaMapaActivity.this, ContenedorInstruccionesActivity.class);
         startActivity(intent);
-
-
 
     }
 
@@ -54,45 +53,5 @@ public class ZonaMapaActivity extends AppCompatActivity {
     }
 
 
-
-/**
-
- //Metodo que permite inflar el menu_contenedor_instrucciones con las opciones del menu_contenedor_instrucciones
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu_contenedor_instrucciones) {
-
-        getMenuInflater().inflate(R.menu_contenedor_instrucciones.menu_contenedor_instrucciones, menu_contenedor_instrucciones);
-        return super.onCreateOptionsMenu(menu_contenedor_instrucciones);
-    }
-
-    /* Metodo que permite crear eventos para cada una de las opciones
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-
-            case R.id.menu_bienvenida:
-
-                actualFragment=new WelcomeFragment();
-                break;
-
-            case R.id.menu_mapa:
-
-                actualFragment=new MapFragment();
-                break;
-
-        }
-        changeFragment(actualFragment);
-        return super.onOptionsItemSelected(item);
-    }
-
-    **/
-
-    /**
-     * Método para la transaccion del fragment
-     * @param fragmento
-     */
 
 }

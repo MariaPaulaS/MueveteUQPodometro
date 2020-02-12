@@ -6,7 +6,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,7 +129,19 @@ public class PhotoActivity extends AppCompatActivity {
             btnOk.setVisibility(View.VISIBLE);
             btnTomarOtra.setVisibility(View.VISIBLE);
 
+
         }
+    }
+
+
+    public void enviarConfirmacion(View view){
+
+        SharedPreferences preferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor objetoEditor = preferences.edit();
+        objetoEditor.putString("estadoFoto", "1");
+        objetoEditor.apply();
+        onBackPressed();
+
     }
 
 }
