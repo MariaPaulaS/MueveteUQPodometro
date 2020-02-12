@@ -74,7 +74,7 @@
         android:layout_width="113dp"
         android:layout_height="45dp"
         android:background="@drawable/btn_redondeado_registro"
-        android:onClick="tomarFoto"
+        android:onClick="enviarConfirmacion"
         android:text="Validar"
         android:textColor="@color/blanco"
         app:layout_constraintBottom_toBottomOf="parent"
