@@ -128,6 +128,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //--------------Limpiando preferencias de carrera anterior---------
+
+        SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        editor.remove("estadoFoto");
+        editor.remove("corriendo");
+        editor.commit();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be use
         /**
          SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -135,10 +143,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
          mapFragment.getMapAsync(this);
          **/
 
-        SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferencias.edit();
-        editor.remove("estadoFoto");
-        editor.commit();
 
         //-----------Inflando la vista------------------
 
@@ -196,13 +200,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void onClick(View view) {
 
-                terminarRecorrido();
+                if (service != null && status && running) {
+
+                    Intent intento = new Intent(view.getContext(), PhotoActivity.class);
+                    startActivity(intento);
+
+                }
+              
             }
         });
 
         return rootView;
     }
-
 
     /**
      * Método que permite iniciar el recorrido
@@ -261,10 +270,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         //Si el servicio esta corriendo y el estado es true
         if (service != null && status && running) {
 
+
+
             running = false;
             ponerMarcadorInicioFin();
             sensorManager.unregisterListener(MapFragment.this);
             service.finishRacer();
+
+            Toast.makeText(getContext(), "¡Felicidades! Has terminado el recorrido", Toast.LENGTH_SHORT).show();
+
 
         }
 
@@ -406,16 +420,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onResume() {
         super.onResume();
-        //   this.verificarGPSEncendido();
-
-
-        //   if (verificarGPSEncendido()){
-
-
-        //   mostrarAlertaActivarGPS().show();
-        //        return;
-        //    }
-
 
         if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
@@ -429,14 +433,45 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         String estadoFoto = preferencias.getString("estadoFoto", "");
      //   Toast.makeText(getContext(), "Estado foto: " + estadoFoto, Toast.LENGTH_SHORT).show();
+        String corriendo = preferencias.getString("corriendo", "");
 
-        if(estadoFoto.equals("1")){
+
+        if(estadoFoto.equals("1") && !corriendo.equals("si")){
 
             iniciarRecorrido();
+
+            SharedPreferences.Editor objetoEditor = preferencias.edit();
+            objetoEditor.putString("corriendo", "si");
+            objetoEditor.remove("estadoFoto");
+            objetoEditor.apply();
+            fabIniciarRecorrido.setVisibility(View.INVISIBLE);
+
+        }
+
+        //Actualizar los datos del SharedPreferences
+        corriendo = preferencias.getString("corriendo", "");
+        estadoFoto = preferencias.getString("estadoFoto", "");
+
+        if (corriendo.equals("si")) {
+
+            if(estadoFoto.equals("1")){
+
+                terminarRecorrido();
+                fabIniciarRecorrido.setVisibility(View.VISIBLE);
+
+                //Resetea los datos de la carrera.
+                SharedPreferences.Editor objetoEditor = preferencias.edit();
+                objetoEditor.remove("corriendo");
+                objetoEditor.remove("estadoFoto");
+                objetoEditor.apply();
+
+            }
+
         }
 
 
-    }
+
+        }
 
 
     /**
