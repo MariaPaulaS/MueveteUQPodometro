@@ -180,18 +180,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             public void onClick(View view) {
 
 
-                Intent intento = new Intent(view.getContext(), PhotoActivity.class);
-                startActivity(intento);
-
-       //          boolean valorFoto  = getArguments().getBoolean("call_method1");
-
-
-       //         fab.callOnClick();
-       //         iniciarRecorrido();
-
+                if (verificarGPSEncendido()) {
+                    fab.callOnClick();
+                }
+                else{
+                    Intent intento = new Intent(view.getContext(), PhotoActivity.class);
+                    startActivity(intento);
 
         //            Toast.makeText(view.getContext(),"Es necesario tomar una foto para iniciar el recorrido.", Toast.LENGTH_SHORT).show();
-
+                }
 
             }
         });
@@ -206,6 +203,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                     startActivity(intento);
 
                 }
+
+
               
             }
         });
@@ -225,13 +224,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             Toast.makeText(getContext(), "El servicio es nulo", Toast.LENGTH_SHORT).show();
         }
 
-
-        //     if (permisoConcedido) {                       //Si el permiso concedido es falso
-        //           mostrarAlertaActivarGPS().show();
-        //         return;
-        //     }
-
-
         else {
 
             if (status == false) {                              //Si el status es falso
@@ -239,10 +231,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 status = true;
 
                 running = true;
-
-
-
-
 
                 numSteps = 0;
                 sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
