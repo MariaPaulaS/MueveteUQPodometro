@@ -66,6 +66,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -100,6 +101,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private TextView location;
     private boolean status = false;
     private boolean permisoConcedido = false;
+    private Location initialLocation;
 
     float puntoVerde;
 
@@ -107,6 +109,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
      * Atributos del podometro
      */
     TextView pasostv;
+    TextView numeroDistancia;
+    TextView numeroCalorias;
     private SensorManager sensorManager = null;
     private Sensor accel = null;
     private double magnitudePrevia;
@@ -173,6 +177,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         location = rootView.findViewById(R.id.map_postition);
         fabIniciarRecorrido = rootView.findViewById(R.id.fabIniciarRecorrido);
         fabTerminarRecorrido = rootView.findViewById(R.id.fabTerminarRecorrido);
+        numeroDistancia = rootView.findViewById(R.id.numDistancia);
 
 
         fabIniciarRecorrido.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +187,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
                 if (verificarGPSEncendido()) {
                     fab.callOnClick();
+
                 }
                 else{
+
+                    retornarPuntoInicio();
+
                     Intent intento = new Intent(view.getContext(), PhotoActivity.class);
                     startActivity(intento);
 
@@ -210,6 +219,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         });
 
         return rootView;
+    }
+
+    /**
+     * Método que retorna la posición inicial del recorrido
+     */
+
+    public void retornarPuntoInicio(){
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+
+        initialLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (initialLocation == null) {
+            initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+
+
     }
 
     /**
@@ -420,7 +449,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         SharedPreferences preferencias= this.getActivity().getSharedPreferences("preferencias", Context.MODE_PRIVATE);
         String estadoFoto = preferencias.getString("estadoFoto", "");
-     //   Toast.makeText(getContext(), "Estado foto: " + estadoFoto, Toast.LENGTH_SHORT).show();
         String corriendo = preferencias.getString("corriendo", "");
 
 
@@ -488,6 +516,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onLocationChanged(Location location) {
         //    Toast.makeText(getContext(), "Changed ->" + location.getProvider(), Toast.LENGTH_SHORT).show();
+        if(initialLocation!=null){
+            calcularDistancia(location);
+        }
+
         crearOActualizarMarcador(location);
     }
 
@@ -579,6 +611,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
         }
+    }
+
+
+    /**
+     * Método que calcula la distancia cada que cambia la posición del marcador
+     */
+    private void calcularDistancia(Location location){
+
+
+        float distancia = location.distanceTo(initialLocation);
+        DecimalFormat formatear = new DecimalFormat("#.00");
+        numeroDistancia.setText(formatear.format(distancia) + " m");
+
     }
 
 
@@ -749,7 +794,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
      */
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
 
         if (running) {
 
