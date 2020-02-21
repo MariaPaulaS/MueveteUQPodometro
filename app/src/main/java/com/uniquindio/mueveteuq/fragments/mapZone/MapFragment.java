@@ -102,6 +102,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private boolean status = false;
     private boolean permisoConcedido = false;
     private Location initialLocation;
+    private Location anteriorLocation;
+    private Location actualLocation;
+    private float distancia = 0;
+    private float distanciaAcum = 0;
+
 
     float puntoVerde;
 
@@ -139,6 +144,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         editor.remove("estadoFoto");
         editor.remove("corriendo");
         editor.commit();
+
+        distancia = 0;
+        distanciaAcum = 0;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be use
         /**
@@ -237,6 +245,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         if (initialLocation == null) {
             initialLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
+
+
 
 
     }
@@ -516,12 +526,77 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onLocationChanged(Location location) {
         //    Toast.makeText(getContext(), "Changed ->" + location.getProvider(), Toast.LENGTH_SHORT).show();
-        if(initialLocation!=null){
-            calcularDistancia(location);
-        }
+
+
+        calcularMetrosRecorridos(location);
 
         crearOActualizarMarcador(location);
     }
+
+
+    /**
+     * Método que calcula la cantidad de metros recorridos por la persona -independientemente de si esta
+     * se devuelve o no-.
+     * @param location
+     */
+    private void calcularMetrosRecorridos(Location location){
+
+        imprimirDistancia(distanciaAcum);
+
+
+        if(distanciaAcum == 0 && initialLocation!=null){
+            distancia = location.distanceTo(initialLocation);
+            distanciaAcum += distancia;
+
+            anteriorLocation = initialLocation;
+        }
+
+        else if(location!=initialLocation && initialLocation!=null){
+
+
+
+            actualLocation = location;
+
+            distancia = calcularDistancia(anteriorLocation, location);
+
+            distanciaAcum += distancia;
+
+
+            if(calcularDistancia(initialLocation, anteriorLocation) > calcularDistancia(initialLocation, location)){
+
+                distanciaAcum +=  (calcularDistancia(initialLocation, anteriorLocation) - calcularDistancia(initialLocation, location));
+
+
+            }
+
+            anteriorLocation = actualLocation;
+
+
+        }
+
+        imprimirDistancia(distanciaAcum);
+
+
+
+
+    }
+
+    /**
+     * Método que calcula la distancia cada que cambia la posición del marcador
+     */
+    private float calcularDistancia(Location initialL, Location finalL){
+
+
+        float distancia = finalL.distanceTo(initialL);
+        return distancia;
+    }
+
+    private void imprimirDistancia(float val){
+        DecimalFormat formatear = new DecimalFormat("#.00");
+        numeroDistancia.setText(formatear.format(val) + " m");
+    }
+
+
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
@@ -614,17 +689,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     }
 
 
-    /**
-     * Método que calcula la distancia cada que cambia la posición del marcador
-     */
-    private void calcularDistancia(Location location){
-
-
-        float distancia = location.distanceTo(initialLocation);
-        DecimalFormat formatear = new DecimalFormat("#.00");
-        numeroDistancia.setText(formatear.format(distancia) + " m");
-
-    }
 
 
     /**
