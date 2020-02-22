@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 /**
@@ -44,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private Button btnLogin;
     private Button btnRegistrar;
-    private ProgressDialog progressDialog;
+
     private EditText textoCorreo;
     private EditText textoPassword;
     private EditText textoNickname;
@@ -108,31 +109,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-
-    private void init(){
-        this.progressDialog = new ProgressDialog(this);
-    }
-
-
-    /**
-     * Método que muestra la progress bar
-     * Version 1: Version por defecto -comentada-
-     * Version 2: Version personalizada
-     *
-     */
-    public void showProgressBar(){
-   //     progressDialog.setCancelable(false);
-   //     progressDialog.setMessage("Espera un momento...");
-   //     progressDialog.show();
-
-
-           progressDialog.show();
-           progressDialog.setContentView(R.layout.progress_dialog);
-           progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-    }
-
-
     /**
      * Método que valida que los datos sean correctos y
      * si es así permite el registro.
@@ -182,8 +158,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        init();
-        showProgressBar();
+        Utilities.init(this);
+        Utilities.showProgressBar();
 
         if(UtilsNetwork.isOnline(this)) {
 
@@ -205,7 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onSuccess(DocumentReference documentReference) {
 
 
-                                    progressDialog.dismiss();
+                                    Utilities.dismissProgressBar();
                                     Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
 
@@ -220,7 +196,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
 
-                                    progressDialog.dismiss();
+                                    Utilities.dismissProgressBar();
                                     Snackbar.make(cl, R.string.error_user_data,
                                             Snackbar.LENGTH_SHORT).show();
 
@@ -231,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onFailure(@NonNull Exception e) {
 
 
-                                    progressDialog.dismiss();
+                                    Utilities.dismissProgressBar();
 
                                     Snackbar.make(cl, R.string.error_user_data,
                                             Snackbar.LENGTH_SHORT).show();
@@ -245,7 +221,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         else{
-            progressDialog.dismiss();
+            Utilities.dismissProgressBar();
             Snackbar.make(cl, R.string.connection_missing,
                     Snackbar.LENGTH_SHORT).show();
             return;

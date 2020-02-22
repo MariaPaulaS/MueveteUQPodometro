@@ -1,6 +1,7 @@
 package com.uniquindio.mueveteuq.util;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.app.Activity;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.uniquindio.mueveteuq.R;
+
 import java.io.File;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -23,8 +26,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class Utilities {
 
-
-
+    static ProgressDialog progressDialog;
 
     /**
      * Método que verifica si la app tiene permisos para funcionar. Si no, los pide al momento de
@@ -113,6 +115,34 @@ public class Utilities {
         }
 
 
+    }
+
+
+    /**
+     * Método para inicializar progress bar
+     * @param context
+     */
+    public static void init(Context context) {
+       progressDialog = new ProgressDialog(context);
+    }
+
+    /**
+     * Método para mostrar progress bar
+     */
+    public static void showProgressBar() {
+
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+    }
+
+    /**
+     * Método para finalizar progress bar
+     */
+    public static void dismissProgressBar(){
+
+        progressDialog.dismiss();
     }
 
 
