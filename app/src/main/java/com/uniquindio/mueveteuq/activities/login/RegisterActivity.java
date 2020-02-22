@@ -18,6 +18,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uniquindio.mueveteuq.models.User;
 import com.uniquindio.mueveteuq.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,8 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
      * Atributos de Firebase y Database
      */
     private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase db;
-    private DatabaseReference users;
+    private FirebaseFirestore db;
+    private CollectionReference users;
 
 
 
@@ -65,8 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
-        users = db.getReference("Users");
+        db = FirebaseFirestore.getInstance();
+        users = db.collection("Users");
+
 
         getSupportActionBar().hide();
 
@@ -181,66 +185,65 @@ public class RegisterActivity extends AppCompatActivity {
         init();
         showProgressBar();
 
-        if(UtilsNetwork.isOnline(this)){
+        if(UtilsNetwork.isOnline(this)) {
 
 
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            //Guardar usuario en la base de datos
+                            User user = new User();
+                            user.setEmail(email);
+                            user.setNickname(nickname);
+                            user.setPassword(password);
+
+                            //Usa el nickname como llave.
+
+                            users.add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
 
 
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        //Guardar usuario en la base de datos
-                        User user = new User();
-                        user.setEmail(email);
-                        user.setNickname(nickname);
-                        user.setPassword(password);
-
-                        //Usa el nickname como llave.
-                        users.child(user.getNickname()).setValue(user)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
 
-                                        progressDialog.dismiss();
-                                        Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
+                                    //Método contra dedos temblorosos -que oprimen doble-.
+                                    Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
+                                    startActivity(intento);
+                                    finish();
 
 
-                                        //Método contra dedos temblorosos -que oprimen doble-.
-                                        Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
-                                        startActivity(intento);
-                                        finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
 
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() { //Error interno - ¿del usuario?
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
+                                    progressDialog.dismiss();
+                                    Snackbar.make(cl, R.string.error_user_data,
+                                            Snackbar.LENGTH_SHORT).show();
 
 
-                                Snackbar.make(cl, R.string.error_user_data,
-                                        Snackbar.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
 
 
-                            }
-                        });
+                                    progressDialog.dismiss();
+
+                                    Snackbar.make(cl, R.string.error_user_data,
+                                            Snackbar.LENGTH_SHORT).show();
 
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {      //Error externo - ¿de la base de datos?
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressDialog.dismiss();
+                                }
+                            });
 
-                Snackbar.make(cl, R.string.error_user_data,
-                        Snackbar.LENGTH_SHORT).show();
-
-
-            }
-        });
+                        }
+                    });
         }
+
         else{
             progressDialog.dismiss();
             Snackbar.make(cl, R.string.connection_missing,

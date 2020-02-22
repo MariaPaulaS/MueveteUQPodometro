@@ -591,6 +591,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         return distancia;
     }
 
+    /**
+     * Método que formatea el decimal para que solo tenga dos numeros decimales, y lo setea en la
+     * vista.
+     * @param val
+     */
     private void imprimirDistancia(float val){
         DecimalFormat formatear = new DecimalFormat("#.00");
         numeroDistancia.setText(formatear.format(val) + " m");
