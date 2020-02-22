@@ -179,6 +179,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 
         fab = rootView.findViewById(R.id.fab);
+
         fab.setOnClickListener(this);
 
         puntoVerde = BitmapDescriptorFactory.HUE_GREEN;
@@ -671,6 +672,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 crearOActualizarMarcador(location);
                 zoomToLocation(location);
             }
+
 
         }
     }

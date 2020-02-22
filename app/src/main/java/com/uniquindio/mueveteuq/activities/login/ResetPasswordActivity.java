@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 public class ResetPasswordActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private EditText textoEmail;
     private Button btnRecovery;
     private String email = "";
-    private ProgressDialog progressDialog;
+
 
     private FirebaseAuth mAuth;
     private ConstraintLayout cl;
@@ -64,8 +65,8 @@ public class ResetPasswordActivity extends AppCompatActivity {
             return;
         }
 
-        init();
-        showProgressBar();
+        Utilities.init(this);
+        Utilities.showProgressBar();
 
         if (UtilsNetwork.isOnline(this)) {
 
@@ -78,7 +79,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
 
-                        progressDialog.dismiss();
+                        Utilities.dismissProgressBar();
 
                         Snackbar.make(cl, R.string.recovery_password,
                                 Snackbar.LENGTH_SHORT).show();
@@ -88,7 +89,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         finish();
 
                     } else {
-                        progressDialog.dismiss();
+                        Utilities.dismissProgressBar();
 
                         Snackbar.make(cl, R.string.not_recovery_password,
                                 Snackbar.LENGTH_SHORT).show();
@@ -98,7 +99,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                 }
             });
         } else {
-            progressDialog.dismiss();
+            Utilities.dismissProgressBar();
             Snackbar.make(cl, R.string.connection_missing,
                     Snackbar.LENGTH_SHORT).show();
 
@@ -106,29 +107,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         }
 
 
-    }
-
-
-    /**
-     * Método que muestra la progress bar
-     * Version 1: Version por defecto -comentada-
-     * Version 2: Version personalizada
-     */
-    public void showProgressBar() {
-        //     progressDialog.setCancelable(false);
-        //     progressDialog.setMessage("Espera un momento...");
-        //     progressDialog.show();
-
-
-        progressDialog.show();
-        progressDialog.setContentView(R.layout.progress_dialog);
-        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-    }
-
-
-    private void init() {
-        this.progressDialog = new ProgressDialog(this);
     }
 
 

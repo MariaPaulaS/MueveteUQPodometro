@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 /**
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText textoEmail;
     private EditText textoPassword;
     private TextView resetPassword;
+
 
     private ConstraintLayout cl;
 
@@ -110,6 +113,9 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres.", Toast.LENGTH_SHORT).show();
         }
 
+        Utilities.init(this);
+        Utilities.showProgressBar();
+
         if (UtilsNetwork.isOnline(this)) {
 
 
@@ -117,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
+                    Utilities.dismissProgressBar();
 
 
                     Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
@@ -127,6 +134,8 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+
+                    Utilities.dismissProgressBar();
                     Snackbar.make(cl, R.string.error_login_user_data,
                             Snackbar.LENGTH_SHORT).show();
                 }
@@ -134,6 +143,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         } else {
+
+            Utilities.dismissProgressBar();
             Snackbar.make(cl, R.string.connection_missing,
                     Snackbar.LENGTH_SHORT).show();
             return;
@@ -158,4 +169,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+
 }
