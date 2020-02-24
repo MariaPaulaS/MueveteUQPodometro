@@ -14,167 +14,158 @@
 
         android:layout_height="match_parent"
         android:gravity="bottom"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="55dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="16dp">
 
 
         <TextView
             android:id="@+id/txtPasos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="380dp"
+            android:layout_width="259dp"
+            android:layout_height="28dp"
             android:gravity="center"
-            android:text="Caminaste estos pasos:"
-            android:textColor="@color/negro"
-            android:textSize="20sp"
+            android:text="PASOS REALIZADOS:"
+            android:textColor="@color/blanco"
+            android:textSize="15sp"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.324" />
 
         <TextView
             android:id="@+id/txtResPasos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_width="59dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="6dp"
             android:gravity="center"
             android:text="0"
-            android:textColor="@color/verde"
-            android:textSize="30sp"
+            android:textColor="@color/blanco"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtPasos" />
-
+            app:layout_constraintTop_toBottomOf="@+id/txtPasos"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtCalorias"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_width="220dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="36dp"
             android:gravity="center"
-            android:text="Quemaste estas calorias:"
+            android:text="Calorías quemadas:"
             android:textColor="@color/negro"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.513"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtResPasos" />
-
+            app:layout_constraintTop_toBottomOf="@+id/txtResPasos"
+            app:layout_constraintVertical_bias="0.007" />
 
         <TextView
             android:id="@+id/txtResCalorias"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_width="72dp"
+            android:layout_height="24dp"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/verde"
-            android:textSize="30sp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCalorias" />
-
+            app:layout_constraintTop_toBottomOf="@+id/txtCalorias"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtDistancia"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_width="260dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="28dp"
             android:gravity="center"
-            android:text="Has recorrido:"
+            android:text="Distancia recorrida:"
             android:textColor="@color/negro"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtResCalorias" />
-
+            app:layout_constraintTop_toBottomOf="@+id/txtResCalorias"
+            app:layout_constraintVertical_bias="0.016" />
 
         <TextView
             android:id="@+id/txtResDistancia"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_width="64dp"
+            android:layout_height="22dp"
+            android:layout_marginBottom="166dp"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/verde"
-            android:textSize="30sp"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDistancia" />
-
+            app:layout_constraintTop_toBottomOf="@+id/txtDistancia"
+            app:layout_constraintVertical_bias="0.202" />
 
         <TextView
             android:id="@+id/txtPoints"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="12dp"
+            android:layout_width="272dp"
+            android:layout_height="29dp"
+            android:layout_marginTop="32dp"
             android:gravity="center"
             android:text="Puntos ganados:"
             android:textColor="@color/negro"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/txtResPoints"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.453"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtResDistancia"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtResPoints"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginBottom="108dp"
+            android:layout_width="66dp"
+            android:layout_height="30dp"
             android:gravity="center"
             android:text="0"
             android:textColor="@color/colorAccent"
-            android:textSize="30sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.478"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPoints"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/txtMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="285dp"
+            android:layout_height="52dp"
             android:gravity="center"
             android:text="¡Has terminado! Veamos\n como te fue..."
             android:textColor="@color/blanco"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtResultados"
-            app:layout_constraintVertical_bias="0.056"
-            tools:layout_editor_absoluteX="55dp" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/idLayoutFondo"
-            android:layout_width="231dp"
-            android:layout_height="131dp"
+            android:layout_width="155dp"
+            android:layout_height="61dp"
             android:src="@drawable/icono_sinfondo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -184,34 +175,37 @@
 
         <TextView
             android:id="@+id/txtResultados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="217dp"
+            android:layout_height="33dp"
             android:gravity="center"
             android:text="RESULTADOS"
             android:textColor="@color/blanco"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idLayoutFondo"
-            app:layout_constraintVertical_bias="0.029"
-            tools:layout_editor_absoluteX="9dp" />
+            app:layout_constraintVertical_bias="0.011" />
 
         <Button
             android:id="@+id/btn_ok"
-            android:layout_width="125dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_redondeado_registro"
-            android:text="Guardar"
-            android:textColor="@color/blanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="GUARDAR"
+            android:textColor="@color/verde"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.919"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/val_verify_password"
-            app:layout_constraintVertical_bias="0.233" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.976">
+
+        </Button>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

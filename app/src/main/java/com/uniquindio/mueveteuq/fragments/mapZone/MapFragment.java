@@ -44,6 +44,7 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.uniquindio.mueveteuq.activities.PhotoActivity;
+import com.uniquindio.mueveteuq.activities.ResultRaceActivity;
 import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
@@ -106,6 +107,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private Location actualLocation;
     private float distancia = 0;
     private float distanciaAcum = 0;
+
 
 
     float puntoVerde;
@@ -259,6 +261,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void iniciarRecorrido() {
         //Si el GPS no está habilitado muestra la alerta.
 
+        distancia = 0;
+        distanciaAcum = 0;
 
         if (service == null) {
             Toast.makeText(getContext(), "El servicio es nulo", Toast.LENGTH_SHORT).show();
@@ -266,13 +270,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         else {
 
-            if (status == false) {                              //Si el status es falso
+            if (status == false) {
+                //Si el status es falso
                 ponerMarcadorInicioFin();
                 status = true;
 
                 running = true;
 
                 numSteps = 0;
+
                 sensorManager.registerListener(MapFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
 
 
@@ -305,7 +311,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             sensorManager.unregisterListener(MapFragment.this);
             service.finishRacer();
 
-            Toast.makeText(getContext(), "¡Felicidades! Has terminado el recorrido", Toast.LENGTH_SHORT).show();
+
+
+            SharedPreferences preferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putFloat("distanciaFinal", distanciaAcum);
+            editor.putInt("pasosFinales", numSteps);
+            editor.apply();
+
+            Intent intento = new Intent(getActivity(), ResultRaceActivity.class);
+            startActivity(intento);
 
 
         }
@@ -492,6 +507,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 objetoEditor.remove("estadoFoto");
                 objetoEditor.apply();
 
+
+
+
+
             }
 
         }
@@ -528,8 +547,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onLocationChanged(Location location) {
         //    Toast.makeText(getContext(), "Changed ->" + location.getProvider(), Toast.LENGTH_SHORT).show();
 
+        if(running){
 
-        calcularMetrosRecorridos(location);
+            calcularMetrosRecorridos(location);
+        }
 
         crearOActualizarMarcador(location);
     }
@@ -543,6 +564,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private void calcularMetrosRecorridos(Location location){
 
         imprimirDistancia(distanciaAcum);
+
 
 
         if(distanciaAcum == 0 && initialLocation!=null){
