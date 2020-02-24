@@ -176,9 +176,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                             //Usa el nickname como llave.
 
-                            users.add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            users.document(nickname).set(user).addOnSuccessListener(new OnSuccessListener<Void>(){
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
+                                public void onSuccess(Void aVoid) {
 
 
                                     Utilities.dismissProgressBar();
@@ -217,8 +217,7 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
                         }
-                    });
-        }
+                    });        }
 
         else{
             Utilities.dismissProgressBar();
