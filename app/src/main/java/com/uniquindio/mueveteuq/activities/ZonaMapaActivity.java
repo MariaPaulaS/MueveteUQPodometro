@@ -3,12 +3,16 @@ package com.uniquindio.mueveteuq.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 
+import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.login.LoginActivity;
 import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 import com.uniquindio.mueveteuq.R;
@@ -52,6 +56,37 @@ public class ZonaMapaActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == event.KEYCODE_BACK){
 
 
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle(R.string.alert);
+            builder.setMessage(R.string.mensaje_abandono)
+                    .setNegativeButton(R.string.cancel, null);
+
+            builder.setCancelable(false);
+
+            builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    //Finaliza la actividad y va al menu inicio
+                    finish();
+
+                    //TODO: CAMBIAR A LA PANTALLA PRINCIPAL CUANDO ESTÉ LISTA
+                    Intent intento = new Intent(ZonaMapaActivity.this, HelloLoginActivity.class);
+                    startActivity(intento);
+                }
+            });
+
+            builder.show();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 }
