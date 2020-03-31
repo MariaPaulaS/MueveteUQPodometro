@@ -115,9 +115,7 @@
             app:fab_size="normal"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Centrar ubicacion">
-
-        </com.getbase.floatingactionbutton.FloatingActionButton>
+            app:fab_title="Centrar ubicacion"/>
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -130,10 +128,7 @@
             app:fab_size="normal"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Iniciar recorrido">
-
-        </com.getbase.floatingactionbutton.FloatingActionButton>
-
+            app:fab_title="Iniciar"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabTerminarRecorrido"
@@ -144,12 +139,20 @@
             app:fab_icon="@drawable/done"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Terminar recorrido">
+            app:fab_title="Terminar"/>
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAbandonarRecorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:fab_size="normal"
+            app:fab_icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:fab_colorNormal="@color/rojo"
+            android:visibility="gone"
+            app:fab_colorPressed="@color/colorAccent"
+            app:fab_title="Abandonar"/>
 
-
-
-        </com.getbase.floatingactionbutton.FloatingActionButton>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
