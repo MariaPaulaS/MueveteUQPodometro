@@ -43,9 +43,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.uniquindio.mueveteuq.activities.MapsActivity;
 import com.uniquindio.mueveteuq.activities.PhotoActivity;
 import com.uniquindio.mueveteuq.activities.ResultRaceActivity;
 import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
 import com.uniquindio.mueveteuq.listener.StepListener;
@@ -93,6 +97,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private FloatingActionButton fab;
     private FloatingActionButton fabIniciarRecorrido;
     private FloatingActionButton fabTerminarRecorrido;
+    private FloatingActionButton fabAbandonar;
     private Location currentLocation;
     private LocationManager locationManager;
     private Marker marker;
@@ -110,6 +115,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 
 
+
     float puntoVerde;
 
     /**
@@ -120,11 +126,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     TextView numeroCalorias;
     private SensorManager sensorManager = null;
     private Sensor accel = null;
-    private double magnitudePrevia;
-    private int valPasos = 0;
     private StepDetector simpleStepDetector;
     private static final String TEXT_NUM_STEPS = "Numero de pasos: ";
     private int numSteps;
+    private float numCalorias = 0;
 
 
     //Variable para el botón del podometro que activa el sensor
@@ -188,6 +193,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         location = rootView.findViewById(R.id.map_postition);
         fabIniciarRecorrido = rootView.findViewById(R.id.fabIniciarRecorrido);
         fabTerminarRecorrido = rootView.findViewById(R.id.fabTerminarRecorrido);
+        fabAbandonar = rootView.findViewById(R.id.fabAbandonarRecorrido);
         numeroDistancia = rootView.findViewById(R.id.numDistancia);
 
 
@@ -226,6 +232,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
 
               
+            }
+        });
+
+        fabAbandonar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                verificarSalidaRecorrido();
             }
         });
 
@@ -460,6 +474,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     }
 
+    private Dialog verificarSalidaRecorrido() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setTitle(R.string.alert);
+        builder.setMessage(R.string.mensaje_abandono)
+                .setNegativeButton(R.string.cancel, null);
+
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent intento = new Intent(ZonaMapaActivity.this, HelloLoginActivity.class);
+                startActivity(intento);
+            }
+        });
+
+        return builder.create();
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -478,6 +515,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         String corriendo = preferencias.getString("corriendo", "");
 
 
+        //Si la foto se ha dado y ya esta corriendo
         if(estadoFoto.equals("1") && !corriendo.equals("si")){
 
             iniciarRecorrido();
@@ -486,7 +524,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             objetoEditor.putString("corriendo", "si");
             objetoEditor.remove("estadoFoto");
             objetoEditor.apply();
-            fabIniciarRecorrido.setVisibility(View.INVISIBLE);
+            fabIniciarRecorrido.setVisibility(View.GONE);
+            fabAbandonar.setVisibility(View.VISIBLE);
 
         }
 
@@ -929,104 +968,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     }
 
-    /**
-     * Método que determina si un usuario está caminando de verdad.
-     * Calcula una primera localizacion, y si en los tres segundos siguientes la localización es la
-     * misma pero el valor de pasos esta subiendo, está haciendo trampa.
-     * Si detecta trampa lanza una alerta
-     *
-     * @return
-     */
-    public void detectarTramposos() {
-
-        int pasosActuales = 0;
-        int postPasos = 0;
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        //Aqui es donde se obtiene la localizacion actual y sus coordenadas.
-
-        pasosActuales = valPasos;
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-        if (location == null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-
-            if (location == null) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
-                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            }
-        }
-
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        postPasos = valPasos;
-        Location postLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-
-        if (postLocation == null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this);
-
-            if (postLocation == null) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, this);
-                postLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-            }
-        }
-
-        //Hay que comparar si las coordenadas son iguales, no los objetos
-        //Si la ubicacion no ha cambiado en cinco segundos
-        if (location.equals(postLocation)) {
-
-            //Pero los pasos si
-            if (postPasos > pasosActuales) {
-
-                valPasos = 0;
-
-                mostrarAlertaTramposos();
-
-            }
-
-        }
-
-    }
-
 
     /**
-     * Lanza la alerta al usuario haciendo trampa. Se detiene el contador y se reinicia el servicio.
-     *
-     * @return
+     * Aumenta el numero de calorias por cada paso dado. Un paso equivale a 0.035
+     * Configurado con el segundo algoritmo
+     * @param timeNs
      */
-
-    public Dialog mostrarAlertaTramposos() {
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setTitle(R.string.titleCheat);
-        builder.setMessage(R.string.cheat)
-                .setNegativeButton(R.string.cancel, null);
-
-        builder.setCancelable(false);
-
-        return builder.create();
-
-    }
-
-
     @Override
     public void step(long timeNs) {
 
         numSteps++;
+        numCalorias+=0.035;
         pasostv.setText(numSteps + "");
+        numeroCalorias.setText(numCalorias + "");
 
     }
 
