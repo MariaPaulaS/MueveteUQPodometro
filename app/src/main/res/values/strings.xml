@@ -27,6 +27,6 @@
     <string name="inst_stop">Cuando hayas terminado con tu recorrido recuerda presionar este botón. ¡Esto te permitirá ver los resultados!</string>
     <string name="inst_camera">Te pediremos una foto del exterior cada vez que inicies o termines un recorrido, para verificar. ¡Apunta la camara a tu entorno y haz click!</string>
     <string name="hora_foto">¡Hora de la foto!</string>
-    <string name="mensaje_abandono">El recorrido está en curso. ¿Seguro de que quieres salir?</string>
+    <string name="mensaje_abandono">¿Seguro que quieres salir? Se anulará el recorrido si hay uno en curso.</string>
     <string name="aceptar">Aceptar</string>
 </resources>

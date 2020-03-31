@@ -488,14 +488,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                Intent intento = new Intent(ZonaMapaActivity.this, HelloLoginActivity.class);
+                //Detiene el servicio
+                running = false;
+                ponerMarcadorInicioFin();
+                sensorManager.unregisterListener(MapFragment.this);
+                service.finishRacer();
+
+                //Resetea los valores
+                numSteps=0;
+                numCalorias=0.0f;
+                distancia=0.0f;
+
+
+                //Finaliza la actividad y va al menu inicio
+                getActivity().finish();
+
+                //TODO: CAMBIAR A LA PANTALLA PRINCIPAL CUANDO ESTÉ LISTA
+                Intent intento = new Intent(getActivity(), HelloLoginActivity.class);
                 startActivity(intento);
             }
         });
 
-        return builder.create();
+        return builder.show();
 
     }
+
 
     @Override
     public void onResume() {
