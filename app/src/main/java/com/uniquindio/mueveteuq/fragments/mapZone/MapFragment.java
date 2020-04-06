@@ -331,6 +331,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             SharedPreferences.Editor editor = preferences.edit();
             editor.putFloat("distanciaFinal", distanciaAcum);
             editor.putInt("pasosFinales", numSteps);
+            editor.putFloat("caloriasFinales", numCalorias);
             editor.apply();
 
             Intent intento = new Intent(getActivity(), ResultRaceActivity.class);
