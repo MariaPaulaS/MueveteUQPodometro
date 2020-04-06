@@ -7,6 +7,7 @@ package com.uniquindio.mueveteuq.classes;
  */
 public class SensorFilter {
 
+    /**
 
     private SensorFilter() {
     }
@@ -69,5 +70,7 @@ public class SensorFilter {
 
         return retval;
     }
+
+     **/
 
 }
