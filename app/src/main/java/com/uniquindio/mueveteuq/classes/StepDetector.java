@@ -10,14 +10,16 @@ import com.uniquindio.mueveteuq.listener.StepListener;
  */
 public class StepDetector {
 
+    /**
+
     private static final int ACCEL_RING_SIZE = 50;
     private static final int VEL_RING_SIZE = 10;
 
 
     // Cambiar este threshold de acuerdo a mis preferencias de sensibilidad
-    private static final float STEP_THRESHOLD = 40f;
+    private static final float STEP_THRESHOLD = 30f;
 
-    private static final int STEP_DELAY_NS = 250000000;
+    private static final int STEP_DELAY_NS = 200000000;
 
     private int accelRingCounter = 0;
     private float[] accelRingX = new float[ACCEL_RING_SIZE];
@@ -78,4 +80,6 @@ public class StepDetector {
         oldVelocityEstimate = velocityEstimate;
 
     }
+
+     **/
 }

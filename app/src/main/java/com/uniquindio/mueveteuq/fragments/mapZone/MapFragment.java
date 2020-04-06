@@ -112,7 +112,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private Location actualLocation;
     private float distancia = 0;
     private float distanciaAcum = 0;
-
+    private double magnitudePrevia;
 
 
 
@@ -177,9 +177,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_UI);
-        simpleStepDetector = new StepDetector();
-        simpleStepDetector.registerListener(this);
+     //   simpleStepDetector = new StepDetector();
+     //   simpleStepDetector.registerListener(this);
         pasostv = rootView.findViewById(R.id.numPasostv);
+        numeroCalorias = rootView.findViewById(R.id.numCalorias);
 
 
         // -----------Inflate para el mapa-----------
@@ -947,11 +948,38 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         if (running) {
 
-
+/**
             if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 simpleStepDetector.updateAccel(sensorEvent.timestamp, sensorEvent.values[0],
                         sensorEvent.values[1], sensorEvent.values[2]);
             }
+
+**/
+            step();
+
+
+            if(sensorEvent != null){
+
+                float x = sensorEvent.values[0];
+                float y = sensorEvent.values[1];
+                float z = sensorEvent.values[2];
+
+                double magnitude = Math.sqrt( x*x + y*y + z*z);
+                double magnitudeDelta = magnitude - magnitudePrevia;
+
+                magnitudePrevia = magnitude;
+
+                if(magnitudeDelta > 7){
+
+                    numSteps++;
+                    numCalorias = numCalorias + 0.035f;
+                }
+
+
+            }
+
+
+
 
 
         }
@@ -959,23 +987,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         /**
 
-         if (sensorEvent != null) {
 
-         float x = sensorEvent.values[0];
-         float y = sensorEvent.values[1];
-         float z = sensorEvent.values[2];
-
-         double magnitude = Math.sqrt(x * x + y * y + z * z);
-         double magnitudeDelta = magnitude - magnitudePrevia;
-
-         magnitudePrevia = magnitude;
-
-         if (magnitudeDelta > 6) {
-
-         valPasos++;
-         }
-
-         pasostv.setText("" + valPasos);
          }
          **/
     }
@@ -998,8 +1010,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         numSteps++;
         numCalorias+=0.035;
         pasostv.setText(numSteps + "");
-        numeroCalorias.setText(numCalorias + "");
+        numeroCalorias.setText(numCalorias + " kc");
 
+    }
+
+    public void step(){
+
+        DecimalFormat formatear = new DecimalFormat("#.000");
+        pasostv.setText(numSteps + "");
+        numeroCalorias.setText(formatear.format(numCalorias) + " kc");
     }
 
 

@@ -23,7 +23,7 @@ public class Race {
         this.nicknameUsuario = nicknameUsuario;
     }
 
-    
+
     public float getDistancia() {
         return distancia;
     }
