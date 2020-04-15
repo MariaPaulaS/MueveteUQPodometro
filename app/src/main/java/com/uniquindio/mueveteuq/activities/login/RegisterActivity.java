@@ -37,6 +37,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
+import java.util.Objects;
+
 /**
  * Activity de registro de usuario
  * Tiene conexión con Firebase, usa Authentication y Realtime Database al mismo tiempo.
@@ -64,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private CollectionReference users;
-    String nicknameFirestore = null;
-    String emailFirestore = null;
+    String nicknameFirestore;
+    String emailFirestore;
 
 
 
@@ -170,45 +172,55 @@ public class RegisterActivity extends AppCompatActivity {
         if (UtilsNetwork.isOnline(this)) {
 
 
+            users.whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if(task.isSuccessful()){
+
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            emailFirestore = String.valueOf(document.getData().get("email"));
+
+                            if(email.equals(emailFirestore)){
+
+                                Utilities.dismissProgressBar();
+                                Snackbar.make(cl, R.string.exist_email,
+                                        Snackbar.LENGTH_SHORT).show();
+                                return;
+
+                            }
+
+                        }
+                        }
+
+                }
+            });
+
+
             users.whereEqualTo("nickname", nickname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.isSuccessful()){
 
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
 
-                            nicknameFirestore = (String) document.get("nickname");
+                            nicknameFirestore = String.valueOf(document.getData().get("nickname"));
+                             if (nickname.equals(nicknameFirestore)) {
+
+
+                                Utilities.dismissProgressBar();
+                                Snackbar.make(cl, R.string.exist_username,
+                                        Snackbar.LENGTH_SHORT).show();
+                                return;
+
+                            }
+
+
                         }
                     }
                 }
             });
-
-            users.whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
-
-                        for(QueryDocumentSnapshot document : task.getResult()){
-
-                            emailFirestore = (String) document.get("email");
-                        }
-                    }
-                }
-            });
-
-
-            if (emailFirestore!= null) {
-
-
-                Utilities.dismissProgressBar();
-                Snackbar.make(cl, R.string.exist_email,
-                        Snackbar.LENGTH_SHORT).show();
-                return;
-
-            } else{
-
-
-                if (nicknameFirestore==null) {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -264,16 +276,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 }
                             });
-
-                } else {
-                    Utilities.dismissProgressBar();
-                    Snackbar.make(cl, R.string.exist_username,
-                            Snackbar.LENGTH_SHORT).show();
-                    return;
-
-                }
-
-            }
 
 
         } else {
