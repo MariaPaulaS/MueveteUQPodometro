@@ -1,4 +1,3 @@
-
 package com.uniquindio.mueveteuq.activities.login;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.models.User;
 import com.uniquindio.mueveteuq.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,10 +37,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
+import java.util.Objects;
+
 /**
  * Activity de registro de usuario
  * Tiene conexión con Firebase, usa Authentication y Realtime Database al mismo tiempo.
  * Permite registrar un usuario mientras que a su vez lo añade a la base de datos usando un modelo.
+ *
  * @author MariaTheCharmix
  */
 public class RegisterActivity extends AppCompatActivity {
@@ -58,7 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private CollectionReference users;
-
+    String nicknameFirestore;
+    String emailFirestore;
 
 
 
@@ -148,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (password.length() < 8) {
             Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show();
             return;
-        } 
+        }
 
         //Las contraseñas deben coincidir
         if (!password.equals(verifyPassword)) {
@@ -157,69 +166,119 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
-
         Utilities.init(this);
         Utilities.showProgressBar();
 
-        if(UtilsNetwork.isOnline(this)) {
+        if (UtilsNetwork.isOnline(this)) {
 
 
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            //Guardar usuario en la base de datos
-                            User user = new User();
-                            user.setEmail(email);
-                            user.setNickname(nickname);
-                            user.setPassword(password);
+            users.whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                            //Usa el nickname como llave.
+                    if(task.isSuccessful()){
 
-                            users.document(nickname).set(user).addOnSuccessListener(new OnSuccessListener<Void>(){
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            emailFirestore = String.valueOf(document.getData().get("email"));
+
+                            if(email.equals(emailFirestore)){
+
+                                Utilities.dismissProgressBar();
+                                Snackbar.make(cl, R.string.exist_email,
+                                        Snackbar.LENGTH_SHORT).show();
+                                return;
+
+                            }
+
+                        }
+                        }
+
+                }
+            });
+
+
+            users.whereEqualTo("nickname", nickname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            nicknameFirestore = String.valueOf(document.getData().get("nickname"));
+                             if (nickname.equals(nicknameFirestore)) {
+
+
+                                Utilities.dismissProgressBar();
+                                Snackbar.make(cl, R.string.exist_username,
+                                        Snackbar.LENGTH_SHORT).show();
+                                return;
+
+                            }
+
+
+                        }
+                    }
+                }
+            });
+
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
+                                public void onSuccess(AuthResult authResult) {
+                                    //Guardar usuario en la base de datos
+                                    User user = new User();
+                                    user.setEmail(email);
+                                    user.setNickname(nickname);
+                                    user.setPassword(password);
+
+                                    //Usa el nickname como llave.
+
+                                    users.document(nickname).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
 
 
-                                    Utilities.dismissProgressBar();
-                                    Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
+                                            Utilities.dismissProgressBar();
+                                            Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
 
-                                    //Método contra dedos temblorosos -que oprimen doble-.
-                                    Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
-                                    startActivity(intento);
-                                    finish();
+                                            //Método contra dedos temblorosos -que oprimen doble-.
+                                            Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
+                                            startActivity(intento);
+                                            finish();
 
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
-                                    Utilities.dismissProgressBar();
-                                    Snackbar.make(cl, R.string.error_user_data,
-                                            Snackbar.LENGTH_SHORT).show();
-
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                                            Utilities.dismissProgressBar();
+                                            Snackbar.make(cl, R.string.error_user_data,
+                                                    Snackbar.LENGTH_SHORT).show();
 
 
-                                    Utilities.dismissProgressBar();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
 
-                                    Snackbar.make(cl, R.string.error_user_data,
-                                            Snackbar.LENGTH_SHORT).show();
 
+                                            Utilities.dismissProgressBar();
+
+                                            Snackbar.make(cl, R.string.error_user_data,
+                                                    Snackbar.LENGTH_SHORT).show();
+
+
+                                        }
+                                    });
 
                                 }
                             });
 
-                        }
-                    });        }
 
-        else{
+        } else {
             Utilities.dismissProgressBar();
             Snackbar.make(cl, R.string.connection_missing,
                     Snackbar.LENGTH_SHORT).show();
@@ -233,6 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Método para controlar el evento del botón de atrás
      * Lanza un mensaje al usuario si trata de abandonar la vista de registro con datos ingresados
+     *
      * @param keyCode
      * @param event
      * @return
@@ -247,10 +307,10 @@ public class RegisterActivity extends AppCompatActivity {
         final String nickname = textoNickname.getText().toString().trim();
 
 
-        if (keyCode == event.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
 
-            if(!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(verifyPassword) || !TextUtils.isEmpty(nickname)){
+            if (!TextUtils.isEmpty(email) || !TextUtils.isEmpty(password) || !TextUtils.isEmpty(verifyPassword) || !TextUtils.isEmpty(nickname)) {
 
                 new AlertDialog.Builder(RegisterActivity.this)
                         .setTitle("¡Espera!")
@@ -279,17 +339,13 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(UtilsNetwork.isOnline(this)){
+        if (UtilsNetwork.isOnline(this)) {
 
-        }
-
-        else{
+        } else {
             Snackbar.make(cl, R.string.connection_missing,
                     Snackbar.LENGTH_SHORT).show();
             return;
         }
-
-
 
 
     }

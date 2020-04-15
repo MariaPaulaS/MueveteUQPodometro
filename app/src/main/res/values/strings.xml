@@ -29,4 +29,6 @@
     <string name="hora_foto">¡Hora de la foto!</string>
     <string name="mensaje_abandono">¿Seguro que quieres salir? Se anulará el recorrido si hay uno en curso.</string>
     <string name="aceptar">Aceptar</string>
+    <string name="exist_username">Este nombre de usuario ya se encuentra en uso. Por favor elige uno diferente. </string>
+    <string name="exist_email">Ya existe una cuenta registrada con este email. </string>
 </resources>
