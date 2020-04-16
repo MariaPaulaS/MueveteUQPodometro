@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.models.Race;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -44,7 +45,13 @@ public class ResultRaceActivity extends AppCompatActivity {
     private CollectionReference records;
 
     Race race = new Race();
-
+    private String usuarioRecord;
+    private long pasosRecord;
+    private float distancia;
+    private float calorias;
+    private int pasos;
+    private String nicknameUsuario;
+    private int puntos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +72,12 @@ public class ResultRaceActivity extends AppCompatActivity {
 
         SharedPreferences preferencias= getSharedPreferences("pref", Context.MODE_PRIVATE);
 
-        final float distancia = preferencias.getFloat("distanciaFinal", 0);
-        final int pasos = preferencias.getInt("pasosFinales", 0);
-        final float calorias = preferencias.getFloat("caloriasFinales", 0);
-        final String nicknameUsuario = "MariaTheCharmix"; //TODO: CAMBIAR POR USUARIO ACTUALMENTE LOGUEADO
+        distancia = preferencias.getFloat("distanciaFinal", 0);
+        pasos = preferencias.getInt("pasosFinales", 0);
+        calorias = preferencias.getFloat("caloriasFinales", 0);
+        nicknameUsuario = "Seikken"; //TODO: CAMBIAR POR USUARIO ACTUALMENTE LOGUEADO
 
-        final int puntos = Math.round(calorias);
+        puntos = Math.round(calorias);
         DecimalFormat formatear = new DecimalFormat("#.00");
 
 
@@ -93,94 +100,134 @@ public class ResultRaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                race.setCalorias(calorias);
-                race.setDistancia(distancia);
-                race.setPasos(pasos);
-                race.setPuntos(puntos);
-                race.setNicknameUsuario(nicknameUsuario);
-
-                records.whereEqualTo("nicknameUsuario", race.getNicknameUsuario()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                        if(task.isSuccessful()) {
-
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-
-                                String usuarioRecord = String.valueOf(document.getData().get("nicknameUsuario"));
-
-                                //Si existía un record con anterioridad
-
-                                if(nicknameUsuario.equals(usuarioRecord)){
-                                    Race recordActual = (Race) document.getData();
-
-                                    //Si los pasos de esta carrera son superiores a los del record guardado
-                                    if (recordActual.getPasos() < race.getPasos()) {
-                                        registrarRecord(race, nicknameUsuario);
-                                        Toast.makeText(getApplicationContext(), "¡Felicidades! Has alcanzado un nuevo record", Toast.LENGTH_SHORT).show();
-
-                                        //Si los pasos son inferiores
-                                    }else{
-                                        Log.d("tag", "No se ha alcanzado un record. Todo sigue igual");
-
-                                    }
-                                //Si no existía un record con anterioridad
-                                } else {
-                                    registrarRecord(race, nicknameUsuario);
-                                    Toast.makeText(getApplicationContext(),"¡Felicidades! Has alcanzado un nuevo record", Toast.LENGTH_SHORT).show();
+                registrarCarrera();
 
 
-                                }
+    }
 
-                            }
-                        }
-                    }
-                });
-
-               races.document().set(race)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("tag", "Nota de desarrolladora: ¡Se ha guardado la carrera con éxito!");
-                                Intent intento = new Intent(ResultRaceActivity.this, HelloLoginActivity.class);
-                                startActivity(intento);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("tag", "Error escribiendo documento", e);
-                            }
-                        });
-
-
-            }
         });
 
     }
+
+
+
+
+    public void registrarCarrera(){
+
+
+        race.setCalorias(calorias);
+        race.setDistancia(distancia);
+        race.setPasos(pasos);
+        race.setPuntos(puntos);
+        race.setNicknameUsuario(nicknameUsuario);
+
+
+        if(UtilsNetwork.isOnline(this)){
+
+
+            verificarRecord();
+
+            races.document().set(race)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("tag", "Nota de desarrolladora: ¡Se ha guardado la carrera con éxito!");
+                            Intent intento = new Intent(ResultRaceActivity.this, HelloLoginActivity.class);
+                            startActivity(intento);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("tag", "Error escribiendo documento", e);
+                        }
+                    });
+
+
+        }
+
+
+
+
+
+    }
+
 
     /**
      * Método que registra un record en Firebase cuando se alcanza uno
      * Caso 1: Cuando el registro de record del usuario es superado
      * Caso 2: Cuando no hay un record existente
-     * @param race
+     *
      */
-    public void registrarRecord(Race race, String nicknameUsuario){
+    public void verificarRecord(){
+
+        records.whereEqualTo("nicknameUsuario", nicknameUsuario)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
 
-        records.document(nicknameUsuario).set(race).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("tag", "Nota de desarrolladora: ¡Se ha alcanzado un nuevo record!");
+                        if (task.isSuccessful()) {
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("tag", "Error escribiendo documento", e);
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
 
-            }
-        });
+                                usuarioRecord = String.valueOf(document.getData().get("nicknameUsuario"));
+                                pasosRecord = (long) document.getData().get("pasos");
+
+                                Toast.makeText(ResultRaceActivity.this, "usuario: " + usuarioRecord, Toast.LENGTH_SHORT).show();
+
+
+
+                                if(usuarioRecord!=null){
+
+                                    records.document(nicknameUsuario).set(race).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("tag", "Nota de desarrolladora: ¡Se ha alcanzado un nuevo record!");
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("tag", "Error escribiendo documento", e);
+
+                                        }
+                                    });
+
+                                    Toast.makeText(ResultRaceActivity.this, R.string.record, Toast.LENGTH_SHORT).show();
+
+
+                                }
+
+                                else if(pasosRecord < (long) pasos){
+
+                                    records.document(nicknameUsuario).set(race).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("tag", "Nota de desarrolladora: ¡Se ha alcanzado un nuevo record!");
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("tag", "Error escribiendo documento", e);
+
+                                        }
+                                    });
+
+                                    Toast.makeText(ResultRaceActivity.this, R.string.record, Toast.LENGTH_SHORT).show();
+
+                                }
+
+
+                                Log.d("tag", document.getId() + " => " + document.getData());
+                            }
+                        } else {
+                            Log.d("tag", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
 
     }
