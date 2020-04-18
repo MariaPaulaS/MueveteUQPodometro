@@ -231,6 +231,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     user.setEmail(email);
                                     user.setNickname(nickname);
                                     user.setPassword(password);
+                                    user.setAccumPoints(0);
 
                                     //Usa el nickname como llave.
 
