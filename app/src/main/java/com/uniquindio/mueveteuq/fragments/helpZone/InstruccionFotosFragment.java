@@ -1,5 +1,7 @@
-package com.uniquindio.mueveteuq.fragments;
+package com.uniquindio.mueveteuq.fragments.helpZone;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,18 +11,21 @@ import com.uniquindio.mueveteuq.R;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.uniquindio.mueveteuq.R;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link InstruccionBotonesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link InstruccionBotonesFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class InstruccionBotonesFragment extends Fragment {
+public class InstruccionFotosFragment extends Fragment {
+
+
+    public InstruccionFotosFragment() {
+        // Required empty public constructor
+    }
+
+
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,11 +35,11 @@ public class InstruccionBotonesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    Button btnFinal;
+    View vista;
+    Activity actividad;
 
-    public InstruccionBotonesFragment() {
-        // Required empty public constructor
-    }
+    private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
@@ -67,7 +72,19 @@ public class InstruccionBotonesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_instruccion_botones, container, false);
+        vista = inflater.inflate(R.layout.fragment_instruccion_fotos, container, false);
+
+        btnFinal = vista.findViewById(R.id.btnFinInstruccion);
+        btnFinal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actividad.finish();
+            }
+        });
+
+
+
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -80,6 +97,12 @@ public class InstruccionBotonesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+
+        if (context instanceof Activity) {
+            actividad = (Activity) context;
+        }
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

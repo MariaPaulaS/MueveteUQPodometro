@@ -4,8 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,8 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.uniquindio.mueveteuq.R;
-import com.uniquindio.mueveteuq.activities.ContenedorInstruccionesActivity;
-import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.activities.main.MainActivity;
+import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -126,8 +127,15 @@ public class LoginActivity extends AppCompatActivity {
                     Utilities.dismissProgressBar();
 
 
-                    Intent intento = new Intent(LoginActivity.this, ZonaMapaActivity.class);
+                    Intent intento = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intento);
+                    SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor objetoEditor = spr.edit();
+                    objetoEditor.putString("emailCurrentUser", email);
+                    objetoEditor.apply();
+                    finish();
+
+
 
 
                 }

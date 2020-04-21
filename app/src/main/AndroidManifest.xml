@@ -26,29 +26,26 @@
         android:roundIcon="@mipmap/ic_launcher_uqui_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.PhotoActivity" android:screenOrientation="portrait" >
+        <activity android:name=".activities.podometer.PhotoActivity" android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activities.ContenedorInstruccionesActivity"
+            android:name=".activities.main.ContenedorInstruccionesActivity"
             android:label="@string/title_activity_contenedor_instrucciones"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.ResultRaceActivity"
+            android:name=".activities.podometer.ResultRaceActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.login.ResetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ZonaMapaActivity"
+            android:name=".activities.podometer.ZonaMapaActivity"
             android:screenOrientation="portrait" >
 
         </activity>
         <activity
-            android:name=".activities.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.podometer.StepCounterActivity"
+            android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.login.LoginActivity"
@@ -98,7 +95,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapsActivity"
+            android:name=".activities.podometer.MapsActivity"
             android:label="@string/title_activity_maps"/>
 
 

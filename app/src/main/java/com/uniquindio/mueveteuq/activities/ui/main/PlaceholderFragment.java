@@ -13,9 +13,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.uniquindio.mueveteuq.R;
-import com.uniquindio.mueveteuq.fragments.InstruccionAyudaFragment;
-import com.uniquindio.mueveteuq.fragments.InstruccionBotonesFragment;
-import com.uniquindio.mueveteuq.fragments.InstruccionFotosFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionAyudaFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionBotonesFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionFotosFragment;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.uniquindio.mueveteuq.fragments;
+package com.uniquindio.mueveteuq.fragments.helpZone;
 
 import android.content.Context;
 import android.net.Uri;

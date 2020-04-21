@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/rojo"
-    tools:context="com.uniquindio.mueveteuq.fragments.InstruccionBotonesFragment">
+    tools:context="com.uniquindio.mueveteuq.fragments.helpZone.InstruccionBotonesFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
