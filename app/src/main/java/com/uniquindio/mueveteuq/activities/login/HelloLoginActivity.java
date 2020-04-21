@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.activities.main.MainActivity;
 import com.uniquindio.mueveteuq.util.Utilities;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -33,6 +35,7 @@ public class HelloLoginActivity extends AppCompatActivity {
 
     private Button btnIniciarSesion;
     private Button btnRegistro;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class HelloLoginActivity extends AppCompatActivity {
         btnIniciarSesion = findViewById(R.id.btn_go_login);
 
         btnRegistro = findViewById(R.id.btn_go_register);
+        auth = FirebaseAuth.getInstance();
 
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -81,4 +85,19 @@ public class HelloLoginActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     * Si el usuario no ha cerrado sesión llévame a la pantalla principal
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(auth.getCurrentUser()!=null){
+
+            startActivity(new Intent(HelloLoginActivity.this, MainActivity.class));
+
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.uniquindio.mueveteuq.activities;
+package com.uniquindio.mueveteuq.activities.podometer;
 
 import androidx.fragment.app.FragmentActivity;
 

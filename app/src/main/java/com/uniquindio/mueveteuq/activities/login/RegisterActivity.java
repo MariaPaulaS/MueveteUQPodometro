@@ -6,8 +6,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -247,8 +249,11 @@ public class RegisterActivity extends AppCompatActivity {
                                             //Método contra dedos temblorosos -que oprimen doble-.
                                             Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
                                             startActivity(intento);
+                                            SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor objetoEditor = spr.edit();
+                                            objetoEditor.putString("emailCurrentUser", email);
+                                            objetoEditor.apply();
                                             finish();
-
 
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {

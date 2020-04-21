@@ -1,4 +1,4 @@
-package com.uniquindio.mueveteuq.activities;
+package com.uniquindio.mueveteuq.activities.main;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.uniquindio.mueveteuq.activities.ui.main.SectionsPagerAdapter;
-import com.uniquindio.mueveteuq.fragments.InstruccionAyudaFragment;
-import com.uniquindio.mueveteuq.fragments.InstruccionBotonesFragment;
-import com.uniquindio.mueveteuq.fragments.InstruccionFotosFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionAyudaFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionBotonesFragment;
+import com.uniquindio.mueveteuq.fragments.helpZone.InstruccionFotosFragment;
 
 public class ContenedorInstruccionesActivity extends AppCompatActivity implements InstruccionAyudaFragment.OnFragmentInteractionListener,
         InstruccionBotonesFragment.OnFragmentInteractionListener, InstruccionFotosFragment.OnFragmentInteractionListener{

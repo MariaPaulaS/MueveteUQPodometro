@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -21,8 +19,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,12 +26,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.Environment;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.uniquindio.mueveteuq.activities.MapsActivity;
-import com.uniquindio.mueveteuq.activities.PhotoActivity;
-import com.uniquindio.mueveteuq.activities.ResultRaceActivity;
-import com.uniquindio.mueveteuq.activities.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.activities.podometer.PhotoActivity;
+import com.uniquindio.mueveteuq.activities.podometer.ResultRaceActivity;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.classes.StepDetector;
 import com.uniquindio.mueveteuq.listener.OnDrawListener;
@@ -70,11 +58,9 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.Context.BIND_AUTO_CREATE;
 import static android.content.Context.LOCATION_SERVICE;
 

@@ -1,4 +1,4 @@
-package com.uniquindio.mueveteuq.activities;
+package com.uniquindio.mueveteuq.activities.podometer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.uniquindio.mueveteuq.R;
-import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 
 import java.io.File;
 import java.io.IOException;
