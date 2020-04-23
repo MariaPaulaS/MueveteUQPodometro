@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         users = db.collection("Users");
 
 
-        getSupportActionBar().hide();
+    //    getSupportActionBar().hide();
 
         btnLogin = findViewById(R.id.btn_login);
         btnRegistrar = findViewById(R.id.btn_register);

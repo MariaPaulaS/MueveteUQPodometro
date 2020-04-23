@@ -37,7 +37,7 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        getSupportActionBar().hide();
+      //  getSupportActionBar().hide();
         imgView = findViewById(R.id.iv_foto);
 
         btnTomarFoto = findViewById(R.id.btn_click);

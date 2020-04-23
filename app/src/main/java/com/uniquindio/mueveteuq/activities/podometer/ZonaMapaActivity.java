@@ -35,7 +35,7 @@ public class ZonaMapaActivity extends AppCompatActivity {
         actualFragment = new MapFragment();
         changeFragment(actualFragment);
 
-        getSupportActionBar().hide();
+   //     getSupportActionBar().hide();
 
         Intent intent = new Intent(ZonaMapaActivity.this, ContenedorInstruccionesActivity.class);
         startActivity(intent);

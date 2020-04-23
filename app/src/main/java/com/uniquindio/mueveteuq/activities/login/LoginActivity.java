@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-        getSupportActionBar().hide();
+        //  getSupportActionBar().hide();
 
         textoEmail = findViewById(R.id.val_email);
         textoPassword = findViewById(R.id.val_password);

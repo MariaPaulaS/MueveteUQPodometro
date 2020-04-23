@@ -36,7 +36,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        getSupportActionBar().hide();
+      //  getSupportActionBar().hide();
 
         textoEmail = findViewById(R.id.val_email);
         btnRecovery = findViewById(R.id.btn_recovery);
