@@ -2,13 +2,19 @@ package com.uniquindio.mueveteuq.activities.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.Objects;
 
@@ -42,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         btnMapa = findViewById(R.id.btn_ir_mapa);
         btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
         tvUsuario = findViewById(R.id.tv_nombre_usuario);
@@ -57,6 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * Método que almacena los eventos de todos los botones
+     * -ojala hubiera sabido esto antes-
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 
@@ -80,12 +95,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Método que obtiene la información del usuario actual (nickname)
+     */
     private void getUserInfo(){
 
      //   String email = Objects.requireNonNull(auth.getCurrentUser()).getEmail();
         final SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
         String emailCurrent = spr.getString("emailCurrentUser", "");
 
+        if(UtilsNetwork.isOnline(this)){
         users.whereEqualTo("email", emailCurrent).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -103,10 +122,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 
             }
         });
+        }
 
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        final MenuItem searchItem = menu.findItem(R.id.item_buscar_persona);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
 
 
+        EditText txtSearch = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        txtSearch.setHint("Busca un usuario");
+        txtSearch.setHintTextColor(getResources().getColor(R.color.blanco_transparente));
+        txtSearch.setTextColor(getResources().getColor(R.color.blanco));
+
+
+        assert manager != null;
+        searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                searchView.setQuery("", false);
+                searchItem.collapseActionView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return true;
+    }
 }

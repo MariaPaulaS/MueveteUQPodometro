@@ -68,7 +68,7 @@ public class ResultRaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_race);
 
-        getSupportActionBar().hide();
+    //    getSupportActionBar().hide();
         races = db.collection("Races");
         records = db.collection("Records");
         users = db.collection("Users");

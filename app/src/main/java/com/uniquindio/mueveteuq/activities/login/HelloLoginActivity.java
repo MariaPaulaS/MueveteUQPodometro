@@ -1,6 +1,7 @@
 package com.uniquindio.mueveteuq.activities.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -36,15 +37,17 @@ public class HelloLoginActivity extends AppCompatActivity {
     private Button btnIniciarSesion;
     private Button btnRegistro;
     private FirebaseAuth auth;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello_login);
 
+        toolbar = findViewById(R.id.toolbar);
     //    Utilities.validarPermisos(this, HelloLoginActivity.this);
-
-        getSupportActionBar().hide();
+    //    getActionBar().hide();
+        //getSupportActionBar().hide();
 
         btnIniciarSesion = findViewById(R.id.btn_go_login);
 

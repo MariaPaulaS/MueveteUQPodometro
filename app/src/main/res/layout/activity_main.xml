@@ -4,8 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uniquindio.mueveteuq.activities.main.MainActivity">
+    tools:context="com.uniquindio.mueveteuq.activities.main.MainActivity"
+    android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/verde"
+        app:layout_constraintBottom_toTopOf="@+id/tv_nombre_usuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:logo="@drawable/ic_menu"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:title="MueveteUQ"
+        app:titleMarginStart="40dp"
+        app:titleTextColor="@color/blanco" />
 
     <TextView
         android:id="@+id/tv_nombre_usuario"
