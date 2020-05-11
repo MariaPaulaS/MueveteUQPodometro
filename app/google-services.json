@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "522506794591-30vlkp7p02967v6m11iv1np5fl50b19q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mueveteuq_podometro",
+            "certificate_hash": "3f046e6db843cf852b6cd1394d8b8888ec344c39"
+          }
+        },
+        {
           "client_id": "522506794591-oe2i82iortbd6kf39aroku6qs1icmc6d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

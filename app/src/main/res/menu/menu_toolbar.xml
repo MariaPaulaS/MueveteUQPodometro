@@ -9,4 +9,11 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
+    <item
+        android:id="@+id/item_usuarios"
+        android:title="Usuarios"
+        android:icon="@drawable/ic_group"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
+
 </menu>

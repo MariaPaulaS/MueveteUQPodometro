@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,20 +30,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity{
 
-    private Button btnMapa;
-    private Button btnCerrarSesion;
-    private TextView tvUsuario;
-    private FirebaseAuth auth;
-    private FirebaseFirestore db;
-    private CollectionReference users;
-    private String nickname;
-
+    private Fragment actualFragment;
+    private Toolbar toolbar;
+    private String activeFragment;
 
 
     @Override
@@ -49,83 +48,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.include2);
         setSupportActionBar(toolbar);
 
-        btnMapa = findViewById(R.id.btn_ir_mapa);
-        btnCerrarSesion = findViewById(R.id.btn_cerrar_sesion);
-        tvUsuario = findViewById(R.id.tv_nombre_usuario);
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        users = db.collection("Users");
 
-        btnMapa.setOnClickListener(this);
-        btnCerrarSesion.setOnClickListener(this);
-
-        getUserInfo();
-
-
-    }
-
-    /**
-     * Método que almacena los eventos de todos los botones
-     * -ojala hubiera sabido esto antes-
-     * @param view
-     */
-    @Override
-    public void onClick(View view) {
-
-        switch(view.getId()){
-
-            case R.id.btn_ir_mapa:
-                Intent intento = new Intent(MainActivity.this, ZonaMapaActivity.class);
-                startActivity(intento);
-                break;
-
-            case R.id.btn_cerrar_sesion:
-
-                auth.signOut();
-                Intent intento1 = new Intent(MainActivity.this, HelloLoginActivity.class);
-                startActivity(intento1);
-                finish();
-
-                break;
+            actualFragment = new HomeFragment();
+            changeFragment(actualFragment);
+            activeFragment = "HomeFragment";
         }
 
-    }
-
-
-    /**
-     * Método que obtiene la información del usuario actual (nickname)
-     */
-    private void getUserInfo(){
-
-     //   String email = Objects.requireNonNull(auth.getCurrentUser()).getEmail();
-        final SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
-        String emailCurrent = spr.getString("emailCurrentUser", "");
-
-        if(UtilsNetwork.isOnline(this)){
-        users.whereEqualTo("email", emailCurrent).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-
-                    nickname = document.getString("nickname");
-                    tvUsuario.setText("¡Hola " + nickname + "!");
-                    SharedPreferences.Editor objetoEditor = spr.edit();
-                    objetoEditor.putString("currentUser", nickname);
-                    objetoEditor.apply();
-
-
-                }
-                
-            }
-        });
-        }
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,7 +65,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         final MenuItem searchItem = menu.findItem(R.id.item_buscar_persona);
+        final MenuItem peopleItem = menu.findItem(R.id.item_usuarios);
         final SearchView searchView = (SearchView) searchItem.getActionView();
+
+        peopleItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                actualFragment.getFragmentManager().popBackStack();
+                setSupportActionBar(toolbar);
+                actualFragment = new UsersFragment();
+                changeFragment(actualFragment);
+                activeFragment = "UsersFragment";
+                return false;
+            }
+        });
 
 
         EditText txtSearch = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
@@ -162,4 +107,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return true;
     }
+
+
+    private void changeFragment(Fragment fragmento){
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.contenedor_fragmento_main, fragmento)
+                .commit();
+        actualFragment.getFragmentManager().popBackStack();
+
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        /**
+        switch (activeFragment){
+
+
+            case "UsersFragment":
+                actualFragment = new HomeFragment();
+                changeFragment(actualFragment);
+                activeFragment = "HomeFragment";
+                break;
+
+            default:
+                break;
+        }
+
+    }
+         **/
+}
 }
