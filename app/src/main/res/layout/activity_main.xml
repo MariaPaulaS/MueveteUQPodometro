@@ -4,76 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.uniquindio.mueveteuq.activities.main.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.uniquindio.mueveteuq.activities.main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/verde"
-        app:layout_constraintBottom_toTopOf="@+id/tv_nombre_usuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:logo="@drawable/ic_menu"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:title="MueveteUQ"
-        app:titleMarginStart="40dp"
-        app:titleTextColor="@color/blanco" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/toolbar_layout" />
 
-    <TextView
-        android:id="@+id/tv_nombre_usuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="293dp"
-        android:layout_marginEnd="146dp"
-        android:layout_marginBottom="419dp"
-        android:text="Nombre de usuario"
-        android:textColor="@color/negro"
-        android:textSize="25dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contenedor_fragmento_main"
+        android:layout_width="409dp"
+        android:layout_height="673dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
+        app:layout_constraintTop_toBottomOf="@+id/include2">
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/btn_ir_mapa"
-        android:layout_width="278dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="88dp"
-        android:background="@drawable/btn_redondeado_registro"
-        android:padding="10dp"
-        android:text="Ir al mapa"
-        android:textColor="@color/blanco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nombre_usuario"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btn_cerrar_sesion"
-        android:layout_width="278dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="44dp"
-        android:background="@drawable/btn_redondeado_registro"
-        android:padding="10dp"
-        android:text="Cerrar sesion"
-        android:textColor="@color/blanco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_ir_mapa"
-        app:layout_constraintVertical_bias="0.042" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
