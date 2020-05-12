@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity{
     private Fragment actualFragment;
     private Toolbar toolbar;
     private String activeFragment;
+    private String valor;
 
 
     @Override
@@ -57,7 +59,13 @@ public class MainActivity extends AppCompatActivity{
             actualFragment = new HomeFragment();
             changeFragment(actualFragment);
             activeFragment = "HomeFragment";
-        }
+
+        SharedPreferences preferencias= getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor objetoEditor = preferencias.edit();
+        objetoEditor.remove("cadenaBusqueda");
+        objetoEditor.apply();
+
+    }
 
 
     @Override
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity{
         final SearchFragment searchFragment = new SearchFragment();
         assert manager != null;
         searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
 
@@ -114,15 +123,23 @@ public class MainActivity extends AppCompatActivity{
                 searchView.setQuery("", false);
                 searchItem.collapseActionView();
 
+                valor = s;
+
 
                 enviarBusqueda(s);
+
+                actualFragment.getFragmentManager().popBackStack();
+                setSupportActionBar(toolbar);
+                actualFragment = new SearchFragment();
+                changeFragment(actualFragment);
+                activeFragment = "SearchFragment";
+
+                //searchFragment.getSearchResult(s);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                enviarBusqueda(s);
 
                 return false;
             }
@@ -173,5 +190,6 @@ public void enviarBusqueda(String s){
     objetoEditor.putString("cadenaBusqueda", s);
     objetoEditor.apply();
 }
+
 
 }

@@ -124,12 +124,26 @@ public class SearchFragment extends Fragment {
 
         //Get all users
 
-        if(cadenaBusqueda!=""){
-            getSearchResult(cadenaBusqueda);
-        }
+
+        if(cadenaBusqueda != "")
+         getSearchResult(cadenaBusqueda);
+
+        adapterUsers = new AdapterUsers(getActivity(), resultList);
+        recyclerView.setAdapter(adapterUsers);
+
 
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        /**
+        if(resultList.size()!=0)
+        getSearchResult(cadenaBusqueda);
+**/
+
     }
 
     public List<User> getSearchResult(final String query) {
@@ -167,6 +181,7 @@ public class SearchFragment extends Fragment {
                                     user.getEmail().toLowerCase().contains(query.toLowerCase()) ){
 
                                 resultList.add(user);
+                       //         Toast.makeText(getActivity(), "Llega aqui", Toast.LENGTH_SHORT).show();
 
 
 
@@ -174,12 +189,15 @@ public class SearchFragment extends Fragment {
 
                         }
 
+                       // Toast.makeText(getActivity(), "Tamaño " + resultList.size(), Toast.LENGTH_SHORT).show();
+
+                        adapterUsers.notifyDataSetChanged();
+
                         adapterUsers = new AdapterUsers(getActivity(), resultList);
                         adapterUsers.notifyDataSetChanged();
 
                         //Set adapter
                         recyclerView.setAdapter(adapterUsers);
-
 
 
                     }
@@ -194,7 +212,6 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void setResults(List<User> resultList){
 
-    }
+
 }
