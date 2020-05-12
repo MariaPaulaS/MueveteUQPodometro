@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
 import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
@@ -81,32 +83,54 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                actualFragment.getFragmentManager().popBackStack();
+                setSupportActionBar(toolbar);
+                actualFragment = new SearchFragment();
+                changeFragment(actualFragment);
+                activeFragment = "SearchFragment";
+                return false;
+            }
+        });
+
 
         EditText txtSearch = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         txtSearch.setHint("Busca un usuario");
         txtSearch.setHintTextColor(getResources().getColor(R.color.blanco_transparente));
         txtSearch.setTextColor(getResources().getColor(R.color.blanco));
 
-
+        final SearchFragment searchFragment = new SearchFragment();
         assert manager != null;
         searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(String s) {
                 searchView.clearFocus();
                 searchView.setQuery("", false);
                 searchItem.collapseActionView();
+
+
+                enviarBusqueda(s);
                 return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String s) {
+
+                enviarBusqueda(s);
+
                 return false;
             }
         });
 
         return true;
     }
+
 
 
     private void changeFragment(Fragment fragmento){
@@ -141,4 +165,13 @@ public class MainActivity extends AppCompatActivity{
     }
          **/
 }
+
+public void enviarBusqueda(String s){
+
+    SharedPreferences preferences = getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
+    SharedPreferences.Editor objetoEditor = preferences.edit();
+    objetoEditor.putString("cadenaBusqueda", s);
+    objetoEditor.apply();
+}
+
 }

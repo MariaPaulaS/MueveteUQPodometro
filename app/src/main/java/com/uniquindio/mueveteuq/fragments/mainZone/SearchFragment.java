@@ -1,43 +1,66 @@
 package com.uniquindio.mueveteuq.fragments.mainZone;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.SearchView;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.models.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class SearchFragment extends ListFragment implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
-
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link UsersFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class SearchFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    public RecyclerView recyclerView;
+    public AdapterUsers adapterUsers;
+    public List<User> userList;
+    public List<User> resultList;
+    private String cadenaBusqueda;
 
-    List<User> mAllUsers;
-    private Context mContext;
-    private RecyclerView recyclerView;
-
-    private AdapterUsers adapterUsers;
-    private NestedScrollView nestedScrollView;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -49,7 +72,7 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
+     * @return A new instance of fragment UsersFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
@@ -68,6 +91,9 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
@@ -75,52 +101,100 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_search, container, false);
-
-        nestedScrollView = view.findViewById(R.id.nested_scroll_view);
-        recyclerView = view.findViewById(R.id.users_recyclerView);
+        //nestedScrollView = view.findViewById(R.id.nested_scroll_view);
+        recyclerView = view.findViewById(R.id.search_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        SharedPreferences preferencias= this.getActivity().getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
+        cadenaBusqueda = preferencias.getString("cadenaBusqueda", "");
+
         //Init user list
-        mAllUsers = new ArrayList<>();
-        mContext = getActivity();
-        setHasOptionsMenu(true);
-        populateList();
+        userList = new ArrayList<>();
+        resultList = new ArrayList<>();
+
+        Toast.makeText(getActivity(), "Busqueda", Toast.LENGTH_SHORT).show();
+        adapterUsers = new AdapterUsers(getActivity(), resultList);
+        //Set adapter
+        recyclerView.setAdapter(adapterUsers);
+
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
+
+
+        //Get all users
+
+        if(cadenaBusqueda!=""){
+            getSearchResult(cadenaBusqueda);
+        }
+
 
         return view;
     }
 
+    public List<User> getSearchResult(final String query) {
 
-    private void populateList(){
+        //Get current user
 
-        UsersFragment usersFragment = new UsersFragment();
-        mAllUsers = usersFragment.getAllUsers();
+        final FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        adapterUsers = new AdapterUsers(getActivity(), mAllUsers);
-        //Set adapter
-        recyclerView.setAdapter(adapterUsers);
-        recyclerView.setNestedScrollingEnabled(false);
+        //Get path of database named "Users" content users info
+        CollectionReference users = FirebaseFirestore.getInstance().collection("Users");
 
+        //Get all data of collection
+
+        users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if(task.isSuccessful()){
+
+                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+
+                        User user = new User();
+                        user.setNickname((String) document.getData().get("nickname"));
+                        user.setEmail((String) document.getData().get("email"));
+
+                        //        puntosUsuario = (long) document.getData().get("accumPoints");
+
+                        user.setAccumPoints(0);
+                        user.setPassword((String) document.getData().get("password"));
+
+                        assert fUser != null;
+                        if(!user.getEmail().equals(fUser.getEmail())){
+
+                            if(user.getNickname().toLowerCase().contains(query.toLowerCase()) ||
+                                    user.getEmail().toLowerCase().contains(query.toLowerCase()) ){
+
+                                resultList.add(user);
+
+
+
+                            }
+
+                        }
+
+                        adapterUsers = new AdapterUsers(getActivity(), resultList);
+                        adapterUsers.notifyDataSetChanged();
+
+                        //Set adapter
+                        recyclerView.setAdapter(adapterUsers);
+
+
+
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+        return resultList;
 
     }
 
-    @Override
-    public boolean onMenuItemActionExpand(MenuItem item) {
-        return false;
-    }
+    public void setResults(List<User> resultList){
 
-    @Override
-    public boolean onMenuItemActionCollapse(MenuItem item) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
     }
 }
