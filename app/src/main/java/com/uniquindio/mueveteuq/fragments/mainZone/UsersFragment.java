@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,11 +53,10 @@ public class UsersFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView recyclerView;
-    private AdapterUsers adapterUsers;
-    private List<User> userList;
-    private NestedScrollView nestedScrollView;
-    private long puntosUsuario;
+    public RecyclerView recyclerView;
+    public AdapterUsers adapterUsers;
+    public List<User> userList;
+
 
     public UsersFragment() {
         // Required empty public constructor
@@ -101,6 +101,8 @@ public class UsersFragment extends Fragment {
         recyclerView = view.findViewById(R.id.users_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Toast.makeText(getActivity(), "Listado", Toast.LENGTH_SHORT).show();
 
 
         //Init user list
