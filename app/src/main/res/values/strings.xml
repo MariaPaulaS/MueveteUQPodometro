@@ -32,4 +32,6 @@
     <string name="exist_username">Este nombre de usuario ya se encuentra en uso. Por favor elige uno diferente. </string>
     <string name="exist_email">Ya existe una cuenta registrada con este email. </string>
     <string name="record">¡Felicidades! Ha establecido un nuevo record.</string>
+    <string name="texto_main_page">¡Hola! Bienvenido, nos alegra tenerte \n por aquí. ¡Vamos a empezar! \n Si tienes alguna duda, puedes  \ndirigirte a la sección de ayuda.  </string>
+
 </resources>
