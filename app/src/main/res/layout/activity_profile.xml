@@ -10,8 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="417dp"
-        android:layout_height="216dp"
+        android:layout_width="match_parent"
+        android:layout_height="232dp"
         android:background="@color/lila"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,8 +22,8 @@
 
         <TextView
             android:id="@+id/tv_nickname_profile"
-            android:layout_width="410dp"
-            android:layout_height="42dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="78dp"
             android:layout_marginBottom="103dp"
             android:text="Nombre de usuario"
@@ -56,39 +56,40 @@
 
     <TextView
         android:id="@+id/tv_correo_profile"
-        android:layout_width="411dp"
-        android:layout_height="34dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Cargando correo..."
         android:textAlignment="center"
         android:textColor="@color/negro"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.244" />
+        app:layout_constraintVertical_bias="0.183" />
+
 
     <TextView
         android:id="@+id/tv_record"
-        android:layout_width="414dp"
-        android:layout_height="58dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Record:"
-        android:textColor="@color/negro"
         android:textAlignment="center"
+        android:textColor="@color/negro"
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_correo_profile"
-        app:layout_constraintVertical_bias="0.116" />
-
+        app:layout_constraintVertical_bias="0.191" />
 
     <TextView
         android:id="@+id/tv_record_pasos"
-        android:layout_width="410dp"
-        android:layout_height="47dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Pasos..."
         android:textAlignment="center"
         android:textColor="@color/negro"
@@ -102,8 +103,8 @@
 
     <TextView
         android:id="@+id/tv_record_calorias"
-        android:layout_width="410dp"
-        android:layout_height="47dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Calorias..."
         android:textAlignment="center"
         android:textColor="@color/negro"
@@ -117,8 +118,8 @@
 
     <TextView
         android:id="@+id/tv_record_distancia"
-        android:layout_width="410dp"
-        android:layout_height="47dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Distancia..."
         android:textAlignment="center"
         android:textColor="@color/negro"
