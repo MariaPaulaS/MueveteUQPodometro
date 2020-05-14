@@ -1,0 +1,67 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="95dp"
+    tools:context="com.uniquindio.mueveteuq.fragments.mainZone.LeaderboardFragment">
+
+
+    <LinearLayout
+        android:layout_width="330dp"
+        android:layout_height="619dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="33dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.489">
+
+        <TableLayout
+            android:id="@+id/tabla_puntuaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/relieve_color_full"
+            >
+
+            <TableRow android:background="@color/lila">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="\nSalón de la fama\n"
+                    android:textAlignment="center"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <TableRow android:background="@color/colorAccent">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Nickname"
+                    android:textAlignment="center"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_weight="1"
+                    android:text="Pasos"
+                    android:textAlignment="textStart"
+                    android:layout_marginStart="30dp"
+                    android:textColor="@color/blanco"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

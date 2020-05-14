@@ -4,17 +4,46 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="?attr/actionBarSize"
-
+    android:layout_marginTop="84dp"
+    android:layout_marginBottom="70dp"
     tools:context="com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment">
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/titulogrande_sinfondo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tv_nombre_usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hora de empezar..."
+        android:textAlignment="center"
+        android:textColor="@color/negro"
+        android:layout_marginTop="55dp"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <ImageView
         android:id="@+id/tenis"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginBottom="581dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="95dp"
         android:background="@drawable/pexels_photo"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,10 +56,8 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginBottom="581dp"
-        android:layout_marginTop="27dp"
-
+        android:layout_height="567dp"
+        android:layout_marginTop="95dp"
         android:background="#d8000000"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,103 +67,88 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="192dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="100dp"
-            android:src="@drawable/titulogrande_sinfondo" />
+
 
     </LinearLayout>
-
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-
         android:orientation="vertical"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-93dp">
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="30dp"
-            >
-
+x
             <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="110dp"
-                android:layout_marginTop="120dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="130dp"
                 android:background="@drawable/relieve_color"
                 android:src="@drawable/icon_ejercicio" />
 
             <TextView
-                android:id="@+id/tv_nombre_usuario"
+                android:id="@+id/tv_mensaje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Hora de empezar..."
+                android:layout_marginTop="20dp"
+                android:text="@string/texto_main_page"
                 android:textAlignment="center"
-                android:textColor="@color/negro"
-                android:textSize="18dp"
-                tools:layout_editor_absoluteX="40dp"
+                android:textColor="@color/blanco"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="44dp"
                 tools:layout_editor_absoluteY="257dp" />
 
             <TextView
                 android:id="@+id/tv_listo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
                 android:text="¿Listo para hoy?"
 
                 android:textAlignment="center"
-                android:textColor="@color/negro"
+                android:textColor="@color/verde"
                 android:textSize="15dp"
                 tools:layout_editor_absoluteX="44dp"
                 tools:layout_editor_absoluteY="257dp" />
-        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btn_ir_mapa"
             android:layout_width="134dp"
             android:layout_height="35dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
             android:background="@drawable/btn_redondeado_registro"
             android:padding="10dp"
             android:text="Ir al mapa"
-            android:textSize="10dp"
             android:textColor="@color/blanco"
+            android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_usuario"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_listo"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/btn_cerrar_sesion"
             android:layout_width="138dp"
             android:layout_height="35dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/btn_redondeado_registro"
             android:padding="10dp"
             android:text="Cerrar sesion"
-            android:textSize="10dp"
+            android:layout_marginBottom="70dp"
             android:textColor="@color/blanco"
+            android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_ir_mapa"
+            app:layout_constraintTop_toBottomOf="@+id/parent"
             app:layout_constraintVertical_bias="0.192" />
+
+
 
 
     </LinearLayout>

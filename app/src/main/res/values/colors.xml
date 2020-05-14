@@ -9,5 +9,6 @@
     <color name="rojo">#DF1010</color>
     <color name="celeste">#00BCD4</color>
     <color name="lila">#541561</color>
+    <color name="amarillo">#FF9800</color>
     <color name="blanco_transparente">#cccccc</color>
 </resources>

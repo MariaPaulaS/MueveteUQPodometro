@@ -33,6 +33,7 @@ import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
 import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.LeaderboardFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
