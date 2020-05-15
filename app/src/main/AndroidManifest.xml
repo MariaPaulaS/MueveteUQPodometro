@@ -26,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_uqui_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.main.ProfileActivity"></activity>
+        <activity android:name=".activities.main.ProfileActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.podometer.PhotoActivity"
             android:screenOrientation="portrait"></activity>
@@ -95,6 +96,7 @@
 
         <activity
             android:name=".activities.podometer.MapsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_maps" />
 
         <provider

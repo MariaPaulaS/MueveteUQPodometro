@@ -33,5 +33,6 @@
     <string name="exist_email">Ya existe una cuenta registrada con este email. </string>
     <string name="record">¡Felicidades! Ha establecido un nuevo record.</string>
     <string name="texto_main_page">¡Hola! Bienvenido, nos alegra tenerte \n por aquí. ¡Vamos a empezar! \n Si tienes alguna duda, puedes  \ndirigirte a la sección de ayuda.  </string>
+    <string name="no_record">Este usuario aun no\nha esblecido un record.</string>
 
 </resources>

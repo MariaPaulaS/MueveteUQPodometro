@@ -42,7 +42,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyHolder holder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, final int i) {
 
         //Get data
         username = userList.get(i).getNickname();
@@ -59,7 +59,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
             public void onClick(View view) {
 
               Intent intent = new Intent(context, ProfileActivity.class);
-              intent.putExtra("nicknameProfile", username).putExtra("emailProfile", email);
+              intent.putExtra("nicknameProfile", userList.get(i).getNickname()).putExtra("emailProfile", userList.get(i).getEmail());
               context.startActivity(intent);
             }
 
