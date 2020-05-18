@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    app:logo="@drawable/ic_menu"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     app:title="MueveteUQ"
     app:titleMarginStart="40dp"

@@ -1,10 +1,15 @@
 package com.uniquindio.mueveteuq.activities.main;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,12 +46,15 @@ import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Fragment actualFragment;
     private Toolbar toolbar;
     private String activeFragment;
     private String valor;
+    DrawerLayout mDrawerLayout;
+    ActionBarDrawerToggle mDrawerToggle;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -57,11 +66,23 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
 
-            actualFragment = new HomeFragment();
-            changeFragment(actualFragment);
-            activeFragment = "HomeFragment";
 
-        SharedPreferences preferencias= getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
+         actualFragment = new HomeFragment();
+         changeFragment(actualFragment);
+         activeFragment = "HomeFragment";
+
+        auth = FirebaseAuth.getInstance();
+        mDrawerLayout = findViewById(R.id.drawerlayout);
+
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.aceptar, R.string.activate);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        SharedPreferences preferencias = getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor objetoEditor = preferencias.edit();
         objetoEditor.remove("cadenaBusqueda");
         objetoEditor.apply();
@@ -150,8 +171,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-
-    private void changeFragment(Fragment fragmento){
+    private void changeFragment(Fragment fragmento) {
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.contenedor_fragmento_main, fragmento)
@@ -159,38 +179,85 @@ public class MainActivity extends AppCompatActivity{
         actualFragment.getFragmentManager().popBackStack();
 
 
-
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
-        /**
-        switch (activeFragment){
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            Toast.makeText(this, "Esto2", Toast.LENGTH_SHORT).show();
+
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void enviarBusqueda(String s) {
+
+        SharedPreferences preferences = getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor objetoEditor = preferences.edit();
+        objetoEditor.putString("cadenaBusqueda", s);
+        objetoEditor.apply();
+    }
 
 
-            case "UsersFragment":
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+
+        switch (id) {
+
+            case R.id.home:
+
                 actualFragment = new HomeFragment();
                 changeFragment(actualFragment);
                 activeFragment = "HomeFragment";
                 break;
 
-            default:
+            case R.id.notifications:
+                Toast.makeText(this, "Por construir", Toast.LENGTH_SHORT).show();
                 break;
+
+            case R.id.awards:
+                Toast.makeText(this, "Por construir2", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.rankings:
+                actualFragment = new LeaderboardFragment();
+                changeFragment(actualFragment);
+                activeFragment = "LeaderboardFragment";
+                break;
+
+            case R.id.options:
+                Toast.makeText(this, "Por construir3", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.logout:
+                auth.signOut();
+                Intent intento1 = new Intent(this, HelloLoginActivity.class);
+                startActivity(intento1);
+                finish();
+
+                break;
+
+
         }
 
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        Toast.makeText(this, "Esto", Toast.LENGTH_SHORT).show();
+
+        return true;
     }
-         **/
-}
 
-public void enviarBusqueda(String s){
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
-    SharedPreferences preferences = getSharedPreferences("busquedaPref", Context.MODE_PRIVATE);
-    SharedPreferences.Editor objetoEditor = preferences.edit();
-    objetoEditor.putString("cadenaBusqueda", s);
-    objetoEditor.apply();
-}
-
-
+        return false;
+    }
 }

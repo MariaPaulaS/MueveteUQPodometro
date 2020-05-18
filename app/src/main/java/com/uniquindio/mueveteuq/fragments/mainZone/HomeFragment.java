@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
 
     private Button btnMapa;
-    private Button btnCerrarSesion;
     private TextView tvUsuario;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -90,13 +89,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         btnMapa = view.findViewById(R.id.btn_ir_mapa);
-        btnCerrarSesion = view.findViewById(R.id.btn_cerrar_sesion);
         tvUsuario = view.findViewById(R.id.tv_nombre_usuario);
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         users = db.collection("Users");
         btnMapa.setOnClickListener(this);
-        btnCerrarSesion.setOnClickListener(this);
 
         getUserInfo();
 
@@ -154,14 +151,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(intento);
                 break;
 
-            case R.id.btn_cerrar_sesion:
-
-                auth.signOut();
-                Intent intento1 = new Intent(getActivity(), HelloLoginActivity.class);
-                startActivity(intento1);
-                Objects.requireNonNull(getActivity()).finish();
-
-                break;
         }
 
     }
