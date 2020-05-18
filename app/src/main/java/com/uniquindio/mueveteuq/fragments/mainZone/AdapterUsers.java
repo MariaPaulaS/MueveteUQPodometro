@@ -1,6 +1,9 @@
 package com.uniquindio.mueveteuq.fragments.mainZone;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.activities.main.ProfileActivity;
 import com.uniquindio.mueveteuq.models.User;
 
 import java.util.List;
@@ -38,7 +42,7 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder holder, int i) {
+    public void onBindViewHolder(@NonNull final MyHolder holder, final int i) {
 
         //Get data
         username = userList.get(i).getNickname();
@@ -53,8 +57,15 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, " " + email, Toast.LENGTH_SHORT).show();
+
+              Intent intent = new Intent(context, ProfileActivity.class);
+              intent.putExtra("nicknameProfile", userList.get(i).getNickname()).putExtra("emailProfile", userList.get(i).getEmail());
+              context.startActivity(intent);
             }
+
+
+
+
         });
 
     }

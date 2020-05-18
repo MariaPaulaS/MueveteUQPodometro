@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="Inicio"
+        android:icon="@drawable/ic_action_home"
+        />
+
+    <item
+        android:id="@+id/notifications"
+        android:title="Notificaciones"
+        android:icon="@drawable/ic_action_notifications"
+        />
+
+    <item
+        android:id="@+id/awards"
+        android:title="Recompensas"
+        android:icon="@drawable/ic_action_awards"
+        />
+
+
+    <item
+        android:id="@+id/rankings"
+        android:title="Ranking"
+        android:icon="@drawable/ic_action_ranking"
+        />
+
+    <item
+        android:id="@+id/options"
+        android:title="Cuenta"
+        android:icon="@drawable/ic_action_options"
+        />
+
+    <item
+        android:id="@+id/logout"
+        android:title="Cerrar sesión"
+        android:icon="@drawable/ic_action_logout"
+        />
+
+
+
+</menu>

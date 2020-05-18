@@ -113,7 +113,6 @@ public class SearchFragment extends Fragment {
         userList = new ArrayList<>();
         resultList = new ArrayList<>();
 
-        Toast.makeText(getActivity(), "Busqueda", Toast.LENGTH_SHORT).show();
         adapterUsers = new AdapterUsers(getActivity(), resultList);
         //Set adapter
         recyclerView.setAdapter(adapterUsers);

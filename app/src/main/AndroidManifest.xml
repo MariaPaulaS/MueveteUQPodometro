@@ -26,8 +26,11 @@
         android:roundIcon="@mipmap/ic_launcher_uqui_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.podometer.PhotoActivity" android:screenOrientation="portrait" >
-        </activity>
+        <activity android:name=".activities.main.ProfileActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.podometer.PhotoActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.main.ContenedorInstruccionesActivity"
             android:label="@string/title_activity_contenedor_instrucciones"
@@ -41,13 +44,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.podometer.ZonaMapaActivity"
-            android:screenOrientation="portrait" >
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.main.MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.login.LoginActivity"
             android:screenOrientation="portrait" />
@@ -75,13 +76,11 @@
         <activity
             android:name=".activities.login.HelloLoginActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -97,8 +96,8 @@
 
         <activity
             android:name=".activities.podometer.MapsActivity"
-            android:label="@string/title_activity_maps"/>
-
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_maps" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -107,7 +106,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 
