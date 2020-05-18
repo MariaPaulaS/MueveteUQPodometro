@@ -42,6 +42,7 @@
             android:fitsSystemWindows="true"
             app:menu="@menu/drawer_menu"
             android:layout_gravity="start"
+            app:headerLayout="@layout/header_layout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/include2"
