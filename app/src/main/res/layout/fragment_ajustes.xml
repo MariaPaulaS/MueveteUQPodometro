@@ -7,59 +7,39 @@
     android:layout_marginStart="30dp"
     tools:context="com.uniquindio.mueveteuq.fragments.mainZone.AjustesFragment">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <TextView
         android:id="@+id/title_options"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:text="OPCIONES DE USUARIO"
+        android:layout_marginTop="30dp"
+        android:text="DATOS DE INGRESO"
         android:textColor="@color/colorAccent"
         android:textSize="17dp"
         android:textStyle="bold"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.074" />
-
-
-    <TextView
-        android:id="@+id/title_nickname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="Nickname"
-        android:textColor="@color/negro"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_options"
-        app:layout_constraintVertical_bias="0.044" />
-
-    <TextView
-        android:id="@+id/title_nickname_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="17dp"
-        android:text="Cambia tu nombre de usuario para ti y el resto\nde los usuarios."
-        android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_nickname"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.073" />
 
     <TextView
         android:id="@+id/title_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
         android:text="Correo electrónico"
         android:textColor="@color/negro"
         android:textSize="15dp"
@@ -68,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_nickname_description"
+        app:layout_constraintTop_toBottomOf="@+id/title_options"
         app:layout_constraintVertical_bias="0.076" />
 
     <TextView
@@ -76,6 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
         android:text="Cambia tu correo electrónico registrado en\nla app."
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -91,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
         android:text="Contraseña"
         android:textColor="@color/negro"
         android:textSize="15dp"
@@ -107,6 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
+        android:layout_marginBottom="30dp"
         android:text="¿Olvidaste tu contraseña o quieres cambiarla?\nEste es el lugar."
         android:textSize="12dp"
 
@@ -116,6 +99,94 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_password"
         app:layout_constraintVertical_bias="0.049" />
+
+
+    <TextView
+        android:id="@+id/title_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="AYUDA"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.563" />
+
+
+    <TextView
+        android:id="@+id/title_map_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
+        android:text="Instrucciones del mapa"
+        android:textColor="@color/negro"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_help"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <TextView
+        android:id="@+id/title_map_help_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="20dp"
+        android:text="¿Olvidaste como funciona? Puedes consultarlas\naquí en cualquier momento."
+        android:textSize="12dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_map_help"
+        app:layout_constraintVertical_bias="0.049" />
+
+    <TextView
+        android:id="@+id/title_app_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="10dp"
+        android:text="Manual de usuario"
+        android:textColor="@color/negro"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_map_help_description"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <TextView
+        android:id="@+id/title_app_help_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="¿Como funciona MueveteUQ? Informate aquí de\ntodas nuestras funcionalidades."
+        android:textSize="12dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_app_help"
+        app:layout_constraintVertical_bias="0.049" />
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

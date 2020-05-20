@@ -1,15 +1,26 @@
 package com.uniquindio.mueveteuq.fragments.mainZone;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.util.Utilities;
 
 
 /**
@@ -28,12 +39,16 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
 
-    TextView nicknameTv;
-    TextView nicknameDescriptionTv;
+
     TextView emailTv;
     TextView emailDescriptionTv;
     TextView passwordTv;
     TextView passwordDescriptionTv;
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    private CollectionReference users;
+    EmailAuthProvider emailProvider;
 
     public AjustesFragment() {
         // Required empty public constructor
@@ -72,20 +87,22 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ajustes, container, false);
 
-        nicknameTv = view.findViewById(R.id.title_nickname);
-        nicknameDescriptionTv = view.findViewById(R.id.title_nickname_description);
+
         emailTv = view.findViewById(R.id.title_email);
         emailDescriptionTv = view.findViewById(R.id.title_email_description);
         passwordTv = view.findViewById(R.id.title_password);
         passwordDescriptionTv = view.findViewById(R.id.title_password_description);
 
 
-        nicknameTv.setOnClickListener(this);
-        nicknameDescriptionTv.setOnClickListener(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        users = db.collection("Users");
+
         emailTv.setOnClickListener(this);
         emailDescriptionTv.setOnClickListener(this);
         passwordTv.setOnClickListener(this);
         passwordDescriptionTv.setOnClickListener(this);
+        Utilities.init(getActivity());
 
         return view;
 
@@ -97,17 +114,60 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
 
         int id = v.getId();
 
-        if(id == R.id.title_nickname_description || id == R.id.title_nickname){
+        if(id == R.id.title_email || id == R.id.title_email_description){
 
-        }
-        else if(id == R.id.title_email || id == R.id.title_email_description){
+            showUpdateDialogData("email");
 
         }
 
         else if(id == R.id.title_password || id == R.id.title_password_description){
-
-
+            showUpdateDialogData("contraseña");
         }
+
+    }
+
+    private void showUpdateDialogData(final String key) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Actualizar " + key);
+
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(10, 10, 10, 10);
+
+        final EditText editText = new EditText(getActivity());
+        editText.setHint("Nuevo " + key);
+        linearLayout.addView(editText);
+
+        builder.setView(linearLayout);
+
+        builder.setPositiveButton("LISTO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                String value = editText.getText().toString().trim();
+
+                if(TextUtils.isEmpty(value)){
+                    Toast.makeText(getActivity(), "Por favor ingrese nuevo " + key, Toast.LENGTH_SHORT).show();
+                }
+
+                else {
+
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("MEJOR NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        builder.create().show();
 
     }
 }
