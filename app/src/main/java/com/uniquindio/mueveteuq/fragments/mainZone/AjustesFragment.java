@@ -1,12 +1,17 @@
 package com.uniquindio.mueveteuq.fragments.mainZone;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +20,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.util.Utilities;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
+
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 
 /**
@@ -39,16 +55,18 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
     private String mParam2;
 
 
-
     TextView emailTv;
     TextView emailDescriptionTv;
     TextView passwordTv;
     TextView passwordDescriptionTv;
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth auth;
     private FirebaseFirestore db;
     private CollectionReference users;
-    EmailAuthProvider emailProvider;
+    FirebaseUser userFirebase = FirebaseAuth.getInstance().getCurrentUser();
+
+
+    String nicknameKey;
 
     public AjustesFragment() {
         // Required empty public constructor
@@ -93,8 +111,10 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         passwordTv = view.findViewById(R.id.title_password);
         passwordDescriptionTv = view.findViewById(R.id.title_password_description);
 
+        final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+        nicknameKey = spr.getString("currentUser", "");
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         users = db.collection("Users");
 
@@ -114,13 +134,11 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
 
         int id = v.getId();
 
-        if(id == R.id.title_email || id == R.id.title_email_description){
+        if (id == R.id.title_email || id == R.id.title_email_description) {
 
             showUpdateDialogData("email");
 
-        }
-
-        else if(id == R.id.title_password || id == R.id.title_password_description){
+        } else if (id == R.id.title_password || id == R.id.title_password_description) {
             showUpdateDialogData("contraseña");
         }
 
@@ -145,15 +163,17 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
                 String value = editText.getText().toString().trim();
+                if (userFirebase != null) {
+                    if (key.equals("email")) {
 
-                if(TextUtils.isEmpty(value)){
-                    Toast.makeText(getActivity(), "Por favor ingrese nuevo " + key, Toast.LENGTH_SHORT).show();
-                }
 
-                else {
+                        updateEmailUser(value);
+                    } else if (key.equals("password")) {
 
+                        updatePasswordUser(value);
+
+                    }
                 }
 
             }
@@ -168,6 +188,140 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         });
 
         builder.create().show();
+
+    }
+
+
+    /**
+     * Método para actualizar la contraseña
+     *
+     * @param password
+     */
+    private void updatePasswordUser(final String password) {
+
+        //La contraseña no puede estar vacía
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getActivity(), "Por favor ingrese una contraseña", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //La contraseña no puede ser menor de 8 caracteres
+        else if (password.length() < 8) {
+            Toast.makeText(getActivity(), "La contraseña debe tener al menos 8 caracteres", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+
+            Utilities.init(getActivity());
+            Utilities.showProgressBar();
+
+            userFirebase.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("TAG", "User password updated.");
+                    }
+                }
+            });;
+
+
+            users.whereEqualTo("nickname", nicknameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            users.document(nicknameKey).update("password", password).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Utilities.dismissProgressBar();
+                                    Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
+                                    Toast.makeText(getActivity(), "¡Listo!", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Utilities.dismissProgressBar();
+
+                                    Log.w("tag", "Error escribiendo documento", e);
+
+                                }
+                            });
+
+                        }
+                    }
+                }
+            });
+
+
+        }
+    }
+
+
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
+
+    /**
+     * Metodo para actualizar email
+     *
+     * @param email
+     */
+    private void updateEmailUser(final String email) {
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getActivity(), "Por favor ingrese nuevo email", Toast.LENGTH_SHORT).show();
+        } else if (!validarEmail(email)) {
+
+            Toast.makeText(getActivity(), "Por favor ingrese un email valido", Toast.LENGTH_SHORT).show();
+        } else {
+
+            Utilities.init(getActivity());
+            Utilities.showProgressBar();
+            userFirebase.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("TAG", "User email address updated.");
+                    }
+                }
+            });;
+
+            users.whereEqualTo("nickname", nicknameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            users.document(nicknameKey).update("email", email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Utilities.dismissProgressBar();
+                                    Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
+                                    Toast.makeText(getActivity(), "¡Listo!", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Utilities.dismissProgressBar();
+                                    Log.w("tag", "Error escribiendo documento", e);
+
+                                }
+                            });
+
+                        }
+                    }
+                }
+            });
+
+
+        }
 
     }
 }
