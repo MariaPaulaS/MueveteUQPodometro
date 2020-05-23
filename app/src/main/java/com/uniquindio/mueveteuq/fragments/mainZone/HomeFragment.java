@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private FirebaseFirestore db;
     private CollectionReference users;
     private String nickname;
+    private String password;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -120,8 +121,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
                         nickname = document.getString("nickname");
                         tvUsuario.setText("¡Hola " + nickname + "!");
+                        password = document.getString("password");
                         SharedPreferences.Editor objetoEditor = spr.edit();
                         objetoEditor.putString("currentUser", nickname);
+                        objetoEditor.putString("passwordCurrentUser", password);
                         objetoEditor.apply();
 
 
