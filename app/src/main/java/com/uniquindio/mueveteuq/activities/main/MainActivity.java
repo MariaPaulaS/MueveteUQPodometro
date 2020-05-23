@@ -38,8 +38,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.activities.login.HelloLoginActivity;
 import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.fragments.mainZone.AjustesFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.LeaderboardFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.PreferenciasFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
@@ -184,6 +186,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
+        if(activeFragment.equals("HomeFragment")){
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+
+        }
+
+
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -231,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.options:
-                Toast.makeText(this, "Por construir3", Toast.LENGTH_SHORT).show();
+                actualFragment = new AjustesFragment();
+                changeFragment(actualFragment);
+                activeFragment = "AjustesFragment";
                 break;
 
             case R.id.logout:
@@ -239,15 +254,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intento1 = new Intent(this, HelloLoginActivity.class);
                 startActivity(intento1);
                 finish();
-
                 break;
-
-
         }
 
-
         mDrawerLayout.closeDrawer(GravityCompat.START);
-        Toast.makeText(this, "Esto", Toast.LENGTH_SHORT).show();
 
         return true;
     }
