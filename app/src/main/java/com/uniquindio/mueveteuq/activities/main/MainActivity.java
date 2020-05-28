@@ -42,6 +42,8 @@ import com.uniquindio.mueveteuq.fragments.mainZone.AjustesFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.LeaderboardFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.PreferenciasFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.RewardContainerFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.RewardsFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
@@ -234,7 +236,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.awards:
-                Toast.makeText(this, "Por construir2", Toast.LENGTH_SHORT).show();
+                actualFragment = new RewardContainerFragment();
+                changeFragment(actualFragment);
+                activeFragment = "RewardContainerFragment";
                 break;
 
             case R.id.rankings:
