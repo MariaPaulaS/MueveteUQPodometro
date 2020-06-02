@@ -1,7 +1,10 @@
 package com.uniquindio.mueveteuq.fragments.mainZone;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -10,6 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.uniquindio.mueveteuq.R;
@@ -45,6 +52,9 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference users;
 
+
+    private String currentNickname;
+    private int currentPoints;
 
     public RewardsFragment() {
         // Required empty public constructor
@@ -122,57 +132,73 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
 
             //170 puntos
             case R.id.cardHeladoCrema:
-                Toast.makeText(getActivity(), "1", Toast.LENGTH_LONG).show();
+                realizarPago("helado de crema", 170);
                 break;
 
             //80 puntos
             case R.id.cardPaleta:
-                Toast.makeText(getActivity(), "2", Toast.LENGTH_LONG).show();
+                realizarPago("paleta", 80);
 
                 break;
 
             //125 puntos
             case R.id.cardGaseosa:
-                Toast.makeText(getActivity(), "3", Toast.LENGTH_LONG).show();
+                realizarPago("gaseosa (un vaso)", 125);
 
                 break;
 
             //300 puntos
             case R.id.cardChocolateCake:
-                Toast.makeText(getActivity(), "4", Toast.LENGTH_LONG).show();
+                realizarPago("torta de chocolate", 300);
 
                 break;
 
             //100 puntos
             case R.id.cardEspaguetis:
+                realizarPago("espaguetis", 100);
+
                 break;
 
             //150 puntos
             case R.id.cardPolloAsado:
+                realizarPago("pollo asado", 150);
+
                 break;
 
             //60 puntos
             case R.id.cardGelatina:
+                realizarPago("gelatina", 60);
+
                 break;
 
             //270 puntos
             case R.id.cardTortaLimon:
+                realizarPago("torta de limon", 270);
+
                 break;
 
             //240 puntos
             case R.id.cardHamburguesa:
+                realizarPago("hamburguesa", 240);
+
                 break;
 
             //160 puntos
             case R.id.cardPizza:
+                realizarPago("pizza", 160);
+
                 break;
 
             //150 puntos
             case R.id.cardPapasFritas:
+                realizarPago("papas fritas", 150);
+
                 break;
 
             //125 puntos
             case R.id.cardChocoMilk:
+                realizarPago("leche achocolatada", 125);
+
                 break;
 
 
@@ -180,4 +206,73 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
+
+
+
+    private void realizarPago(String nombreR, int points) {
+
+        final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+        currentNickname = spr.getString("currentUser", "");
+        currentPoints = spr.getInt("currentPoints", 0);
+
+        //Si los puntos del usuario son mayores que lo que vale la recompensa
+        //Ej: Si el usuario tiene 200 puntos y el producto vale 150
+        //Transacción exitosa
+
+        if (currentPoints >= points) {
+
+            MaterialStyledDialog dialog = new MaterialStyledDialog.Builder(getActivity())
+                    .setTitle(nombreR.toUpperCase())
+                    .setDescription("¡Hola! Con esto podrás consumir " + nombreR + " en la vida real a cambio de tus esfuerzos. Esto te costará " + points + " puntos. ¿Deseas continuar?")
+                    .setStyle(Style.HEADER_WITH_TITLE)
+                    .setPositiveText("Aceptar")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                            Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .setNegativeText("Cancelar")
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .build();
+
+            dialog.show();
+
+
+        }
+
+        //Si al usuario no le alcanza para el producto - Los puntos que tiene el usuario no son superiores
+        //a los de la recompensa
+        //Transacción fallida
+        else if (currentPoints < points) {
+
+
+            MaterialStyledDialog dialog = new MaterialStyledDialog.Builder(getActivity())
+                    .setTitle(nombreR.toUpperCase())
+                    .setDescription("¡Lo sentimos! No te alcanza para consumir esto.")
+                    .setStyle(Style.HEADER_WITH_TITLE)
+                    .setPositiveText("Cancelar")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    }).build();
+
+            dialog.show();
+
+        }
+
+
+    }
+
+
 }
