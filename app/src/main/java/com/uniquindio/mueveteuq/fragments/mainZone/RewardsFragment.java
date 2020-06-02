@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.uniquindio.mueveteuq.R;
 
 /**
@@ -40,7 +42,8 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
     private CardView cardViewPapasfritas;
     private CardView cardViewChocomilk;
 
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference users;
 
 
     public RewardsFragment() {
@@ -80,6 +83,8 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
 
+        users = db.collection("Users");
+
         cardViewHelado = view.findViewById(R.id.cardHeladoCrema);
         cardViewPaleta = view.findViewById(R.id.cardPaleta);
         cardViewGaseosa = view.findViewById(R.id.cardGaseosa);
@@ -92,7 +97,6 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
         cardViewPizza = view.findViewById(R.id.cardPizza);
         cardViewPapasfritas = view.findViewById(R.id.cardPapasFritas);
         cardViewChocomilk = view.findViewById(R.id.cardChocoMilk);
-
 
 
         cardViewHelado.setOnClickListener(this);
@@ -114,6 +118,66 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+
+            //170 puntos
+            case R.id.cardHeladoCrema:
+                Toast.makeText(getActivity(), "1", Toast.LENGTH_LONG).show();
+                break;
+
+            //80 puntos
+            case R.id.cardPaleta:
+                Toast.makeText(getActivity(), "2", Toast.LENGTH_LONG).show();
+
+                break;
+
+            //125 puntos
+            case R.id.cardGaseosa:
+                Toast.makeText(getActivity(), "3", Toast.LENGTH_LONG).show();
+
+                break;
+
+            //300 puntos
+            case R.id.cardChocolateCake:
+                Toast.makeText(getActivity(), "4", Toast.LENGTH_LONG).show();
+
+                break;
+
+            //100 puntos
+            case R.id.cardEspaguetis:
+                break;
+
+            //150 puntos
+            case R.id.cardPolloAsado:
+                break;
+
+            //60 puntos
+            case R.id.cardGelatina:
+                break;
+
+            //270 puntos
+            case R.id.cardTortaLimon:
+                break;
+
+            //240 puntos
+            case R.id.cardHamburguesa:
+                break;
+
+            //160 puntos
+            case R.id.cardPizza:
+                break;
+
+            //150 puntos
+            case R.id.cardPapasFritas:
+                break;
+
+            //125 puntos
+            case R.id.cardChocoMilk:
+                break;
+
+
+        }
+
 
     }
 }

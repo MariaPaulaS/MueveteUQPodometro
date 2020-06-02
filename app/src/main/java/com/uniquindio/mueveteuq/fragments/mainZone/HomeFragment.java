@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private CollectionReference users;
     private String nickname;
     private String password;
+    private String accumPoints;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -122,9 +123,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         nickname = document.getString("nickname");
                         tvUsuario.setText("¡Hola " + nickname + "!");
                         password = document.getString("password");
+                        accumPoints = String.valueOf(document.get("accumPoints"));
+
+                        int currentPoints = Integer.parseInt(accumPoints);
+
                         SharedPreferences.Editor objetoEditor = spr.edit();
                         objetoEditor.putString("currentUser", nickname);
                         objetoEditor.putString("passwordCurrentUser", password);
+                        objetoEditor.putInt("currentPoints", currentPoints);
                         objetoEditor.apply();
 
 
