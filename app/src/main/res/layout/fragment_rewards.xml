@@ -20,7 +20,6 @@
 
         <androidx.gridlayout.widget.GridLayout
             android:id="@+id/mainGrid"
-
             app:columnCount="2"
             app:rowCount="9"
             android:layout_width="match_parent"
@@ -29,7 +28,7 @@
             >
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardJugar"
+                android:id="@+id/cardHeladoCrema"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -51,17 +50,43 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/helado" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
-                        android:text="Jugar"
+                        android:text="Helado de crema"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="170"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -70,7 +95,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardAjustes"
+                android:id="@+id/cardPaleta"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -92,13 +117,13 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/paleta" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Ajustes"
+                        android:text="Paleta"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
@@ -106,10 +131,36 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="80"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardRanking"
+                android:id="@+id/cardGaseosa"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -131,16 +182,42 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/gaseosa" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Ranking"
+                        android:text="Vaso de gaseosa"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="125"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -149,7 +226,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardAyuda"
+                android:id="@+id/cardChocolateCake"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -171,16 +248,42 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/chocolate_cake" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Ayuda"
+                        android:text="Torta de chocolate"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="300"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -188,7 +291,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardUser"
+                android:id="@+id/cardEspaguetis"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -210,16 +313,42 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/espagueti" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Jugador"
+                        android:text="Espaguetis"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="100"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -228,7 +357,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card1"
+                android:id="@+id/cardPolloAsado"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -250,16 +379,42 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/pollo_asado" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Pollo asado"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="150"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -268,7 +423,7 @@
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card2"
+                android:id="@+id/cardGelatina"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -290,13 +445,13 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/gelatina" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Gelatina"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
@@ -304,10 +459,36 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="60"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card3"
+                android:id="@+id/cardTortaLimon"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -329,16 +510,43 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/torta_de_limon" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Torta de limón"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="270"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -346,7 +554,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card4"
+                android:id="@+id/cardHamburguesa"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -368,13 +576,13 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/hamburguesa" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Hamburguesa"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
@@ -382,10 +590,37 @@
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="240"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card5"
+                android:id="@+id/cardPizza"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -407,13 +642,13 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/pizza" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Pizza"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
@@ -421,10 +656,36 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="160"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card6"
+                android:id="@+id/cardPapasFritas"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="16dp"
@@ -446,13 +707,13 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/papas_fritas" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Papas fritas"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
                         android:textSize="16sp"
@@ -460,10 +721,36 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="150"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card7"
+                android:id="@+id/cardChocoMilk"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginLeft="10dp"
@@ -485,16 +772,42 @@
                         android:layout_width="60dp"
                         android:layout_height="55dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/pexels_photo" />
+                        android:src="@drawable/leche_achocolatada" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
-                        android:text="Acerca de"
+                        android:text="Leche achocolatada"
                         android:textAlignment="center"
                         android:textColor="@color/negro"
-                        android:textSize="16sp"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="50dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="125"
+                        android:layout_marginStart="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/negro"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
