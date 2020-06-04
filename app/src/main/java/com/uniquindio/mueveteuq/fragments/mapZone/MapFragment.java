@@ -958,7 +958,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 if(magnitudeDelta > 7){
 
                     numSteps++;
-                    numCalorias = numCalorias + 0.035f;
+                    numCalorias = numCalorias + 0.05f;
                 }
 
 
