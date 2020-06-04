@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,18 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.util.Utilities;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +61,7 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference users;
+    SharedPreferences spr;
 
 
     private String currentNickname;
@@ -94,6 +105,8 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
 
         users = db.collection("Users");
+
+        spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
 
         cardViewHelado = view.findViewById(R.id.cardHeladoCrema);
         cardViewPaleta = view.findViewById(R.id.cardPaleta);
@@ -210,9 +223,8 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
 
 
 
-    private void realizarPago(String nombreR, int points) {
+    private void realizarPago(String nombreR, final int points) {
 
-        final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
         currentNickname = spr.getString("currentUser", "");
         currentPoints = spr.getInt("currentPoints", 0);
 
@@ -230,8 +242,12 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            
+                            
+                            int newPoints = currentPoints - points;
+                            
+                            updatePoints(newPoints);
 
-                            Toast.makeText(getActivity(), "Hola", Toast.LENGTH_SHORT).show();
 
                         }
                     })
@@ -272,6 +288,51 @@ public class RewardsFragment extends Fragment implements View.OnClickListener {
         }
 
 
+    }
+
+    private void updatePoints(final int newPoints) {
+
+        Utilities.init(getActivity());
+        Utilities.showProgressBar();
+
+        users.whereEqualTo("nickname", currentNickname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if(task.isSuccessful()){
+
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                        users.document(currentNickname).update("accumPoints", newPoints ).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
+
+                                SharedPreferences.Editor objetoEditor = spr.edit();
+                                objetoEditor.putInt("currentPoints", newPoints);
+                                objetoEditor.apply();
+                                Utilities.dismissProgressBar();
+
+
+                                Toast.makeText(getActivity(), "¡Disfrútalo! Ahora te quedan " +  newPoints + " puntos", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("tag", "Error escribiendo documento", e);
+
+                            }
+                        });
+
+
+                    }
+                }
+
+
+            }
+        });
     }
 
 

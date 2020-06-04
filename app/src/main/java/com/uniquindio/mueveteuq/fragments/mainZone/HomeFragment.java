@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private String nickname;
     private String password;
     private String accumPoints;
+    TextView tvCurrentPoints;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -96,6 +97,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         db = FirebaseFirestore.getInstance();
         users = db.collection("Users");
         btnMapa.setOnClickListener(this);
+        tvCurrentPoints = view.findViewById(R.id.tv_current_points);
 
         getUserInfo();
 
@@ -132,6 +134,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         objetoEditor.putString("passwordCurrentUser", password);
                         objetoEditor.putInt("currentPoints", currentPoints);
                         objetoEditor.apply();
+
+
+                        tvCurrentPoints.setText(currentPoints + "");
+
+
+
 
 
                     }

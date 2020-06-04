@@ -13,7 +13,7 @@
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="45dp"
         android:src="@drawable/titulogrande_sinfondo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +29,7 @@
         android:text="Hora de empezar..."
         android:textAlignment="center"
         android:textColor="@color/negro"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,11 +39,43 @@
         app:layout_constraintVertical_bias="0.0" />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="15dp">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="190dp"
+            android:src="@drawable/coins"
+            android:layout_marginTop="100dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_current_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="100dp"
+            android:gravity="start"
+            android:textColor="@color/negro"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+
+
     <ImageView
         android:id="@+id/tenis"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="140dp"
         android:background="@drawable/pexels_photo"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,11 +85,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
+
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="567dp"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="140dp"
         android:background="#d8000000"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +114,7 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-93dp">
 
-x
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
