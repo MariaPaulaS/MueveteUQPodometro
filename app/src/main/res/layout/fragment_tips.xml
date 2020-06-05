@@ -1,0 +1,63 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="60dp"
+    android:layout_marginBottom="20dp"
+    tools:context="com.uniquindio.mueveteuq.fragments.mainZone.TipsFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/tv_titulo_consejo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:gravity="top|center"
+                android:text="Titulo del consejo"
+                android:textColor="@color/lila"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="140dp"
+                android:gravity="top|center"
+                android:text="¡Consejos aleatorios con propósito!"
+                android:textColor="@color/verde"
+                android:textSize="15dp"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="180dp"
+                android:src="@drawable/icon_running_tip" />
+
+            <com.codesgood.views.JustifiedTextView
+                android:id="@+id/tv_descripcion_consejo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="250dp"
+                android:layout_marginEnd="80dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam non magna eros. Nullam sit amet venenatis ex. Aliquam porta consequat ex. Cras sed turpis mollis, laoreet ipsum sit amet, posuere mauris. Donec ac ipsum et lorem mollis dignissim. Duis id tortor dui. Vestibulum at urna consequat, laoreet metus id, egestas mi."
+                android:textColor="@color/negro"
+                android:textSize="17dp" />
+
+
+        </FrameLayout>
+
+    </ScrollView>
+</FrameLayout>

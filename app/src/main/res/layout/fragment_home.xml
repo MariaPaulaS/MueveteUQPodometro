@@ -26,7 +26,7 @@
         android:id="@+id/tv_nombre_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hora de empezar..."
+        android:text="Cargando info..."
         android:textAlignment="center"
         android:textColor="@color/negro"
         android:layout_marginTop="70dp"

@@ -45,6 +45,7 @@ import com.uniquindio.mueveteuq.fragments.mainZone.PreferenciasFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.RewardContainerFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.RewardsFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.TipsFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.UsersFragment;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
@@ -231,8 +232,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 activeFragment = "HomeFragment";
                 break;
 
-            case R.id.notifications:
-                Toast.makeText(this, "Por construir", Toast.LENGTH_SHORT).show();
+            case R.id.tips:
+                actualFragment = new TipsFragment();
+                changeFragment(actualFragment);
+                activeFragment = "TipsFragment";
                 break;
 
             case R.id.awards:
