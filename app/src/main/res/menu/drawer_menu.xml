@@ -8,12 +8,6 @@
         />
 
     <item
-        android:id="@+id/notifications"
-        android:title="Notificaciones"
-        android:icon="@drawable/ic_action_notifications"
-        />
-
-    <item
         android:id="@+id/awards"
         android:title="Recompensas"
         android:icon="@drawable/ic_action_reward"
@@ -25,6 +19,14 @@
         android:title="Ranking"
         android:icon="@drawable/ic_action_ranking"
         />
+
+
+    <item
+        android:id="@+id/tips"
+        android:title="Mira un tip"
+        android:icon="@drawable/ic_action_tips"
+        />
+
 
     <item
         android:id="@+id/options"
