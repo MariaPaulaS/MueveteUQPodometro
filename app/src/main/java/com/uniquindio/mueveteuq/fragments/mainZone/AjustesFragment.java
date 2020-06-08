@@ -3,6 +3,7 @@ package com.uniquindio.mueveteuq.fragments.mainZone;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -33,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
+import com.uniquindio.mueveteuq.activities.main.ContenedorInstruccionesActivity;
+import com.uniquindio.mueveteuq.activities.podometer.ZonaMapaActivity;
+import com.uniquindio.mueveteuq.fragments.mapZone.MapFragment;
 import com.uniquindio.mueveteuq.util.Utilities;
 import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
@@ -60,7 +64,10 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
     TextView emailDescriptionTv;
     TextView passwordTv;
     TextView passwordDescriptionTv;
+    TextView mapTv;
+    TextView mapDescriptionTv;
 
+    Fragment actualFragment;
 
     private FirebaseFirestore db;
     private CollectionReference users;
@@ -113,6 +120,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         emailDescriptionTv = view.findViewById(R.id.title_email_description);
         passwordTv = view.findViewById(R.id.title_password);
         passwordDescriptionTv = view.findViewById(R.id.title_password_description);
+        mapTv = view.findViewById(R.id.title_map_help);
+        mapDescriptionTv = view.findViewById(R.id.title_map_help_description);
 
         final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
         nicknameKey = spr.getString("currentUser", "");
@@ -126,6 +135,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         emailDescriptionTv.setOnClickListener(this);
         passwordTv.setOnClickListener(this);
         passwordDescriptionTv.setOnClickListener(this);
+        mapTv.setOnClickListener(this);
+        mapDescriptionTv.setOnClickListener(this);
         Utilities.init(getActivity());
 
         return view;
@@ -146,7 +157,16 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
             showUpdateDialogData("contraseña");
         }
 
+        else if( id == R.id.title_map_help || id == R.id.title_map_help_description){
+            Intent intent = new Intent(getActivity(), ContenedorInstruccionesActivity.class);
+            startActivity(intent);
+
+
+        }
+
     }
+
+
 
     private void showUpdateDialogData(final String key) {
 
