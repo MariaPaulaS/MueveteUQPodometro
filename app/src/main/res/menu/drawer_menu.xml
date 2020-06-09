@@ -7,6 +7,14 @@
         android:icon="@drawable/ic_action_home"
         />
 
+
+    <item
+        android:id="@+id/rankings"
+        android:title="Ranking"
+        android:icon="@drawable/ic_action_ranking"
+        />
+
+
     <item
         android:id="@+id/awards"
         android:title="Recompensas"
@@ -14,11 +22,13 @@
         />
 
 
+
     <item
-        android:id="@+id/rankings"
-        android:title="Ranking"
-        android:icon="@drawable/ic_action_ranking"
+        android:id="@+id/record"
+        android:title="Mi record"
+        android:icon="@drawable/ic_action_record"
         />
+
 
 
     <item

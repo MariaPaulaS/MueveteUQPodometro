@@ -42,6 +42,7 @@ import com.uniquindio.mueveteuq.fragments.mainZone.AjustesFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.HomeFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.LeaderboardFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.PreferenciasFragment;
+import com.uniquindio.mueveteuq.fragments.mainZone.ProfileFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.RewardContainerFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.RewardsFragment;
 import com.uniquindio.mueveteuq.fragments.mainZone.SearchFragment;
@@ -231,6 +232,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 changeFragment(actualFragment);
                 activeFragment = "HomeFragment";
                 break;
+
+            case R.id.record:
+
+
+                SharedPreferences userPreferences= getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+                String currentUser = userPreferences.getString("currentUser", "");
+
+                Intent intento = new Intent(this, ProfileActivity.class);
+                intento.putExtra("fromMain", "yes");
+                intento.putExtra("currentUser", currentUser);
+                startActivity(intento);
+
+                activeFragment = "ProfileFragment";
+
+                break;
+
 
             case R.id.tips:
                 actualFragment = new TipsFragment();

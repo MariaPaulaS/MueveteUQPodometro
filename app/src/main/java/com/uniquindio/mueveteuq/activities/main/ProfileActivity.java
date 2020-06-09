@@ -3,7 +3,9 @@ package com.uniquindio.mueveteuq.activities.main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -58,7 +60,24 @@ public class ProfileActivity extends AppCompatActivity {
         tvNickname.setText(nickname);
         tvEmail.setText(email);
 
-        getUserRecord(nickname);
+
+        Intent intent = getIntent();
+        String profileUser = intent.getStringExtra("fromMain");
+        String currentUser = intent.getStringExtra("currentUser");
+
+
+        if(profileUser!=null){
+
+            tvNickname.setText(currentUser + "");
+            getUserRecord(currentUser);
+
+        }
+
+        else{
+            getUserRecord(nickname);
+        }
+
+
         //TODO: OnBackPressed: finish activity
 
     }
