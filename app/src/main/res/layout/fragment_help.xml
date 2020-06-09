@@ -2,11 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="60dp"
-    android:layout_marginBottom="20dp"
-    tools:context="com.uniquindio.mueveteuq.fragments.mainZone.TipsFragment">
+    android:layout_marginBottom="30dp"
+    tools:context="com.uniquindio.mueveteuq.fragments.mainZone.HelpFragment">
 
-
+    <!-- TODO: Update blank fragment layout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,37 +15,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-            <TextView
-                android:id="@+id/tv_titulo_consejo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:gravity="top|center"
-                android:text="Titulo del consejo"
-                android:textColor="@color/lila"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="140dp"
-                android:gravity="top|center"
-                android:text="¡Consejos aleatorios con propósito!"
-                android:textColor="@color/verde"
-                android:textSize="15dp"
-                android:textStyle="italic" />
-
             <ImageView
+                android:id="@+id/imageView5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="180dp"
-                android:src="@drawable/icon_running_tip" />
+                android:layout_height="40dp"
+                android:layout_marginTop="150dp"
+                android:src="@drawable/titulogrande_sinfondo"
+             />
+
+
+
 
             <TextView
-                android:id="@+id/tv_descripcion_consejo"
+                android:id="@+id/tv_descripcion_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="80dp"
@@ -57,7 +38,9 @@
                 android:textSize="16dp" />
 
 
+
         </FrameLayout>
 
     </ScrollView>
+
 </FrameLayout>

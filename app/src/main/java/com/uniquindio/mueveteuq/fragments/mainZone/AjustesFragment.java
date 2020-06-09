@@ -66,6 +66,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
     TextView passwordDescriptionTv;
     TextView mapTv;
     TextView mapDescriptionTv;
+    TextView helpTv;
+    TextView helpDescriptionTv;
 
     Fragment actualFragment;
 
@@ -122,6 +124,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         passwordDescriptionTv = view.findViewById(R.id.title_password_description);
         mapTv = view.findViewById(R.id.title_map_help);
         mapDescriptionTv = view.findViewById(R.id.title_map_help_description);
+        helpTv = view.findViewById(R.id.title_app_help);
+        helpDescriptionTv = view.findViewById(R.id.title_app_help_description);
 
         final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
         nicknameKey = spr.getString("currentUser", "");
@@ -137,6 +141,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         passwordDescriptionTv.setOnClickListener(this);
         mapTv.setOnClickListener(this);
         mapDescriptionTv.setOnClickListener(this);
+        helpTv.setOnClickListener(this);
+        helpDescriptionTv.setOnClickListener(this);
         Utilities.init(getActivity());
 
         return view;
@@ -164,7 +170,16 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
 
         }
 
+
+        else if( id == R.id.title_app_help || id == R.id.title_app_help_description){
+            actualFragment = new HelpFragment();
+            changeFragment(actualFragment);
+        }
+
     }
+
+
+
 
 
 
@@ -415,5 +430,16 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
         });
 
     }
+
+    private void changeFragment(Fragment fragmento) {
+
+        this.getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.contenedor_fragmento_main, fragmento)
+                .commit();
+        actualFragment.getFragmentManager().popBackStack();
+
+
+    }
+
 
 }

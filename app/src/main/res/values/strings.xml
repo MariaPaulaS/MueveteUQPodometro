@@ -36,7 +36,7 @@
     <string name="no_record">Este usuario aun no\nha esblecido un record.</string>
     <string name="tip_1">El sedentarismo solo trae inconvenientes para nuestro cuerpo. Busque el modo de realizar ejercicios en su casa o hacer deporte fuera de ésta. Si no es posible, salga a caminar por lo menos media hora al día, recuerde que su corazón es un músculo que necesita ejercitarse para mantenerse sano, igual que el resto de músculos de su cuerpo.
 \n\n Los  ejercicios, sobretodo aeróbicos, le ayudan a mantenerse sano, fuerte, bajar de peso, prevenir enfermedades y reducir el estrés.</string>
-    <string name="tip_2">No es necesario que se vuelva extremista, sin embargo es importante cuidar los alimentos que entran a nuestro cuerpos. Un exceso de alimentos poco saludables combinados con un bajo nivel de actividad física pueden provocar aumento de peso y problemas de salud. \n\nComer   mejor nos hará sentir mejor con nosotros mismos, aumentará la variedad de sabores y le daremos la oportunidad a nuestro cuerpo de tener un mejor metabolismo.</string>
+    <string name="tip_2">No es necesario que se vuelva extremista, sin embargo es importante cuidar los alimentos que entran a nuestro cuerpos. Un exceso de alimentos poco saludables combinados con un bajo nivel de actividad física pueden provocar aumento de peso y problemas de salud. \n\nComer mejor nos hará sentir mejor con nosotros mismos, aumentará la variedad de sabores y le daremos la oportunidad a nuestro cuerpo de tener un mejor metabolismo.</string>
     <string name="tip_3">No es necesario eliminar las grasas saturadas, sin embargo reducir su consumo le haría un bien a nuestro cuerpo. Deberías considerar una forma de regular el consumo de las mismas.</string>
     <string name="tip_4">Es increíble cuantas personas no consumen frutas y verduras con frecuencia, sobre todo en ámbitos de alto estrés como ambientes laborales, donde el afán lleva a las personas a comer lo primero que pueden comprar en la tienda. En vez de comer grasas con frecuencia, considera optar por las frutas y verduras mas seguido.</string>
     <string name="tip_5">El exceso de peso es un problema muy serio, y quienes lo poseen corren mas riesgo de sufrir enfermedades graves o incluso problemas del corazón. Si  usted es una de estas personas cambie sus hábitos, camine con mas frecuencia y coma mas saludable, de esa forma se evitará sorpresas desagradables en el futuro.</string>
@@ -47,4 +47,17 @@
     <string name="tip_3_title">Reducir la ingesta de\ngrasas saturadas</string>
     <string name="tip_4_title">Comer más frutas\ny verduras</string>
     <string name="tip_5_title">Mantener un peso\nequilibrado</string>
+    <string name="help">MuéveteUQ es la herramienta que te permitirá encontrar un mejor equilibrio en tu alimentación y tu actividad física, tratando de no afectar tus labores cotidianas.
+    Por supuesto, también será necesario que pongas de tu parte, porque si no esto no tendrá mucho sentido. Esta es una aplicación de autodisciplina, dedicación, y al instalarla demuestras que
+    deseas un cambio.\n\n
+    Inicia un recorrido cuando tengas que desplazarte en tu vida diaria, y el contador se encargará de contar las calorías que quemes de acuerdo a tus pasos. Es recomendable no usarla en recorridos
+        que no duren mas de veinte pasos, ya que no quemarás muchas calorías en ese trayecto. Piensa en si quieres hacer trampa, ya que la disciplina depende de ti mismo.
+        \n\n
+        Después de esto sabrás cuantas calorías quemaste mientras te desplazabas. Estas calorías se guardarán y se contarán como puntos, que podrás cambiar como
+        pequeños caprichos para ti mismo en nuestra sección de recompensas. Si quieres darte gusto con algo, ese es el lugar. Cambia tus puntos por un alimento de tu gusto
+        que podrás consumir a cualquier hora -y en exclusión de las comidas diarias-. De esa forma llevarás un mejor control de tu alimentación.
+        \n\n
+        ¡Tenemos mas funciones extras! No dudes en explorarlas, ¡y mucha suerte! ;)
+
+    </string>
 </resources>
