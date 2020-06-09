@@ -118,6 +118,7 @@ public class PhotoActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data); //Linea de mas
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             Bundle extras = data.getExtras();

@@ -2,11 +2,14 @@ package com.uniquindio.mueveteuq.activities.podometer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 
 import com.uniquindio.mueveteuq.activities.main.ContenedorInstruccionesActivity;
@@ -32,13 +35,39 @@ public class ZonaMapaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zona_mapa);
 
-        actualFragment = new MapFragment();
-        changeFragment(actualFragment);
+
 
    //     getSupportActionBar().hide();
 
-        Intent intent = new Intent(ZonaMapaActivity.this, ContenedorInstruccionesActivity.class);
-        startActivity(intent);
+
+
+
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+
+        int bandera = Integer.parseInt(preferences.getString("bandera", "0"));
+
+        if(bandera == 1){
+            actualFragment = new MapFragment();
+            changeFragment(actualFragment);
+
+
+        }else{
+
+            editor.putString("bandera", "1");
+            editor.commit();
+            Intent intent = new Intent(ZonaMapaActivity.this, ContenedorInstruccionesActivity.class);
+            startActivity(intent);
+
+            actualFragment = new MapFragment();
+            changeFragment(actualFragment);
+
+        }
+
+
+
 
     }
 
