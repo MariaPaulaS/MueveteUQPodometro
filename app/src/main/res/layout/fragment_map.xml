@@ -5,6 +5,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lila"
     tools:context="com.uniquindio.mueveteuq.fragments.mapZone.MapFragment">
 
     <TextView
@@ -19,7 +20,11 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:background="@color/blanco"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"/>
+
+
 
 
     <TextView
@@ -28,22 +33,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginLeft="30sp"
-        android:layout_marginBottom="140sp"
+        android:layout_marginBottom="70sp"
         android:text="Pasos"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textColor="@color/blanco"
+        android:textSize="18sp" />
 
-    <TextView
+
+     <TextView
         android:id="@+id/numPasostv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
         android:layout_gravity="bottom"
-        android:textColor="#000000"
-        android:layout_marginBottom="110sp"
+        android:textColor="@color/blanco"
+        android:layout_marginBottom="40sp"
         android:layout_marginLeft="50sp"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
 
 
@@ -52,12 +58,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="150sp"
-        android:layout_marginBottom="140sp"
+        android:layout_marginLeft="220sp"
+        android:layout_marginBottom="70sp"
         android:text="Distancia"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textColor="@color/blanco"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/numDistancia"
@@ -65,22 +71,22 @@
         android:layout_height="wrap_content"
         android:text="0 m"
         android:layout_gravity="bottom"
-        android:textColor="#000000"
-        android:layout_marginBottom="110sp"
-        android:layout_marginLeft="170sp"
-        android:textSize="20sp" />
+        android:textColor="@color/blanco"
+        android:layout_marginBottom="40sp"
+        android:layout_marginLeft="240sp"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textoCalorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="90sp"
+        android:layout_marginLeft="120sp"
         android:layout_marginBottom="70sp"
         android:text="Calorias"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:textColor="@color/blanco"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/numCalorias"
@@ -88,10 +94,10 @@
         android:layout_height="wrap_content"
         android:text="0 kc"
         android:layout_gravity="bottom"
-        android:textColor="#000000"
+        android:textColor="@color/blanco"
         android:layout_marginBottom="40sp"
-        android:layout_marginLeft="110sp"
-        android:textSize="20sp" />
+        android:layout_marginLeft="140sp"
+        android:textSize="18sp" />
 
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
@@ -100,22 +106,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        app:fab_labelStyle="@style/etiqueta"
+        android:layout_marginBottom="120dp"
+        android:layout_marginEnd="10dp"
         app:fab_addButtonColorNormal="@color/verde"
-        app:fab_addButtonColorPressed="@color/colorAccent">
+        app:fab_addButtonColorPressed="@color/colorAccent"
+        app:fab_labelStyle="@style/etiqueta">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
 
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@android:drawable/ic_menu_compass"
             android:layout_margin="16dp"
-            app:fab_size="normal"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Centrar ubicacion"/>
+            app:fab_icon="@android:drawable/ic_menu_compass"
+            app:fab_size="normal"
+            app:fab_title="Centrar ubicacion" />
 
 
         <com.getbase.floatingactionbutton.FloatingActionButton
@@ -123,39 +130,38 @@
             android:id="@+id/fabIniciarRecorrido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_icon="@android:drawable/ic_media_play"
             android:layout_margin="16dp"
-            app:fab_size="normal"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Iniciar"/>
+            app:fab_icon="@android:drawable/ic_media_play"
+            app:fab_size="normal"
+            app:fab_title="Iniciar" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabTerminarRecorrido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:fab_size="normal"
-            app:fab_icon="@drawable/done"
             app:fab_colorNormal="@color/verde"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Terminar"/>
+            app:fab_icon="@drawable/done"
+            app:fab_size="normal"
+            app:fab_title="Terminar" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAbandonarRecorrido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:fab_size="normal"
-            app:fab_icon="@android:drawable/ic_menu_close_clear_cancel"
-            app:fab_colorNormal="@color/rojo"
             android:visibility="gone"
+            app:fab_colorNormal="@color/rojo"
             app:fab_colorPressed="@color/colorAccent"
-            app:fab_title="Abandonar"/>
+            app:fab_icon="@android:drawable/ic_menu_close_clear_cancel"
+            app:fab_size="normal"
+            app:fab_title="Abandonar" />
 
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
-
 
 
 </FrameLayout>
