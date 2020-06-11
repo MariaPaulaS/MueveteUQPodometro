@@ -71,7 +71,7 @@ public class ProfileFragment extends Fragment {
 
             if (emailProfile != null ) {
 
-                Toast.makeText(getActivity(), " "  + emailProfile, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), " "  + emailProfile, Toast.LENGTH_LONG).show();
 
                 //Evento de buscar el usuario y llenar perfil
 

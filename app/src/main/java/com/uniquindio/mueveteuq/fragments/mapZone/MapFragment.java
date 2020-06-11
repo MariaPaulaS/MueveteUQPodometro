@@ -56,10 +56,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Objects;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static android.content.Context.LOCATION_SERVICE;
@@ -147,6 +149,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
          //Obtiene el mapa asincronamente -cuando sea el momento, por motivos de memoria, rendimiento, etc.
          mapFragment.getMapAsync(this);
          **/
+
+
+        if(!UtilsNetwork.isOnline(getActivity())) {
+            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+        }
 
 
         //-----------Inflando la vista------------------
@@ -506,6 +514,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onResume() {
         super.onResume();
 
+        if(!UtilsNetwork.isOnline(Objects.requireNonNull(getActivity()))) {
+            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+        }
+
+
         if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
 
             getPermissions(2, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -774,7 +788,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
 
 
-        Toast.makeText(getContext(), "Servicio Conectado", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Servicio Conectado", Toast.LENGTH_SHORT).show();
 
         //Llamar metodos de la siguiente manera para que todo marche bien
 

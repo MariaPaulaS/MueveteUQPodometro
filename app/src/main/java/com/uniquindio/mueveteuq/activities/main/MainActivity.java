@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            Toast.makeText(this, "Esto2", Toast.LENGTH_SHORT).show();
 
         } else {
             super.onBackPressed();

@@ -185,6 +185,8 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
 
     private void showUpdateDialogData(final String key) {
 
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Actualizar " + key);
 
@@ -212,18 +214,25 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
                                 .getCredential(emailCurrent, passwordCurrent);
 
                         // Prompt the user to re-provide their sign-in credentials
-                        userFirebase.reauthenticate(credential)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("TAG", "User re-authenticated.");
-                                        if (task.isSuccessful()) {
-                                            updateEmailUser(value);
-                                        } else {
-                                            // Password is incorrect
+
+                        if (UtilsNetwork.isOnline(Objects.requireNonNull(getActivity()))) {
+                            userFirebase.reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("TAG", "User re-authenticated.");
+                                            if (task.isSuccessful()) {
+                                                updateEmailUser(value);
+                                            } else {
+                                                // Password is incorrect
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+
+                        }else{
+                            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+                        }
 
 
                         //   updateEmailUser(value);
@@ -235,18 +244,25 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
                                 .getCredential(emailCurrent, passwordCurrent);
 
                         // Prompt the user to re-provide their sign-in credentials
-                        userFirebase.reauthenticate(credential)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d("TAG", "User re-authenticated.");
-                                        if (task.isSuccessful()) {
-                                            updatePasswordUser(value);
-                                        } else {
-                                            // Password is incorrect
+
+                        if (UtilsNetwork.isOnline(Objects.requireNonNull(getActivity()))) {
+                            userFirebase.reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Log.d("TAG", "User re-authenticated.");
+                                            if (task.isSuccessful()) {
+                                                updatePasswordUser(value);
+                                            } else {
+                                                // Password is incorrect
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+
+                        }else{
+                            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+                        }
 
                         //         updatePasswordUser(value);
 
@@ -287,57 +303,61 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
             return;
         } else {
 
+            if (UtilsNetwork.isOnline(Objects.requireNonNull(getActivity()))) {
 
 
-            userFirebase.updatePassword(password)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("TAG", "User password updated.");
+                userFirebase.updatePassword(password)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d("TAG", "User password updated.");
+                                }
+                            }
+                        });
+
+
+                final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+
+
+                users.whereEqualTo("nickname", nicknameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                                users.document(nicknameKey).update("password", password).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Utilities.dismissProgressBar();
+                                        Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
+
+                                        SharedPreferences.Editor objetoEditor = spr.edit();
+                                        objetoEditor.putString("passwordCurrentUser", password);
+                                        objetoEditor.apply();
+                                        Toast.makeText(getActivity(), "¡Listo! Recuérdala para el próximo inicio de sesión.", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Utilities.dismissProgressBar();
+                                        Log.w("tag", "Error escribiendo documento", e);
+
+                                    }
+                                });
+
                             }
                         }
-                    });
-
-
-            final SharedPreferences spr = this.getActivity().getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
-
-
-            users.whereEqualTo("nickname", nicknameKey).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                    if (task.isSuccessful()) {
-
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-
-                            users.document(nicknameKey).update("password", password).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Utilities.dismissProgressBar();
-                                    Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
-
-                                    SharedPreferences.Editor objetoEditor = spr.edit();
-                                    objetoEditor.putString("passwordCurrentUser", password);
-                                    objetoEditor.apply();
-                                    Toast.makeText(getActivity(), "¡Listo! Recuérdala para el próximo inicio de sesión.", Toast.LENGTH_SHORT).show();
-
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Utilities.dismissProgressBar();
-                                    Log.w("tag", "Error escribiendo documento", e);
-
-                                }
-                            });
-
-                        }
                     }
-                }
-            });
+                });
 
+            }else{
+                Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
 
+            }
         }
     }
 
@@ -364,23 +384,23 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
 
 
          //   Utilities.showProgressBar();
-            userFirebase.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
 
-                        Log.d("TAG", "User email address updated.");
-                        changeEmailDatabase(email);
 
+                userFirebase.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                            Log.d("TAG", "User email address updated.");
+                            changeEmailDatabase(email);
+
+                        } else {
+                            Utilities.dismissProgressBar();
+                            Toast.makeText(getActivity(), "¡Lo sentimos! Ya hay otro usuario registrado con este e-mail.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
-
-                    else{
-                        Utilities.dismissProgressBar();
-                        Toast.makeText(getActivity(), "¡Lo sentimos! Ya hay otro usuario registrado con este e-mail.", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-            });
+                });
 
 
 

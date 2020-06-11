@@ -85,7 +85,7 @@ public class ResultRaceActivity extends AppCompatActivity {
 
         SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
         nicknameUsuario = spr.getString("currentUser", ""); //TODO: CAMBIAR POR USUARIO ACTUALMENTE LOGUEADO
-        Toast.makeText(this, "usuario: " + nicknameUsuario,  Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "usuario: " + nicknameUsuario,  Toast.LENGTH_SHORT).show();
 
 
         SharedPreferences preferencias= getSharedPreferences("pref", Context.MODE_PRIVATE);
@@ -168,6 +168,8 @@ public class ResultRaceActivity extends AppCompatActivity {
                     });
 
 
+        }else{
+            Toast.makeText(this, R.string.connection_missing, Toast.LENGTH_SHORT).show();
         }
 
 
