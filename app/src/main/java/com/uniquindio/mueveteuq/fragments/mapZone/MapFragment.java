@@ -319,6 +319,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             ponerMarcadorInicioFin();
             sensorManager.unregisterListener(MapFragment.this);
             service.finishRacer();
+            getActivity().finish();
 
 
 

@@ -5,14 +5,8 @@
     android:id="@+id/constraint_activity_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo_arbol"
     tools:context=".fragments.loginZone.LoginFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/fondo_arbol" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText textoNickname;
     private EditText textoVerifyPassword;
     private ConstraintLayout cl;
+    boolean ok = true;
 
     /**
      * Atributos de Firebase y Database
@@ -171,6 +172,8 @@ public class RegisterActivity extends AppCompatActivity {
         Utilities.init(this);
         Utilities.showProgressBar();
 
+
+
         if (UtilsNetwork.isOnline(this)) {
 
 
@@ -187,6 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if(email.equals(emailFirestore)){
 
                                 Utilities.dismissProgressBar();
+                                ok = false;
                                 Snackbar.make(cl, R.string.exist_email,
                                         Snackbar.LENGTH_SHORT).show();
                                 return;
@@ -210,7 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
                             nicknameFirestore = String.valueOf(document.getData().get("nickname"));
                              if (nickname.equals(nicknameFirestore)) {
 
-
+                                 ok = false;
                                 Utilities.dismissProgressBar();
                                 Snackbar.make(cl, R.string.exist_username,
                                         Snackbar.LENGTH_SHORT).show();
@@ -224,66 +228,68 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
 
-                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    //Guardar usuario en la base de datos
-                                    User user = new User();
-                                    user.setEmail(email);
-                                    user.setNickname(nickname);
-                                    user.setPassword(password);
-                                    user.setAccumPoints(0);
 
-                                    //Usa el nickname como llave.
+            if(ok) {
+                firebaseAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                //Guardar usuario en la base de datos
+                                User user = new User();
+                                user.setEmail(email);
+                                user.setNickname(nickname);
+                                user.setPassword(password);
+                                user.setAccumPoints(0);
 
-                                    users.document(nickname).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
+                                //Usa el nickname como llave.
 
-
-                                            Utilities.dismissProgressBar();
-                                            Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
+                                users.document(nickname).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
 
 
-                                            //Método contra dedos temblorosos -que oprimen doble-.
-                                            Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
-                                            startActivity(intento);
-                                            SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor objetoEditor = spr.edit();
-                                            objetoEditor.putString("emailCurrentUser", email);
-                                            objetoEditor.apply();
-                                            finish();
-
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-
-                                            Utilities.dismissProgressBar();
-                                            Snackbar.make(cl, R.string.error_user_data,
-                                                    Snackbar.LENGTH_SHORT).show();
+                                        Utilities.dismissProgressBar();
+                                        Toast.makeText(RegisterActivity.this, "¡El usuario ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
 
 
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
+                                        //Método contra dedos temblorosos -que oprimen doble-.
+                                        Intent intento = new Intent(RegisterActivity.this, HelloLoginActivity.class);
+                                        startActivity(intento);
+                                        SharedPreferences spr = getSharedPreferences("userCurrentPreferences", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor objetoEditor = spr.edit();
+                                        objetoEditor.putString("emailCurrentUser", email);
+                                        objetoEditor.apply();
+                                        finish();
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        Utilities.dismissProgressBar();
+                                        Snackbar.make(cl, R.string.error_user_data,
+                                                Snackbar.LENGTH_SHORT).show();
 
 
-                                            Utilities.dismissProgressBar();
-
-                                            Snackbar.make(cl, R.string.error_user_data,
-                                                    Snackbar.LENGTH_SHORT).show();
-
-
-                                        }
-                                    });
-
-                                }
-                            });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
 
 
+                                        Utilities.dismissProgressBar();
+
+                                        Snackbar.make(cl, R.string.error_user_data,
+                                                Snackbar.LENGTH_SHORT).show();
+
+
+                                    }
+                                });
+
+                            }
+                        });
+
+            }
         } else {
             Utilities.dismissProgressBar();
             Snackbar.make(cl, R.string.connection_missing,

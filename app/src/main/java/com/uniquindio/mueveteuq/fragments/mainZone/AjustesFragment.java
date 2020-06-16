@@ -454,9 +454,11 @@ public class AjustesFragment extends Fragment implements View.OnClickListener {
     private void changeFragment(Fragment fragmento) {
 
         this.getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.contenedor_fragmento_main, fragmento)
+                .add(R.id.contenedor_fragmento_main, fragmento)
+                .remove(this)
+                .addToBackStack(null)
                 .commit();
-        actualFragment.getFragmentManager().popBackStack();
+      //  actualFragment.getFragmentManager().popBackStack();
 
 
     }
