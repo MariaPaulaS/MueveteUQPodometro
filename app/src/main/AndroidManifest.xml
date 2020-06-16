@@ -28,10 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.main.ProfileActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.podometer.PhotoActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.main.ContenedorInstruccionesActivity"
             android:label="@string/title_activity_contenedor_instrucciones"
@@ -45,7 +45,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.podometer.ZonaMapaActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.main.MainActivity"
             android:screenOrientation="portrait"

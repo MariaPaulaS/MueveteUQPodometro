@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.util.Utilities;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.Objects;
 
@@ -296,44 +297,52 @@ public class LightRewardFragment extends Fragment implements View.OnClickListene
         Utilities.init(getActivity());
         Utilities.showProgressBar();
 
-        users.whereEqualTo("nickname", currentNickname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                if(task.isSuccessful()){
-
-                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-
-                        users.document(currentNickname).update("accumPoints", newPoints ).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
-
-                                SharedPreferences.Editor objetoEditor = spr.edit();
-                                objetoEditor.putInt("currentPoints", newPoints);
-                                objetoEditor.apply();
-                                Utilities.dismissProgressBar();
+        if(UtilsNetwork.isOnline(getActivity())) {
 
 
-                                Toast.makeText(getActivity(), "¡Disfrútalo! Ahora te quedan " +  newPoints + " puntos", Toast.LENGTH_SHORT).show();
+            users.whereEqualTo("nickname", currentNickname).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+
+                            users.document(currentNickname).update("accumPoints", newPoints).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("tag", "Nota de desarrolladora: Puntuación actualizada con éxito");
+
+                                    SharedPreferences.Editor objetoEditor = spr.edit();
+                                    objetoEditor.putInt("currentPoints", newPoints);
+                                    objetoEditor.apply();
+                                    Utilities.dismissProgressBar();
 
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("tag", "Error escribiendo documento", e);
-
-                            }
-                        });
+                                    Toast.makeText(getActivity(), "¡Disfrútalo! Ahora te quedan " + newPoints + " puntos", Toast.LENGTH_SHORT).show();
 
 
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("tag", "Error escribiendo documento", e);
+
+                                }
+                            });
+
+
+                        }
                     }
+
+
                 }
+            });
+        }else{
+            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
 
+        }
 
-            }
-        });
     }
 
 }

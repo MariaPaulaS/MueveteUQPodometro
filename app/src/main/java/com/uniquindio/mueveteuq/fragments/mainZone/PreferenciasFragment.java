@@ -32,12 +32,6 @@ public class PreferenciasFragment extends PreferenceFragmentCompat {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
-        addPreferencesFromResource(R.xml.preferencias);
-        EditTextPreference nickname = findPreference("nickname");
-        EditTextPreference email = findPreference("email");
-        EditTextPreference password = findPreference("password");
-**/
 
     }
 

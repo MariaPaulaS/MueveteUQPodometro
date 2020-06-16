@@ -29,6 +29,7 @@ import com.google.firebase.firestore.Source;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.models.Race;
 import com.uniquindio.mueveteuq.models.User;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,23 +117,30 @@ public class LeaderboardFragment extends Fragment {
 
         //Get all data of collection
 
-        records.orderBy("pasos", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        if(UtilsNetwork.isOnline(this.getActivity())) {
 
-                if(task.isSuccessful()){
+            records.orderBy("pasos", Query.Direction.DESCENDING).limit(10).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
-                        int pasos = Integer.parseInt(document.getData().get("pasos").toString()) ;
+                    if (task.isSuccessful()) {
 
-                        fijarColumna( (String) document.getData().get("nicknameUsuario"), pasos);
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            int pasos = Integer.parseInt(document.getData().get("pasos").toString());
+
+                            fijarColumna((String) document.getData().get("nicknameUsuario"), pasos);
+                        }
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
+            });
+
+        }else{
+            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+        }
 
         return recordList;
 

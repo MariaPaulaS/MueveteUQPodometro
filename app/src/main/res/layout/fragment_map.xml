@@ -32,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="30sp"
-        android:layout_marginBottom="70sp"
+        android:layout_marginStart="30sp"
+        android:layout_marginBottom="90sp"
         android:text="Pasos"
         android:textStyle="bold"
         android:textColor="@color/blanco"
@@ -48,8 +48,8 @@
         android:layout_gravity="bottom"
         android:textColor="@color/blanco"
         android:layout_marginBottom="40sp"
-        android:layout_marginLeft="50sp"
-        android:textSize="18sp" />
+        android:layout_marginStart="40sp"
+        android:textSize="16sp" />
 
 
 
@@ -58,8 +58,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="220sp"
-        android:layout_marginBottom="70sp"
+        android:layout_marginStart="220sp"
+        android:layout_marginBottom="90sp"
         android:text="Distancia"
         android:textStyle="bold"
         android:textColor="@color/blanco"
@@ -73,16 +73,16 @@
         android:layout_gravity="bottom"
         android:textColor="@color/blanco"
         android:layout_marginBottom="40sp"
-        android:layout_marginLeft="240sp"
-        android:textSize="18sp" />
+        android:layout_marginStart="230sp"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textoCalorias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="120sp"
-        android:layout_marginBottom="70sp"
+        android:layout_marginStart="120sp"
+        android:layout_marginBottom="90sp"
         android:text="Calorias"
         android:textStyle="bold"
         android:textColor="@color/blanco"
@@ -96,8 +96,8 @@
         android:layout_gravity="bottom"
         android:textColor="@color/blanco"
         android:layout_marginBottom="40sp"
-        android:layout_marginLeft="140sp"
-        android:textSize="18sp" />
+        android:layout_marginStart="130sp"
+        android:textSize="16sp" />
 
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu

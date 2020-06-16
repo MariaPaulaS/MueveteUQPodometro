@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.uniquindio.mueveteuq.R;
 import com.uniquindio.mueveteuq.models.User;
+import com.uniquindio.mueveteuq.util.UtilsNetwork;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,7 +103,7 @@ public class UsersFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        Toast.makeText(getActivity(), "Listado", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Listado", Toast.LENGTH_SHORT).show();
 
 
         //Init user list
@@ -133,42 +134,48 @@ public class UsersFragment extends Fragment {
 
         //Get all data of collection
 
-        users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        if(UtilsNetwork.isOnline(getActivity())) {
 
-                if(task.isSuccessful()){
+            users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                    for(QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())){
+                    if (task.isSuccessful()) {
 
-                        User user = new User();
-                        user.setNickname((String) document.getData().get("nickname"));
-                        user.setEmail((String) document.getData().get("email"));
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
 
-                //        puntosUsuario = (long) document.getData().get("accumPoints");
+                            User user = new User();
+                            user.setNickname((String) document.getData().get("nickname"));
+                            user.setEmail((String) document.getData().get("email"));
 
-                        user.setAccumPoints(0);
-                        user.setPassword((String) document.getData().get("password"));
+                            //        puntosUsuario = (long) document.getData().get("accumPoints");
 
-                        assert fUser != null;
-                        if(!user.getEmail().equals(fUser.getEmail())){
+                            user.setAccumPoints(0);
+                            user.setPassword((String) document.getData().get("password"));
 
-                        userList.add(user);
+                            assert fUser != null;
+                            if (!user.getEmail().equals(fUser.getEmail())) {
+
+                                userList.add(user);
+
+                            }
+
+                            adapterUsers = new AdapterUsers(getActivity(), userList);
+                            //Set adapter
+                            recyclerView.setAdapter(adapterUsers);
+                            adapterUsers.notifyDataSetChanged();
 
                         }
 
-                        adapterUsers = new AdapterUsers(getActivity(), userList);
-                        //Set adapter
-                        recyclerView.setAdapter(adapterUsers);
-                        adapterUsers.notifyDataSetChanged();
-
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(getActivity(), R.string.connection_missing, Toast.LENGTH_SHORT).show();
+
+        }
 
         return userList;
 
