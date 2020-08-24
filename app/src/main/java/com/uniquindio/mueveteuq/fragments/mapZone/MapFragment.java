@@ -970,10 +970,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
                 magnitudePrevia = magnitude;
 
-                if(magnitudeDelta > 7){
+                if(magnitudeDelta > 3){
 
                     numSteps++;
-                    numCalorias = numCalorias + 0.05f;
+                    numCalorias = numCalorias + 0.04f;
                 }
 
 
@@ -999,16 +999,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         numSteps++;
         numCalorias+=0.035;
+        if(numSteps>1){
         pasostv.setText(numSteps + "");
         numeroCalorias.setText(numCalorias + " kc");
+        }
 
     }
 
     public void step(){
 
         DecimalFormat formatear = new DecimalFormat("#.000");
-        pasostv.setText(numSteps + "");
-        numeroCalorias.setText(formatear.format(numCalorias) + " kc");
+        if(numSteps>1) {
+            pasostv.setText(numSteps + "");
+            numeroCalorias.setText(formatear.format(numCalorias) + " kc");
+        }
     }
 
 
